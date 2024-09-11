@@ -1,0 +1,9 @@
+MacOS
+-------
+
+
+
+Xcode
+-------
+Fix Previews behavior and delete cached data to save disk space using the command below in Terminal
+xcrun simctl --set previews delete all
