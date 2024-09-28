@@ -1,0 +1,16 @@
+Remove unwanted files from a git repo AFTER adding a .gitignore. The files will remain on disk.
+-----------------------------------------------------------------------------------------------
+https://gist.github.com/jeffjohnson9046/80bc182db7ae2f4a6150
+
+Code:
+# See the unwanted files:
+git ls-files -ci --exclude-standard
+
+# Remove the unwanted files: 
+git ls-files -ci --exclude-standard -z | xargs -0 git rm --cached
+
+# Commit changes
+git commit -am "Removed unwanted files marked in .gitignore"
+
+# Push
+git push origin master # or whatever branch you're on
