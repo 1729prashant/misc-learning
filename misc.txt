@@ -1,3 +1,4 @@
+-----------------------------------------------------------------------------------------------
 Remove unwanted files from a git repo AFTER adding a .gitignore. The files will remain on disk.
 -----------------------------------------------------------------------------------------------
 https://gist.github.com/jeffjohnson9046/80bc182db7ae2f4a6150
@@ -14,3 +15,54 @@ git commit -am "Removed unwanted files marked in .gitignore"
 
 # Push
 git push origin master # or whatever branch you're on
+
+
+
+
+
+-----------------------------------------------------------------------------------------------
+Peoplecode traversal
+-----------------------------------------------------------------------------------------------
+/* Declaration */
+
+Local Rowset &rs_level0, &rs_level1, &rs_level2, &rs_level3;
+Local Row &row_level0, &row_level1, &row_level2, &row_level3;
+Local Record &rec1;
+
+/* PROCESSING LEVEL 0 */
+
+&rs_level0 = GetLevel0();
+&row_level0 = &rs_level0.GetRow(1);
+
+/* PROCESSING LEVEL 1 */
+
+&rs_level1 = &row_level0.GetRowset(Scroll.LEV1COUNTRY_TBL);
+For &i = 1 To &rs_level1.ActiveRowCount
+   &row_level1 = &rs_level1(&i);
+   
+   
+   /* PROCESSING LEVEL 2 */
+
+   &rs_level2 = &row_level1.GetRowset(Scroll.LEV2_STATE_TBL);
+   For &j = 1 To &rs_level2.ActiveRowCount
+      &row_level2 = &rs_level2(&j);
+      
+      
+      /* PROCESSING LEVEL 3 */
+
+      &rs_level3 = &row_level2.GetRowset(Scroll.LEV3_DIST_TBL);
+      For &k = 1 To &rs_level3.ActiveRowCount
+         &row_level3 = &rs_level3(&k);
+         
+         /*GET RECORD*/
+         
+         &rec1 = &row_level3.LEV3_DIST_TBL;
+         
+         /*GET FIELD*/
+         
+         &FIELD1 = &rec1.COUNTRY_DISTNAME.Value;
+         WinMessage("District Name Is" | &FIELD1);
+         
+      End-For;
+   End-For;
+End-For;
