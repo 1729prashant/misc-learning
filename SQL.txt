@@ -842,24 +842,6 @@ Oracle SQL Fuzzy search
 use UTL_MATCH
 https://docs.oracle.com/en/database/oracle/oracle-database/12.2/arpls/UTL_MATCH.html#GUID-98BCC5BB-5A0A-422B-99FD-3D85F282923A
 
---EDIT_DISTANCE Function - Calculates the number of changes required to transform string-1 
---                         into string-2
---EDIT_DISTANCE_SIMILARITY Function - Calculates the number of changes required to transform 
---                                    string-1 into string-2, returning a value between 0 
---                                    (no match) and 100 (perfect match)
---JARO_WINKLER Function - Calculates the measure of agreement between string-1 and string-2
---JARO_WINKLER_SIMILARITY Function - Calculates the measure of agreement between string-1 and 
---                                    string-2, returning a value between 0 (no match) and 
---                                    100 (perfect match)
+use FUZZY_MATCH (better as of 2024)
+https://docs.oracle.com/en/database/oracle/oracle-database/23/sqlrf/data-quality-operators.html#GUID-C13A179C-1F82-4522-98AA-E21C6504755E
 
-SELECT UTL_MATCH.EDIT_DISTANCE('shackleford', 'shackelford') FROM DUAL;  
---returns 2 
-
-SELECT UTL_MATCH.EDIT_DISTANCE_SIMILARITY('shackleford', 'shackelford') FROM DUAL;
---returns 82
-
-SELECT UTL_MATCH.JARO_WINKLER('shackleford', 'shackelford') FROM DUAL;
---returns 9.818E-001
-
-SELECT UTL_MATCH.JARO_WINKLER_SIMILARITY('shackleford', 'shackelford') FROM DUAL;
---returns 98
