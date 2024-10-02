@@ -115,9 +115,9 @@ PSAESTEPDEFN — steps
 PSAESTEPMSGDEFN
 PSAESTMTDEFN — actions (action types)
 PSAESECTDTLDEFN — section details
-PS_AEONLINEINST — should be 100 rows in the table
-PS_AEINSTANCENBR — should be 100 rows in the table
-PS_AELOCKMGR — should be 100 rows in the table
+PS_AEONLINEINST 
+PS_AEINSTANCENBR 
+PS_AELOCKMGR 
 
 HTML Definitions
 ---------
