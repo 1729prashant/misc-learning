@@ -1,0 +1,84 @@
+## SQLite and Oracle SQL Syntax Differences
+
+Syntax and functionality differences between Oracle SQL and SQLite for DDL, DML, and metadata queries.
+
+| **Feature/Operation**           | **Oracle SQL**                                                                                                       | **SQLite**                                                                        |
+|---------------------------------|----------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|
+| **Insert**                      | `INSERT ALL` for multiple rows; `RETURNING INTO` to capture values                                                  | `INSERT INTO` for basic insertions; no `RETURNING` clause                         |
+| **Insert Example**              | `INSERT INTO employees VALUES (1, 'John');`                                                                         | `INSERT INTO employees VALUES (1, 'John');`                                       |
+| **Update**                      | `UPDATE ... RETURNING INTO` to capture updated values                                                                | Basic `UPDATE`; no `RETURNING` clause                                             |
+| **Update Example**              | `UPDATE employees SET salary = 5000 WHERE id = 1 RETURNING id INTO :id_var;`                                        | `UPDATE employees SET salary = 5000 WHERE id = 1;`                                |
+| **Delete**                      | `DELETE ... RETURNING INTO` to capture deleted values                                                                | Basic `DELETE`; no `RETURNING` clause                                             |
+| **Delete Example**              | `DELETE FROM employees WHERE id = 1 RETURNING id INTO :id_var;`                                                     | `DELETE FROM employees WHERE id = 1;`                                             |
+| **Create Table**                | Complex syntax with advanced data types, constraints, `ON DELETE CASCADE` support                                   | Basic `CREATE TABLE`; `ON DELETE CASCADE` limited, fewer data types               |
+| **Create Table Example**        | `CREATE TABLE emp (id NUMBER, name VARCHAR2(50));`                                                                  | `CREATE TABLE emp (id INTEGER, name TEXT);`                                       |
+| **Primary Key**                 | `PRIMARY KEY` defined as a column or table constraint                                                                | `INTEGER PRIMARY KEY AUTOINCREMENT` for auto-incrementing primary key             |
+| **Primary Key Example**         | `id NUMBER PRIMARY KEY`                                                                                             | `id INTEGER PRIMARY KEY AUTOINCREMENT`                                            |
+| **Alter Table**                 | Supports adding/dropping columns, adding constraints, renaming tables, modifying columns                            | Limited `ALTER TABLE`; can only add columns                                      |
+| **Add Column Example**          | `ALTER TABLE employees ADD (birthdate DATE);`                                                                       | `ALTER TABLE employees ADD COLUMN birthdate TEXT;`                                |
+| **Fetch Metadata**              | Uses metadata views like `ALL_TABLES`, `USER_TABLES`, `DBA_TABLES`                                                  | Uses `sqlite_master` table or `PRAGMA` statements                                 |
+| **Fetch Metadata Example**      | `SELECT * FROM ALL_TABLES;`                                                                                         | `SELECT name FROM sqlite_master WHERE type='table';`                              |
+| **Transaction Control**         | Full transaction control, with `SAVEPOINT` and `ROLLBACK TO SAVEPOINT`                                              | Basic transaction control with `BEGIN`, `COMMIT`, `ROLLBACK`                      |
+| **Start Transaction Example**   | `BEGIN;`                                                                                                            | `BEGIN TRANSACTION;`                                                              |
+| **End Transaction Example**     | `COMMIT;`                                                                                                           | `COMMIT;`                                                                         |
+| **Rollback Example**            | `ROLLBACK;`                                                                                                         | `ROLLBACK;`                                                                       |
+| **Sequences**                   | Supported with `CREATE SEQUENCE` for generating unique numbers                                                      | Not supported; use `AUTOINCREMENT` with `INTEGER PRIMARY KEY`                     |
+| **Sequence Example**            | `CREATE SEQUENCE emp_seq START WITH 1 INCREMENT BY 1;`                                                              | Not directly supported; use `INTEGER PRIMARY KEY AUTOINCREMENT`                   |
+| **Data Types**                  | `VARCHAR2`, `NUMBER`, `DATE`, `TIMESTAMP`, `BLOB`, `CLOB`                                                           | `TEXT`, `INTEGER`, `REAL`, `BLOB`; all columns are `NULL` by default              |
+| **Triggers**                    | Supports `BEFORE` and `AFTER` triggers, row-level and statement-level triggers                                      | Supports basic `AFTER` and `BEFORE` triggers; no statement-level triggers         |
+| **User-defined Functions**      | Can create PL/SQL functions and procedures                                                                          | Limited to built-in functions; user-defined functions are available in extensions |
+| **Stored Procedures**           | Full PL/SQL support for stored procedures                                                                           | Not supported directly; requires extensions or workarounds                        |
+| **Joins in Update/Delete**      | Can perform complex `UPDATE` or `DELETE` statements with joins                                                      | Basic joins supported in `UPDATE`; limited functionality                          |
+| **Subquery Support**            | Extensive subquery support, including correlated subqueries                                                         | Supports basic subqueries; correlated subqueries may be limited                   |
+
+## SQLite Date and Time Formats
+
+SQLite doesn’t have a dedicated `DATE` type; instead, it stores dates and times as **TEXT**, **REAL**, or **INTEGER**. It supports a variety of date and time formats by using these three storage classes to represent dates in different ways:
+
+1. **TEXT**: ISO-8601 date strings (`"YYYY-MM-DD HH:MM:SS.SSS"`).
+2. **REAL**: Julian day numbers.
+3. **INTEGER**: Unix timestamps.
+
+Here’s a summary of how SQLite handles these formats with example usages.
+
+| **Storage Type** | **Format**                        | **Description**                                                         | **Example Value**             |
+|------------------|-----------------------------------|-------------------------------------------------------------------------|-------------------------------|
+| **TEXT**         | `YYYY-MM-DD HH:MM:SS.SSS`        | ISO-8601 format string for date and time, including optional fractions. | `'2024-10-26 15:35:30.123'`   |
+|                  | `YYYY-MM-DD`                     | ISO-8601 format string for just the date.                               | `'2024-10-26'`                |
+|                  | `YYYY-MM-DDTHH:MM`               | Compact ISO-8601 format, using 'T' separator instead of space.          | `'2024-10-26T15:35'`          |
+| **REAL**         | Julian day                        | Julian day number, including optional fractional time of day.           | `2460367.1475694444`          |
+| **INTEGER**      | Unix timestamp                   | Number of seconds since 1970-01-01 00:00:00 UTC.                        | `1724951730`                  |
+
+SQLite provides several **date and time functions** to work with these formats, converting between them as needed. Here’s how you can work with each format.
+
+### Examples of Using SQLite Date and Time Functions
+
+| **Expression**                                | **Description**                                              | **Example Output**                      |
+|-----------------------------------------------|--------------------------------------------------------------|-----------------------------------------|
+| `DATE('now')`                                 | Returns the current date in `YYYY-MM-DD` format.             | `'2024-10-26'`                          |
+| `TIME('now')`                                 | Returns the current time in `HH:MM:SS` format.               | `'15:35:30'`                            |
+| `DATETIME('now')`                             | Returns the current date and time in `YYYY-MM-DD HH:MM:SS`.  | `'2024-10-26 15:35:30'`                 |
+| `JULIANDAY('now')`                            | Returns the current Julian day as a floating-point number.   | `2460367.1475694444`                    |
+| `STRFTIME('%Y-%m-%d', 'now')`                 | Formats the current date with custom format specifications.  | `'2024-10-26'`                          |
+| `STRFTIME('%s', 'now')`                       | Returns the current Unix timestamp.                          | `1724951730`                            |
+| `DATETIME(1724951730, 'unixepoch')`           | Converts Unix timestamp to `YYYY-MM-DD HH:MM:SS` format.     | `'2024-10-26 15:35:30'`                 |
+| `DATE(2460367.1475694444, 'julian')`          | Converts Julian day to `YYYY-MM-DD`.                         | `'2024-10-26'`                          |
+| `JULIANDAY('2024-10-26')`                     | Converts a `TEXT` date to Julian day.                        | `2460367.0`                             |
+| `STRFTIME('%Y-%m-%d %H:%M:%S', 1724951730, 'unixepoch')` | Converts Unix timestamp to a formatted string. | `'2024-10-26 15:35:30'`                 |
+
+### Permutations with `STRFTIME` Function
+
+The `STRFTIME` function in SQLite can be used to create custom date and time formats. Below are some examples of common permutations:
+
+| **Expression**                                | **Description**                                 | **Example Output**      |
+|-----------------------------------------------|-------------------------------------------------|-------------------------|
+| `STRFTIME('%Y-%m-%d', 'now')`                 | Year, month, day                                | `'2024-10-26'`          |
+| `STRFTIME('%d-%m-%Y', 'now')`                 | Day, month, year                                | `'26-10-2024'`          |
+| `STRFTIME('%m/%d/%Y', 'now')`                 | Month, day, year                                | `'10/26/2024'`          |
+| `STRFTIME('%H:%M', 'now')`                    | Hour and minute                                 | `'15:35'`               |
+| `STRFTIME('%Y-%m-%d %H:%M:%S', 'now')`        | Full date and time                              | `'2024-10-26 15:35:30'` |
+| `STRFTIME('%Y', 'now')`                       | Year only                                       | `'2024'`                |
+| `STRFTIME('%m', 'now')`                       | Month only                                      | `'10'`                  |
+| `STRFTIME('%d', 'now')`                       | Day only                                        | `'26'`                  |
+| `STRFTIME('%H:%M:%S', 'now')`                 | Time in hours, minutes, seconds                 | `'15:35:30'`            |
+
