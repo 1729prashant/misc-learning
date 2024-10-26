@@ -82,3 +82,61 @@ The `STRFTIME` function in SQLite can be used to create custom date and time for
 | `STRFTIME('%d', 'now')`                       | Day only                                        | `'26'`                  |
 | `STRFTIME('%H:%M:%S', 'now')`                 | Time in hours, minutes, seconds                 | `'15:35:30'`            |
 
+
+## Useful Built-in Functions in SQLite
+
+Here’s a rundown of some of the most useful built-in functions in SQLite, categorized by their primary function type:
+
+### 1. String Functions
+
+| **Function**                 | **Description**                                                                           | **Example**                                 | **Result**                   |
+|------------------------------|-------------------------------------------------------------------------------------------|---------------------------------------------|-------------------------------|
+| `LENGTH(X)`                  | Returns the number of characters in a string.                                             | `LENGTH('SQLite')`                          | `6`                           |
+| `UPPER(X)`                   | Converts all characters to uppercase.                                                     | `UPPER('sqlite')`                           | `'SQLITE'`                    |
+| `LOWER(X)`                   | Converts all characters to lowercase.                                                     | `LOWER('SQLite')`                           | `'sqlite'`                    |
+| `TRIM(X)`                    | Removes spaces from both ends of the string.                                              | `TRIM('  SQLite  ')`                        | `'SQLite'`                    |
+| `SUBSTR(X, Y, Z)`            | Extracts a substring of `X` starting at `Y` with `Z` length (or until the end if omitted).| `SUBSTR('SQLite', 1, 3)`                    | `'SQL'`                       |
+| `REPLACE(X, Y, Z)`           | Replaces occurrences of `Y` with `Z` in `X`.                                              | `REPLACE('SQLite', 'i', 'y')`               | `'Sqlyte'`                    |
+| `INSTR(X, Y)`                | Returns the index of the first occurrence of `Y` in `X`.                                  | `INSTR('SQLite', 'l')`                      | `3`                           |
+
+### 2. Date and Time Functions
+
+| **Function**                     | **Description**                                                                             | **Example**                                  | **Result**                   |
+|----------------------------------|---------------------------------------------------------------------------------------------|----------------------------------------------|-------------------------------|
+| `DATE('now')`                    | Returns the current date.                                                                   | `DATE('now')`                                | `'2024-10-26'`               |
+| `TIME('now')`                    | Returns the current time.                                                                   | `TIME('now')`                                | `'15:35:30'`                 |
+| `DATETIME('now')`                | Returns the current date and time.                                                          | `DATETIME('now')`                            | `'2024-10-26 15:35:30'`      |
+| `JULIANDAY('now')`               | Returns the Julian day number for the current date.                                         | `JULIANDAY('now')`                           | `2460367.1475694444`         |
+| `STRFTIME(format, 'now')`        | Returns a formatted date string based on the specified format.                              | `STRFTIME('%Y-%m-%d', 'now')`                | `'2024-10-26'`               |
+| `DATE('now', '+7 days')`         | Adds or subtracts time intervals to/from the current date.                                  | `DATE('now', '+7 days')`                     | `'2024-11-02'`               |
+
+### 3. Aggregate Functions
+
+| **Function**                     | **Description**                                                                             | **Example**                                  | **Result**                   |
+|----------------------------------|---------------------------------------------------------------------------------------------|----------------------------------------------|-------------------------------|
+| `COUNT(X)`                       | Returns the number of non-null values in a column.                                          | `COUNT(id)`                                  | `10` (depending on data)      |
+| `SUM(X)`                         | Returns the sum of all non-null values in a column.                                         | `SUM(price)`                                 | Sum of `price` column         |
+| `AVG(X)`                         | Returns the average of all non-null values in a column.                                     | `AVG(age)`                                   | Average age                   |
+| `MIN(X)`                         | Returns the minimum value in a column.                                                      | `MIN(salary)`                                | Minimum salary                |
+| `MAX(X)`                         | Returns the maximum value in a column.                                                      | `MAX(salary)`                                | Maximum salary                |
+| `GROUP_CONCAT(X, Y)`             | Concatenates all values in a column, separated by `Y`.                                      | `GROUP_CONCAT(name, ', ')`                   | `'Alice, Bob, Carol'`         |
+
+### 4. Mathematical Functions
+
+| **Function**                     | **Description**                                                                             | **Example**                                  | **Result**                   |
+|----------------------------------|---------------------------------------------------------------------------------------------|----------------------------------------------|-------------------------------|
+| `ABS(X)`                         | Returns the absolute value of `X`.                                                          | `ABS(-5)`                                    | `5`                           |
+| `ROUND(X, Y)`                    | Rounds `X` to `Y` decimal places.                                                           | `ROUND(3.14159, 2)`                          | `3.14`                        |
+| `CEIL(X)`                        | Returns the smallest integer greater than or equal to `X`.                                  | `CEIL(3.5)`                                  | `4`                           |
+| `FLOOR(X)`                       | Returns the largest integer less than or equal to `X`.                                     | `FLOOR(3.5)`                                 | `3`                           |
+| `RANDOM()`                       | Returns a random integer between -2^63 and 2^63 - 1.                                       | `RANDOM()`                                   | Random integer                |
+
+### 5. Conditional Expressions
+
+| **Function**                     | **Description**                                                                             | **Example**                                  | **Result**                   |
+|----------------------------------|---------------------------------------------------------------------------------------------|----------------------------------------------|-------------------------------|
+| `IFNULL(X, Y)`                   | Returns `Y` if `X` is `NULL`; otherwise, returns `X`.                                       | `IFNULL(NULL, 'default')`                    | `'default'`                   |
+| `NULLIF(X, Y)`                   | Returns `NULL` if `X` equals `Y`; otherwise, returns `X`.                                   | `NULLIF(5, 5)`                               | `NULL`                        |
+| `COALESCE(X, Y, ...)`            | Returns the first non-null value in the argument list.                                      | `COALESCE(NULL, 'hello', 'world')`           | `'hello'`                     |
+| `CASE`                           | Allows for conditional logic in queries.                                                    | `CASE WHEN age > 18 THEN 'adult' ELSE 'minor' END` | `'adult'` or `'minor'` |
+
