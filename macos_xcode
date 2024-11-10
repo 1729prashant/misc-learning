@@ -1,6 +1,12 @@
 MacOS
 -------
 
+# Install Ghidra on MacOS, M2, assumes using homebrew
+xcode-select --install
+brew install --cask temurin #gets recommended while installing ghidra cask
+brew install --cask ghidra
+brew install gradle
+brew info --cask ghidra #verify
 
 
 Xcode
