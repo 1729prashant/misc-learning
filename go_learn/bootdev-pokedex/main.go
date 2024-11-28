@@ -8,6 +8,9 @@ import (
 	"net/http"
 	"os"
 	"strings"
+	"time"
+
+	"github.com/1729prashant/misc-learning/go_learn/bootdev-pokedex/internal/pokecache"
 )
 
 type Config struct {
@@ -27,8 +30,21 @@ type LocationArea struct {
 	URL  string `json:"url"`
 }
 
+var cache = pokecache.NewCache(5 * time.Minute)
+
 // Fetch location areas from the given URL
 func fetchLocationAreas(url string) (*LocationAreaResponse, error) {
+	// Check cache first
+	if cachedData, found := cache.Get(url); found {
+		var response LocationAreaResponse
+		err := json.Unmarshal(cachedData, &response)
+		if err == nil {
+			return &response, nil
+		}
+		fmt.Println("Warning: failed to unmarshal cached data, refetching...")
+	}
+
+	// If not in cache, fetch from API
 	res, err := http.Get(url)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch location areas: %w", err)
@@ -49,6 +65,9 @@ func fetchLocationAreas(url string) (*LocationAreaResponse, error) {
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse response: %w", err)
 	}
+
+	// Add response to cache
+	cache.Add(url, body)
 
 	return &response, nil
 }
@@ -130,7 +149,7 @@ Usage:
 		if action, exists := commands[command]; exists {
 			action(config)
 		} else {
-			fmt.Println("Unknown command. Type 'help' for a list of commands.\n")
+			fmt.Println("Unknown command. Type 'help' for a list of commands.")
 		}
 	}
 }
