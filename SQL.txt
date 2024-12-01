@@ -845,3 +845,9 @@ https://docs.oracle.com/en/database/oracle/oracle-database/12.2/arpls/UTL_MATCH.
 use FUZZY_MATCH (better as of 2024)
 https://docs.oracle.com/en/database/oracle/oracle-database/23/sqlrf/data-quality-operators.html#GUID-C13A179C-1F82-4522-98AA-E21C6504755E
 
+
+----------------------------------------------------------------------------------------------- 
+SQLite
+----------------------------------------------------------------------------------------------- 
+https://www.sqlite.org/omitted.html - SQL Features That SQLite Does Not Implement
+https://www.sqlite.org/quirks.html
