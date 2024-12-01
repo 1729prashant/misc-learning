@@ -439,6 +439,7 @@ Usage:
 			pokedex.CaughtPokemon[pokemonName] = *pokemon
 			savePokedex()
 			fmt.Printf("%s was caught!\n", pokemonName)
+			fmt.Println("You may now inspect it with the inspect command.")
 		},
 
 		"inspect": func(cfg *Config, args ...string) {
