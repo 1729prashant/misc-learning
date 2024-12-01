@@ -847,7 +847,7 @@ https://docs.oracle.com/en/database/oracle/oracle-database/23/sqlrf/data-quality
 
 
 ----------------------------------------------------------------------------------------------- 
-SQLite
+SQLite Limitations
 ----------------------------------------------------------------------------------------------- 
 https://www.sqlite.org/omitted.html - SQL Features That SQLite Does Not Implement
 https://www.sqlite.org/quirks.html
