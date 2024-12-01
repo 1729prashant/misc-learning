@@ -5,8 +5,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"math/rand"
 	"net/http"
 	"os"
+	"path/filepath"
 	"strings"
 	"time"
 
@@ -98,55 +100,11 @@ func displayLocationAreas(response *LocationAreaResponse) {
 */
 
 type LocationAreaPokemonsResponse struct {
-	/*EncounterMethodRates []struct {
-		EncounterMethod struct {
-			Name string `json:"name"`
-			URL  string `json:"url"`
-		} `json:"encounter_method"`
-		VersionDetails []struct {
-			Rate    int `json:"rate"`
-			Version struct {
-				Name string `json:"name"`
-				URL  string `json:"url"`
-			} `json:"version"`
-		} `json:"version_details"`
-	} `json:"encounter_method_rates"`
-	GameIndex int `json:"game_index"`
-	ID        int `json:"id"`
-	Location  struct {
-		Name string `json:"name"`
-		URL  string `json:"url"`
-	} `json:"location"`
-	Name  string `json:"name"`
-	Names []struct {
-		Language struct {
-			Name string `json:"name"`
-			URL  string `json:"url"`
-		} `json:"language"`
-		Name string `json:"name"`
-	} `json:"names"`*/
 	PokemonEncounters []struct {
 		Pokemon struct {
 			Name string `json:"name"`
 			URL  string `json:"url"`
 		} `json:"pokemon"`
-		/*VersionDetails []struct {
-			EncounterDetails []struct {
-				Chance          int   `json:"chance"`
-				ConditionValues []any `json:"condition_values"`
-				MaxLevel        int   `json:"max_level"`
-				Method          struct {
-					Name string `json:"name"`
-					URL  string `json:"url"`
-				} `json:"method"`
-				MinLevel int `json:"min_level"`
-			} `json:"encounter_details"`
-			MaxChance int `json:"max_chance"`
-			Version   struct {
-				Name string `json:"name"`
-				URL  string `json:"url"`
-			} `json:"version"`
-		} `json:"version_details"`*/
 	} `json:"pokemon_encounters"`
 }
 
@@ -216,14 +174,83 @@ func displayLocationAreaPokemons(response *LocationAreaPokemonsResponse) {
 ------------------------------------------------------------------------------------
 */
 
-type CatchPokemon struct {
-	BaseExperience int `json:"base_experience"`
+type CaughtPokemon struct {
+	Abilities []struct {
+		Ability struct {
+			Name string `json:"name"`
+			URL  string `json:"url"`
+		} `json:"ability"`
+		IsHidden bool `json:"is_hidden"`
+		Slot     int  `json:"slot"`
+	} `json:"abilities"`
+	BaseExperience int    `json:"base_experience"`
+	Height         int    `json:"height"`
+	Name           string `json:"name"`
+	Stats          []struct {
+		BaseStat int `json:"base_stat"`
+		Effort   int `json:"effort"`
+		Stat     struct {
+			Name string `json:"name"`
+			URL  string `json:"url"`
+		} `json:"stat"`
+	} `json:"stats"`
+	Types []struct {
+		Slot int `json:"slot"`
+		Type struct {
+			Name string `json:"name"`
+			URL  string `json:"url"`
+		} `json:"type"`
+	} `json:"types"`
+	Weight int `json:"weight"`
 }
 
-/*TODO
-add logic to catch pokemons based on base_experience value and random value, higher the base experiece larger the range of random values. pokemon is caught
-add logic to store caught pokemons, storage should persist even after
-*/
+func catchPokemon(url string) (*CaughtPokemon, error) {
+	//url := fmt.Sprintf("https://pokeapi.co/api/v2/pokemon/%s", name)
+
+	// Check cache first
+	if cachedData, found := cache.Get(url); found {
+		var pokemon CaughtPokemon
+		err := json.Unmarshal(cachedData, &pokemon)
+		if err == nil {
+			return &pokemon, nil
+		}
+		fmt.Println("Warning: failed to unmarshal cached data, refetching...")
+	}
+
+	res, err := http.Get(url)
+	if err != nil {
+		return nil, fmt.Errorf("failed to fetch pokemon: %w", err)
+	}
+	defer res.Body.Close()
+
+	if res.StatusCode >= 300 {
+		return nil, fmt.Errorf("unexpected status code: %d", res.StatusCode)
+	}
+
+	body, err := io.ReadAll(res.Body)
+	if err != nil {
+		return nil, fmt.Errorf("failed to read response body: %w", err)
+	}
+
+	var pokemon CaughtPokemon
+	err = json.Unmarshal(body, &pokemon)
+	if err != nil {
+		return nil, fmt.Errorf("failed to parse response: %w", err)
+	}
+
+	// Add response to cache
+	cache.Add(url, body)
+
+	return &pokemon, nil
+}
+
+func calculateCatchProbability(baseExperience int) float64 {
+	// Base catch rate decreases as experience increases
+	// Maximum base experience is around 600
+	baseRate := 1.0 - (float64(baseExperience) / 600.0)
+	// Ensure minimum catch rate of 10%
+	return 0.1 + (baseRate * 0.6)
+}
 
 /*
 ------------------------------------------------------------------------------------
@@ -231,10 +258,87 @@ add logic to store caught pokemons, storage should persist even after
 ------------------------------------------------------------------------------------
 */
 
+/*
+------------------------------------------------------------------------------------
+							START pokedex
+------------------------------------------------------------------------------------
+*/
+
+type Pokedex struct {
+	CaughtPokemon map[string]CaughtPokemon
+}
+
+var pokedex Pokedex
+
+const pokedexFile = "./data/pokedex.json"
+
+// Add these functions
+func initPokedex() {
+	pokedex.CaughtPokemon = make(map[string]CaughtPokemon)
+	loadPokedex()
+}
+
+func loadPokedex() {
+	data, err := os.ReadFile(pokedexFile)
+	if err != nil {
+		if os.IsNotExist(err) {
+			return // File doesn't exist yet, that's okay
+		}
+		fmt.Printf("Error loading Pokedex: %v\n", err)
+		return
+	}
+
+	err = json.Unmarshal(data, &pokedex.CaughtPokemon)
+	if err != nil {
+		fmt.Printf("Error parsing Pokedex data: %v\n", err)
+	}
+}
+
+func savePokedex() {
+	data, err := json.Marshal(pokedex.CaughtPokemon)
+	if err != nil {
+		fmt.Printf("Error serializing Pokedex: %v\n", err)
+		return
+	}
+
+	err = os.MkdirAll(filepath.Dir(pokedexFile), 0755)
+	if err != nil {
+		fmt.Printf("Error creating directory: %v\n", err)
+		return
+	}
+
+	err = os.WriteFile(pokedexFile, data, 0644)
+	if err != nil {
+		fmt.Printf("Error saving Pokedex: %v\n", err)
+	}
+}
+
+/*
+------------------------------------------------------------------------------------
+							  END pokedex
+------------------------------------------------------------------------------------
+*/
+
+/*
+------------------------------------------------------------------------------------
+							START inspect pokemon
+------------------------------------------------------------------------------------
+*/
+
+/*
+------------------------------------------------------------------------------------
+							  END inspect pokemon
+------------------------------------------------------------------------------------
+*/
+
 func main() {
+	//rand.Seed(time.Now().UnixNano())
+
 	locationAreaURL := "https://pokeapi.co/api/v2/location-area?offset=0&limit=20"
 	locationAreaPokemonsURL := "https://pokeapi.co/api/v2/location-area/"
-	//catchPokemonURL := "https://pokeapi.co/api/v2/pokemon/"
+	catchPokemonURL := "https://pokeapi.co/api/v2/pokemon/"
+
+	initPokedex()
 
 	config := &Config{
 		Next:     &locationAreaURL,
@@ -251,7 +355,9 @@ Usage:
   map:                Displays the names of 20 location areas in the Pokemon world. Each subsequent call to map displays the next 20 locations.
   mapb:               Displays the previous 20 locations. If you're on the first page, it will print an error message.
   explore <area>:     Fetch list of all the Pokémon in a given location area.
-  catch <pokemon>:    
+  catch <pokemon>:    Attempt to catch pokemon !
+  inspect <pokemon>:  List details of caught pokemon.
+  pokedex:            List all caught pokemon.
 `)
 		},
 
@@ -315,10 +421,64 @@ Usage:
 				fmt.Println("Usage: catch <pokemon>.")
 				return
 			}
+			pokemonName := strings.ToLower(args[0])
+			fmt.Printf("Throwing a Pokeball at %s...\n", pokemonName)
+			catchingPokemon := catchPokemonURL + pokemonName
+			pokemon, err := catchPokemon(catchingPokemon)
+			if err != nil {
+				fmt.Printf("Error: %v\n", err)
+				return
+			}
 
-			/* TODO add logic to catch pokemons absed on experience   */
-			/* coughtPokemonURL := catchPokemonURL + args[0] */
-			/*response, err := caughtPokemon(coughtPokemonURL)*/
+			catchProbability := calculateCatchProbability(pokemon.BaseExperience)
+			if rand.Float64() > catchProbability {
+				fmt.Printf("%s escaped!\n", pokemonName)
+				return
+			}
+
+			pokedex.CaughtPokemon[pokemonName] = *pokemon
+			savePokedex()
+			fmt.Printf("%s was caught!\n", pokemonName)
+		},
+
+		"inspect": func(cfg *Config, args ...string) {
+			if len(args) < 1 {
+				fmt.Println("Usage: inspect <pokemon>")
+				return
+			}
+
+			pokemonName := strings.ToLower(args[0])
+			pokemon, exists := pokedex.CaughtPokemon[pokemonName]
+			if !exists {
+				fmt.Println("You have not caught that pokemon")
+				return
+			}
+
+			fmt.Printf("Name: %s\n", pokemon.Name)
+			fmt.Printf("Height: %d\n", pokemon.Height)
+			fmt.Printf("Weight: %d\n", pokemon.Weight)
+
+			fmt.Println("Stats:")
+			for _, stat := range pokemon.Stats {
+				fmt.Printf(" -%s: %d\n", stat.Stat.Name, stat.BaseStat)
+			}
+
+			fmt.Println("Types:")
+			for _, typeInfo := range pokemon.Types {
+				fmt.Printf(" - %s\n", typeInfo.Type.Name)
+			}
+		},
+
+		"pokedex": func(cfg *Config, args ...string) {
+			if len(pokedex.CaughtPokemon) == 0 {
+				fmt.Println("Your Pokedex is empty")
+				return
+			}
+
+			fmt.Println("Your Pokedex:")
+			for name := range pokedex.CaughtPokemon {
+				fmt.Printf(" - %s\n", name)
+			}
 		},
 	}
 
