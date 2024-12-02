@@ -1,7 +1,8 @@
------------------------------------------------------------------------------------------------
-PeopleSoft Starts Here
------------------------------------------------------------------------------------------------ 
 
+## PeopleSoft
+
+#### Tables
+```
 Projects
 ---------
 PSPROJECTDEFN — Project header table
@@ -229,8 +230,10 @@ PS_STRINGS_LNG_TBL — Translated String  (sqrtarns.sqc)
 Sources:
 ---------
 for PS tables: see mvprdexp.dms in the home scripts directory
+```
 
-
+#### SQL
+```
 sql for effective active translate values
 -----------------------------------------
 select
@@ -830,15 +833,12 @@ WHERE
 
 TBD...
 
------------------------------------------------------------------------------------------------
-PeopleSoft Ends Here 
------------------------------------------------------------------------------------------------ 
+```
 
 
 
------------------------------------------------------------------------------------------------ 
-Oracle SQL Fuzzy search
------------------------------------------------------------------------------------------------ 
+## Oracle SQL Fuzzy search
+
 use UTL_MATCH
 https://docs.oracle.com/en/database/oracle/oracle-database/12.2/arpls/UTL_MATCH.html#GUID-98BCC5BB-5A0A-422B-99FD-3D85F282923A
 
@@ -846,8 +846,8 @@ use FUZZY_MATCH (better as of 2024)
 https://docs.oracle.com/en/database/oracle/oracle-database/23/sqlrf/data-quality-operators.html#GUID-C13A179C-1F82-4522-98AA-E21C6504755E
 
 
------------------------------------------------------------------------------------------------ 
-SQLite Limitations
------------------------------------------------------------------------------------------------ 
-https://www.sqlite.org/omitted.html - SQL Features That SQLite Does Not Implement
-https://www.sqlite.org/quirks.html
+
+## SQLite Limitations
+
+* <https://www.sqlite.org/omitted.html> - SQL Features That SQLite Does Not Implement
+* <https://www.sqlite.org/quirks.html>
