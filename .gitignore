@@ -1,2 +1,8 @@
 go_learn/**/notes.txt
-
+go_learn/**/*.exe
+go_learn/**/*.out
+go_learn/**/*.bin
+go_learn/**/*.o
+go_learn/**/*.a
+go_learn/**/*.so
+go_learn/**/*.dll
