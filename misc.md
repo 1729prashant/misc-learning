@@ -183,6 +183,22 @@ Interaction Design Evaluation Methods | <https://gayan1999malinda.medium.com/int
 
 
 ## Deception, Counter Deception, Critical Thinking
+
+|No.    |MAXIM                                    |COUNTER MAXIM                            |
+|-------|-----------------------------------------|-----------------------------------------|
+|1.     |Magruder’s Principle: It is easier to maintain a preexisting belief in the target than force a change in beliefs. |Apply the same critical analysis to facts that support your assumptions that you apply to facts that contradict them.            |
+|2.     |Exploiting Limits of Human and Machine Sensing and Information Processing. |Develop lots of trustworthy sources of data and analysis. Measure reality from multiple perspectives and resolutions.            |
+|3.     |Jones Dilemma: Deception is difficult if there are more real sources than false sources. |Develop lots of trustworthy sources of data and analysis. Measure reality from multiple perspectives and resolutions.|
+|4.     |Carefully Sequence Deception Activities to Tell a Story. |Is there an "orgy of evidence?" Are facts being revealed all at once when it would make more sense for them to emerge slowly (or vice-versa).|
+|5.     |Carefully Design Planned Placement of Deceptive Material. Make target “work” for it, don’t boldly announce what you are doing (example diary easily found on a desk vs. hidden, obfuscated code). Contrast this with “orgy of evidence”. |Don't assume a fact is true just because it was hard to obtain it.|
+|6a.    |Ambiguity - Increase doubt by providing many possible truths. |Is there more than one narrative present? Contradictions and incongruities may suggest deception. |
+|6b.    |Misdirection Decrease doubt by focusing target on a given falsehood. |The Plus-Minus Rule: No imitation can be perfect without being the real thing. In a simulation, characteristics will be added or they will be missing. |
+|7.     |Husband Deception Assets. |Model the adversary's capabilities and neutralize them. |
+|8.     |Feedback - Includes attackers monitoring for success of deception and monitoring for being deceived themselves. |Behave as if you believe the deception so the adversary doesn't pivot. Deter the adversary by showing them that you've detected the deception. (Pre-bunking) |
+
+
+
+
 [DEF CON 32 - Tom Cross Greg Conti - Deception & Counter Deception - Defending Yourself in a World Full of Lies.pdf
 ](https://media.defcon.org/DEF%20CON%2032/DEF%20CON%2032%20presentations/DEF%20CON%2032%20-%20Tom%20Cross%20Greg%20Conti%20-%20Deception%20%26%20Counter%20Deception%20-%20Defending%20Yourself%20in%20a%20World%20Full%20of%20Lies.pdf)
 
