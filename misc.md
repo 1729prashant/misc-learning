@@ -246,6 +246,8 @@ Below links are from above DEFCON talk, added for redundancy only
 * [Project Xanadu](https://www.xanadu.net/)
 
 
-## Roadmaps
-* <https://roadmap.sh/>
+## More
+* [Roadmap references - roadmap.sh](https://roadmap.sh/)
+* [UI Code Examples - uiverse.io](https://uiverse.io/)
+* [Typing practise - entertained.app](https://entertrained.app/books)
 
