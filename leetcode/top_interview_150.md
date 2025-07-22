@@ -56,3 +56,28 @@ Complexity:
 
 -
 
+
+> **Invert a Binary Tree**
+
+```
+Algorithm I (Invert a Binary Tree)
+Input: A binary tree with root node n (possibly null).
+Output: The root of the inverted binary tree.
+
+I1. [Check null]
+    If n is null, return null.
+
+I2. [Swap children]
+    Swap n.left and n.right.
+
+I3. [Recursive inversion]
+    Call Algorithm I on n.left.
+    Call Algorithm I on n.right.
+
+I4. [Return result]
+    Return n.
+```
+
+-
+
+
