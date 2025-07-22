@@ -77,12 +77,47 @@ I3. [Recursive inversion]
 I4. [Return result]
     Return n.
     
-**Complexity**  
+Complexity:  
     Time:  O(n), where n is the number of nodes — each node is visited once.  
     Space: O(h), where h is the height of the tree — recursion stack can go as deep as the height (worst case O(n) for skewed trees, O(log n) for balanced trees).
 
 ```
 
 -
+
+> **Check If a Binary Tree Is Symmetric**
+
+```
+Algorithm S (Check If a Binary Tree Is Symmetric)
+Input: A binary tree with root node n (possibly null).
+Output: A boolean indicating whether the tree is symmetric about its center.
+
+S1. [Call mirror helper]
+    Return result of Algorithm M called with (n, n).
+
+
+Algorithm M (Check If Two Subtrees Are Mirrors)
+Input: Two binary tree nodes t1 and t2 (possibly null).
+Output: A boolean indicating whether the two trees are mirror images of each other.
+
+M1. [Both null]
+    If t1 = null and t2 = null, return true.
+
+M2. [Only one null]
+    If t1 = null or t2 = null, return false.
+
+M3. [Value mismatch]
+    If t1.Val ≠ t2.Val, return false.
+
+M4. [Recurse on mirror positions]
+    Return the logical AND of:
+        - result of Algorithm M on (t1.Left, t2.Right)
+        - result of Algorithm M on (t1.Right, t2.Left)
+
+Complexity:
+    Time: O(n) — where n is the total number of nodes in the tree. Each node is visited once.
+    Space: O(h) — where h is the height of the tree due to the recursion stack (best: O(log n), worst: O(n) for skewed trees).
+               
+```
 
 
