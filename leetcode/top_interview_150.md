@@ -76,6 +76,11 @@ I3. [Recursive inversion]
 
 I4. [Return result]
     Return n.
+    
+**Complexity**  
+    Time:  O(n), where n is the number of nodes — each node is visited once.  
+    Space: O(h), where h is the height of the tree — recursion stack can go as deep as the height (worst case O(n) for skewed trees, O(log n) for balanced trees).
+
 ```
 
 -
