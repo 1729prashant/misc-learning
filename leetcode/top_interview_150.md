@@ -121,3 +121,108 @@ Complexity:
 ```
 
 
+-
+
+> **Build Binary Tree From Preorder and Inorder Traversal V1**
+
+```
+Algorithm B (Build Binary Tree from Preorder and Inorder Traversals)
+Input: 
+    - Preorder: a list of integers representing preorder traversal of the tree.
+    - Inorder: a list of integers representing inorder traversal of the same tree.
+Output: 
+    - The root node of the reconstructed binary tree.
+
+B1. [Build index map]
+    Construct a map M where each value in Inorder maps to its index.
+    Initialize PreIndex ← 0.
+
+B2. [Define recursive helper]
+    Define recursive function Helper(InStart, InEnd):
+        If InStart > InEnd, return nil.
+
+        [Select root]
+        Set RootVal ← Preorder[PreIndex], increment PreIndex by 1.
+
+        Create new node Root with value RootVal.
+
+        [Divide inorder]
+        Let InIndex ← M[RootVal]
+
+        [Recurse left]
+        Set Root.Left ← Helper(InStart, InIndex - 1)
+
+        [Recurse right]
+        Set Root.Right ← Helper(InIndex + 1, InEnd)
+
+        Return Root.
+
+B3. [Return result]
+    Call Helper(0, len(Inorder) - 1) and return the result.
+
+Complexity:
+    Time: O(n), where n is the number of nodes:
+			Each node is visited once.
+			The inMap lookup is constant-time due to the hashmap.
+
+    Space O(n): For the map inMap: stores n entries.
+                For the recursion stack: in the worst case (skewed tree), the stack is O(n) deep.
+          Space can be considered O(h) for recursion (height of the tree), but worst case h = n.
+```
+
+
+-
+
+
+> **Build Binary Tree From Preorder and Inorder Traversal V2**
+
+```
+Algorithm B (Build Binary Tree)
+Input: 
+    preorder — array of length n representing the preorder traversal of a binary tree.
+    inorder  — array of length n representing the inorder traversal of the same tree.
+Output: 
+    A pointer to the root node of the reconstructed binary tree.
+
+B1. [Create value-index map]
+    Construct a map valueToIndex such that:
+        For i = 0 to n−1:
+            valueToIndex[inorder[i]] ← i
+
+B2. [Initialize preorder index]
+    Let preIndex ← 0
+
+B3. [Build the tree]
+    Return result of Algorithm C called with (inLeft ← 0, inRight ← n−1)
+
+
+Algorithm C (Construct Subtree from Inorder Bounds)
+Input:
+    inLeft, inRight — integers defining current subtree bounds in inorder traversal.
+Output:
+    A pointer to the root of the constructed subtree.
+
+C1. [Base case: empty subtree]
+    If inLeft > inRight, return null.
+
+C2. [Extract root from preorder]
+    Let rootVal ← preorder[preIndex]
+    Increment preIndex ← preIndex + 1
+    Let root ← new TreeNode(rootVal)
+
+C3. [Find split index in inorder]
+    Let inRootIndex ← valueToIndex[rootVal]
+
+C4. [Build left subtree]
+    root.Left ← result of Algorithm C on (inLeft, inRootIndex − 1)
+
+C5. [Build right subtree]
+    root.Right ← result of Algorithm C on (inRootIndex + 1, inRight)
+
+C6. [Return constructed root]
+    Return root
+
+Complexity:
+    Time: O(n) — Each node is processed once, and map lookups are O(1).
+    Space: O(n) — For the value-to-index map and recursion stack (worst case: skewed tree depth n).
+```
