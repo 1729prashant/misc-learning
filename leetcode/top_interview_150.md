@@ -279,3 +279,51 @@ Complexity:
     Space: O(n) — for hashmap and recursion stack in worst case (unbalanced tree)
 
 ```
+
+-
+
+> **Connect Next Right Pointers in Each Node (Constant Space)**
+
+```
+Algorithm C (Connect Level Order Next Pointers)
+Input: 
+    A binary tree with root node r (possibly null). Each node has: val, left, right, next
+Output:
+    The same tree where each node’s next pointer is set to its next right node or null
+
+C1. [Initialize level]
+    Let level ← r   // leftmost node at current level
+
+C2. [Loop through levels]
+    While level ≠ null:
+        Let curr ← level      // current node in level
+        Let prev ← null       // previous node to connect via next
+        Let nextLevel ← null  // leftmost node of next level
+
+        C2.1. [Loop through nodes at current level]
+            While curr ≠ null:
+                For each child of curr (first left, then right):
+                    If child ≠ null:
+                        If prev ≠ null:
+                            prev.next ← child
+                        Else:
+                            nextLevel ← child
+                        prev ← child
+                curr ← curr.next
+
+        C2.2. [Move to next level]
+            level ← nextLevel
+
+C3. [Done]
+    Return r
+
+
+Complexity:
+    Time: O(n) — each node is visited exactly once
+    Space: O(1) — no extra space used except a few pointers (constant space)
+
+```
+
+-
+
+
