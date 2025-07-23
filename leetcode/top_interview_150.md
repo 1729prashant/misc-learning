@@ -226,3 +226,56 @@ Complexity:
     Time: O(n) — Each node is processed once, and map lookups are O(1).
     Space: O(n) — For the value-to-index map and recursion stack (worst case: skewed tree depth n).
 ```
+
+
+-
+
+
+
+> **Construct Binary Tree from Inorder and Postorder Traversals**
+
+```
+Algorithm B (Build Tree from Inorder and Postorder)
+Input: 
+    - inorder[0..n−1]: an array representing inorder traversal of a binary tree
+    - postorder[0..n−1]: an array representing postorder traversal of the same tree
+Output: 
+    - Pointer to the root of the constructed binary tree
+
+B1. [Preprocessing]
+    Create a hashmap indexMap to store the index of each value in inorder array:
+        For i from 0 to n−1:
+            indexMap[inorder[i]] ← i
+
+B2. [Initialize global postIndex]
+    Set postIndex ← n − 1   // last element in postorder is the root
+
+B3. [Define recursive builder]
+    Define recursive procedure BuildSubtree(inLeft, inRight):
+        Input: current inorder boundaries (inLeft to inRight)
+        Output: root node of the constructed subtree
+
+        If inLeft > inRight:
+            Return null   // no nodes in this subtree
+
+        rootVal ← postorder[postIndex]
+        postIndex ← postIndex − 1
+
+        Create new TreeNode root with value rootVal
+
+        mid ← indexMap[rootVal]  // find root index in inorder
+
+        root.Right ← BuildSubtree(mid + 1, inRight)   // build right subtree first
+        root.Left  ← BuildSubtree(inLeft, mid − 1)    // then build left subtree
+
+        Return root
+
+B4. [Build tree]
+    Return BuildSubtree(0, n − 1)
+
+
+Complexity:
+    Time: O(n) — each node is processed once; hashmap gives O(1) lookups
+    Space: O(n) — for hashmap and recursion stack in worst case (unbalanced tree)
+
+```
