@@ -326,4 +326,81 @@ Complexity:
 
 -
 
+> **Flatten Binary Tree to Linked List**
 
+```
+Algorithm F (Flatten Binary Tree to Linked List)
+Input: A binary tree with root node n (possibly null).
+Output: The same tree, modified in-place to become a right-skewed pre-order linked list.
+
+F1. [Base case]
+    If n is null, return.
+
+F2. [Recurse on left and right]
+    Flatten the left subtree of n using Algorithm F.
+    Flatten the right subtree of n using Algorithm F.
+
+F3. [Store flattened left and right]
+    Let left = n.Left
+    Let right = n.Right
+
+F4. [Relink]
+    Set n.Left = null
+    Set n.Right = left
+
+F5. [Find tail of new right subtree]
+    Traverse from n along the right child until you find the last node.
+
+F6. [Attach original right subtree]
+    Set tail.Right = right
+
+F7. [Done]
+    Return (modifications are in-place)
+
+Complexity:
+    Time: O(n) — each node is visited once.
+    Space: O(h) — due to recursion stack, where h is tree height.
+               Worst: O(n) (skewed tree), Best: O(log n) (balanced tree)
+
+```
+
+-
+
+
+> **Flatten Binary Tree to Linked List O(1)**
+
+```
+Algorithm F' (Flatten Binary Tree to Linked List In-Place)
+Input: A binary tree with root node n (possibly null).
+Output: The same tree, modified in-place to become a right-skewed pre-order linked list.
+
+F'1. [Initialize]
+     Let curr ← n
+
+F'2. [Traverse]
+     While curr ≠ null, do:
+
+     F'2.1. [Check for left child]
+            If curr.Left ≠ null:
+
+            F'2.1.1. [Find predecessor]
+                     Let prev ← curr.Left
+                     While prev.Right ≠ null:
+                         prev ← prev.Right
+
+            F'2.1.2. [Rewire]
+                     prev.Right ← curr.Right
+                     curr.Right ← curr.Left
+                     curr.Left ← null
+
+     F'2.2. [Move to next node]
+            curr ← curr.Right
+
+F'3. [Done]
+     Return (modifications are in-place)
+
+Complexity:
+    Time: O(n) — each node is visited a constant number of times.
+    Space: O(1) — no recursion or stack used; only constant pointers.
+
+```
