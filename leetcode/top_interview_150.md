@@ -429,3 +429,24 @@ Time Complexity: O(n) — where n is the number of nodes (must check all paths i
 Space Complexity: O(h) — where h is the height of the tree (stack space due to recursion).
 
 ```
+
+> **Sum Root to Leaf Numbers**
+
+```
+Algorithm SumRootToLeaf(root)
+Input: A binary tree where each node contains a digit (0–9)
+Output: The sum of all numbers formed from root-to-leaf paths
+
+1. Define Recursive Function dfs(node, currentNumber)
+     a. If node is null:
+         i. return 0
+     b. currentNumber ← currentNumber × 10 + node.val
+     c. If node is a leaf (node.left = null and node.right = null):
+         i. return currentNumber
+     d. Return dfs(node.left, currentNumber) + dfs(node.right, currentNumber)
+
+2. Return dfs(root, 0)
+
+```
+
+> 
