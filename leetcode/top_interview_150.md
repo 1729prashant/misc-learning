@@ -404,3 +404,28 @@ Complexity:
     Space: O(1) — no recursion or stack used; only constant pointers.
 
 ```
+> **Has Path Sum**
+
+```
+Algorithm H (Has Path Sum)
+Input: A binary tree rooted at node n, and an integer targetSum
+Output: true if there exists a root-to-leaf path such that the sum of values equals targetSum; else false
+
+H1. [Base case – empty tree]
+    If n = null:
+        Return false
+
+H2. [Leaf check]
+    If n.Left = null and n.Right = null:
+        If targetSum = n.Val:
+            Return true
+        Else:
+            Return false
+
+H3. [Recursive case]
+    Return H(n.Left, targetSum - n.Val) OR H(n.Right, targetSum - n.Val)
+
+Time Complexity: O(n) — where n is the number of nodes (must check all paths in worst case).
+Space Complexity: O(h) — where h is the height of the tree (stack space due to recursion).
+
+```
