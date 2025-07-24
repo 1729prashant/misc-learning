@@ -449,4 +449,85 @@ Output: The sum of all numbers formed from root-to-leaf paths
 
 ```
 
-> 
+> **Maximum Path Sum in Binary Tree**
+
+```
+Algorithm M (Find the maximum path sum in a binary tree)
+Input:
+    - Root: a binary tree node representing the root of the tree
+Output:
+    - An integer representing the maximum path sum of any path in the tree
+
+M1. [Initialize global maximum]
+    Set MaxSum ← -∞
+
+M2. [Define recursive helper]
+    Define function MaxGain(Node):
+        If Node is nil, return 0
+
+        [Left subtree]
+        Let LeftGain ← max(MaxGain(Node.Left), 0)
+
+        [Right subtree]
+        Let RightGain ← max(MaxGain(Node.Right), 0)
+
+        [Current path sum with split at Node]
+        Let PriceNewPath ← Node.Val + LeftGain + RightGain
+
+        Update MaxSum ← max(MaxSum, PriceNewPath)
+
+        [Return max gain continuing upward]
+        Return Node.Val + max(LeftGain, RightGain)
+
+M3. [Invoke recursion and return result]
+    Call MaxGain(Root)
+    Return MaxSum
+
+Complexity:
+    Time: O(n), where n is the number of nodes.
+        Each node is visited once.
+    Space: O(h), where h is the height of the tree (due to recursion stack).
+        In worst case (skewed tree), h = n ⇒ O(n) space.
+
+```
+
+-
+
+> **Binary Search Tree Iterator**
+
+```
+Algorithm I (BST Iterator using stack-based in-order traversal)
+Input:
+    - Root: pointer to the root of a binary search tree
+Output:
+    - An iterator object with Next and HasNext methods
+
+I1. [Initialize stack]
+    Let Stack ← empty list of nodes
+
+I2. [Define helper pushLeft]
+    Function pushLeft(Node):
+        While Node ≠ nil:
+            Push Node onto Stack
+            Node ← Node.Left
+
+I3. [Constructor]
+    Call pushLeft(Root)
+
+I4. [Next operation]
+    Let Node ← Stack.Pop()
+    If Node.Right ≠ nil:
+        Call pushLeft(Node.Right)
+    Return Node.Val
+
+I5. [HasNext operation]
+    Return whether Stack is non-empty
+
+Complexity:
+    Time:
+        - Next and HasNext run in O(1) average time
+        - Because each node is pushed and popped exactly once
+    Space:
+        - O(h), where h is the height of the tree (stack space)
+
+```
