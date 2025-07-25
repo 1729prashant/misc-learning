@@ -140,3 +140,41 @@ Here’s a rundown of some of the most useful built-in functions in SQLite, cate
 | `COALESCE(X, Y, ...)`            | Returns the first non-null value in the argument list.                                      | `COALESCE(NULL, 'hello', 'world')`           | `'hello'`                     |
 | `CASE`                           | Allows for conditional logic in queries.                                                    | `CASE WHEN age > 18 THEN 'adult' ELSE 'minor' END` | `'adult'` or `'minor'` |
 
+
+## SQLite Metadata and Introspection Capabilities
+
+| **#** | **Metadata Category**          | **SQLite Support** | **SQL / PRAGMA with Notes**                                                                                     |
+|------|--------------------------------|--------------------|------------------------------------------------------------------------------------------------------------------|
+| 1    | All Tables                     | ✅ Yes             | -- Notes: User-defined tables only<br>`SELECT name FROM sqlite_master WHERE type = 'table';`                     |
+|      | All Views                      | ✅ Yes             | -- Notes: Views stored alongside tables<br>`SELECT name FROM sqlite_master WHERE type = 'view';`                 |
+|      | Temp Tables and Views          | ✅ Yes             | -- Notes: Only visible during session<br>`SELECT name FROM sqlite_temp_master WHERE type IN ('table', 'view');`  |
+| 2    | Table/View DDL                 | ✅ Yes             | -- Notes: DDL is stored in `sql` column<br>`SELECT type, name, tbl_name, sql FROM sqlite_master WHERE type IN ('table', 'view');` |
+| 3    | DML Activity                   | ❌ No              | -- Notes: No DML audit log; use triggers manually if needed                                                      |
+| 4    | Index Metadata                 | ✅ Yes             | -- Notes: Lists indexes defined on any table<br>`SELECT name, tbl_name, sql FROM sqlite_master WHERE type = 'index';` |
+|      | Index Columns                  | ✅ Yes             | -- Notes: Shows indexed column names and positions<br>`PRAGMA index_info('<index_name>');`                       |
+| 5    | Triggers                       | ✅ Yes             | -- Notes: All trigger definitions are introspectable<br>`SELECT name, tbl_name, sql FROM sqlite_master WHERE type = 'trigger';` |
+| 6    | Functions (UDFs)               | ❌ No              | -- Notes: Defined only in host language, not visible in SQLite                                                  |
+| 7    | Permissions / Grants / Roles  | ❌ No              | -- Notes: No built-in auth model; relies on file permissions                                                    |
+| 8    | Constraints: Primary Key       | ✅ Yes             | -- Notes: `pk` column indicates primary key<br>`PRAGMA table_info('<table_name>');`                              |
+|      | Constraints: Unique            | ✅ Yes             | -- Notes: Usually declared inline or via unique indexes<br>`SELECT * FROM sqlite_master WHERE sql LIKE '%UNIQUE%';` |
+|      | Constraints: Foreign Key       | ✅ Yes             | -- Notes: Shows table, from/to columns, and ON DELETE/UPDATE<br>`PRAGMA foreign_key_list('<table_name>');`       |
+|      | Constraints: Check             | ⚠️ Partial         | -- Notes: No structured catalog view, must parse SQL<br>Inspect `sql` in `sqlite_master` manually                |
+| 9    | Busy Timeout                   | ✅ Yes             | -- Notes: Set/get time to wait before failing on locked DB (in ms)<br>`PRAGMA busy_timeout;` or `PRAGMA busy_timeout = 5000;` |
+| 10   | Attached Databases             | ✅ Yes             | -- Notes: Shows logical name, file path, and origin<br>`PRAGMA database_list;`                                   |
+| 11   | Page Size (Storage Unit)       | ✅ Yes             | -- Notes: Shows/sets size (in bytes) of each DB page<br>`PRAGMA page_size;` or `PRAGMA page_size = 4096;`        |
+|      | File Size (Pages)              | ✅ Yes             | -- Notes: Multiply `page_size * page_count` for actual size<br>`PRAGMA page_count;`                              |
+|      | Auto-Vacuum Status             | ✅ Yes             | -- Notes: Values: 0 (none), 1 (full), 2 (incremental)<br>`PRAGMA auto_vacuum;`                                   |
+| 12   | Locking Mode                   | ✅ Yes             | -- Notes: Values: NORMAL (default), EXCLUSIVE<br>`PRAGMA locking_mode;` or `PRAGMA locking_mode = EXCLUSIVE;`    |
+|      | Current Lock Status            | ⚠️ Partial         | -- Notes: No direct SQL interface<br>Use `.locks` in the sqlite3 shell                                           |
+| 13   | Journaling Mode                | ✅ Yes             | -- Notes: Modes: DELETE, TRUNCATE, PERSIST, MEMORY, WAL, OFF<br>`PRAGMA journal_mode;` or `PRAGMA journal_mode = WAL;` |
+|      | Journal Size Limit             | ✅ Yes             | -- Notes: Sets max journal file size<br>`PRAGMA journal_size_limit;`                                             |
+| 14   | WAL Checkpoint Info            | ✅ Yes             | -- Notes: Runs a manual checkpoint<br>`PRAGMA wal_checkpoint(FULL);`                                             |
+|      | WAL Status Metrics             | ✅ Yes             | -- Notes: Controls/monitors WAL size & frequency<br>`PRAGMA wal_checkpoint(TRUNCATE);` + `PRAGMA wal_autocheckpoint;` |
+| 15   | Temp File Storage              | ✅ Yes             | -- Notes: 0 = default, 1 = file, 2 = memory<br>`PRAGMA temp_store;`                                               |
+|      | Temp Store Directory           | ✅ Yes             | -- Notes: Deprecated; requires legacy compile option<br>`PRAGMA temp_store_directory;`                           |
+| 16   | Cache Size                     | ✅ Yes             | -- Notes: Negative = KB units, Positive = pages<br>`PRAGMA cache_size;`                                          |
+|      | Cache Spilling                 | ✅ Yes             | -- Notes: Controls whether cache overflows to temp files<br>`PRAGMA cache_spill;`                                |
+| 17   | Database Integrity Check       | ✅ Yes             | -- Notes: Checks for schema and data corruption<br>`PRAGMA integrity_check;` or `PRAGMA quick_check;`            |
+| 18   | File Path and Name             | ✅ Yes             | -- Notes: Returns list of attached DBs and file paths<br>`PRAGMA database_list;`                                 |
+|      | Journal File Path              | ⚠️ Indirect        | -- Notes: Named by convention (e.g., `mydb.db-journal`, `-wal`, `-shm`)<br>Use filesystem inspection             |
+| 19   | Application ID / User Version  | ✅ Yes             | -- Notes: Used by apps to tag DBs or store schema version<br>`PRAGMA application_id;`, `PRAGMA user_version;`    |
