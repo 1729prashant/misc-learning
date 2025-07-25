@@ -531,3 +531,178 @@ Complexity:
         - O(h), where h is the height of the tree (stack space)
 
 ```
+
+-
+
+
+
+> **Count nodes in a complete binary tree**
+
+```
+Algorithm C (Count nodes in a complete binary tree)
+Input:
+    - Root: pointer to the root of a complete binary tree
+Output:
+    - Integer count of total nodes in the tree
+
+C1. [Handle empty tree]
+    If Root is nil, return 0
+
+C2. [Compute heights]
+    Set LeftHeight ← ComputeHeight(Root.Left, goLeft=true)
+    Set RightHeight ← ComputeHeight(Root.Right, goLeft=false)
+
+C3. [Check if tree is perfect]
+    If LeftHeight = RightHeight:
+        // Tree is full ⇒ number of nodes is 2^(h+1) - 1
+        Return (1 << (LeftHeight + 1)) - 1
+
+C4. [Recurse for incomplete side]
+    Return 1 + C(Root.Left) + C(Root.Right)
+
+
+Helper Algorithm ComputeHeight(Node, goLeft)
+Input: 
+    - Node: a tree node
+    - goLeft: boolean (true = follow leftmost path, false = rightmost)
+Output:
+    - Height of the path from Node to the bottom
+
+H1. Set height ← 0
+H2. While Node ≠ nil:
+        height ← height + 1
+        If goLeft: Node ← Node.Left
+        Else:      Node ← Node.Right
+H3. Return height
+
+Complexity:
+    Time: O(log² n)
+        Each height computation takes O(log n), and recursion depth is O(log n)
+    Space: O(log n) due to recursion stack
+
+```
+
+
+-
+
+
+> **Find the Lowest Common Ancestor of nodes p and q in a binary tree**
+
+```
+Algorithm L (Find the Lowest Common Ancestor of nodes p and q in a binary tree)
+Input:
+    - root: The root of the binary tree
+    - p, q: The two nodes whose lowest common ancestor we must find
+Output:
+    - The lowest common ancestor node of p and q
+
+L.1: [Base case]
+    If root is nil or root is p or root is q:
+        Return root
+
+L.2: [Search left subtree]
+    Let left ← LCA(root.Left, p, q)
+
+L.3: [Search right subtree]
+    Let right ← LCA(root.Right, p, q)
+
+L.4: [Check whether p and q found in both sides]
+    If left ≠ nil and right ≠ nil:
+        Return root   // This node is the lowest common ancestor
+
+L.5: [Return non-nil side or nil if both nil]
+    If left ≠ nil:
+        Return left
+    Else:
+        Return right
+
+Complexity:
+    Time: O(n) – visits each node once
+    Space: O(h) – where h is the height of the tree (due to recursion stack)
+
+```
+
+-
+
+> **Right Side View of Binary Tree**
+
+```
+Algorithm R (Right side view of a binary tree using level-order traversal)
+Input: 
+    - root: pointer to the root node of a binary tree.
+Output: 
+    - A list of integers representing the visible nodes from the right side, top to bottom.
+
+R.1: [Handle base case]
+    If root = nil:
+        Return []
+
+R.2: [Initialize]
+    Initialize an empty result list → result ← []
+    Initialize a queue Q and enqueue root → Q ← [root]
+
+R.3: [Perform level-order traversal]
+    While Q is not empty:
+        Let n ← length(Q)
+
+        For i ← 0 to n - 1:
+            node ← Q.pop_front()
+
+            If i = n - 1:
+                Append node.Val to result
+
+            If node.Left ≠ nil:
+                Append node.Left to Q
+
+            If node.Right ≠ nil:
+                Append node.Right to Q
+
+R.4: [Return final result]
+    Return result
+
+Complexity:
+    Time: O(n) — Every node is visited exactly once.
+    Space: O(n) — In the worst case, the queue contains all nodes at the deepest level.
+```
+
+
+-
+
+
+> **Average of Levels in Binary Tree**
+
+```
+Algorithm A (Average of node values at each level)
+Input:
+    - root: a pointer to the root node of a binary tree.
+Output:
+    - A list of float values, where the i-th element is the average of values at level i.
+
+A1. [Initialize]
+    If root is nil, return empty list.
+    Create an empty list Result.
+    Initialize a queue Q and enqueue root.
+
+A2. [Process each level]
+    While Q is not empty:
+        Let Size ← length of Q.
+        Let Sum ← 0.
+
+        For i from 1 to Size:
+            Dequeue a node N from Q.
+            Add N.Val to Sum.
+
+            If N.Left is not nil, enqueue N.Left.
+            If N.Right is not nil, enqueue N.Right.
+
+        Append (Sum / Size) to Result.
+
+A3. [Return]
+    Return Result.
+
+Complexity:
+    Time: O(n), where n is the total number of nodes. Each node is visited once.
+    Space: O(w), where w is the maximum width of the tree (max number of nodes at any level).
+
+```
+
