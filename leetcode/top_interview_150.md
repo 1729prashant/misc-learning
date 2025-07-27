@@ -706,3 +706,94 @@ Complexity:
 
 ```
 
+> **Binary Tree Level Order Traversal**
+
+```
+Algorithm L (Level-order traversal of binary tree)  
+Input:  
+    - Root: pointer to the root of a binary tree  
+Output:  
+    - A list of lists of integers, where each sublist contains node values at a given depth level from left to right  
+
+L1. [Handle empty tree]  
+    If Root is nil, return an empty list []  
+
+L2. [Initialize queue and result list]  
+    Let Queue be an empty queue  
+    Enqueue Root to Queue  
+    Let Result be an empty list  
+
+L3. [Traverse levels until queue is empty]  
+    While Queue is not empty:  
+        Let LevelSize ← length of Queue  
+        Let Level ← empty list  
+        Repeat LevelSize times:  
+            Dequeue Node ← Queue.pop()  
+            Append Node.Val to Level  
+            If Node.Left ≠ nil, enqueue Node.Left  
+            If Node.Right ≠ nil, enqueue Node.Right  
+        Append Level to Result  
+
+L4. [Return result]  
+    Return Result  
+
+Complexity:  
+    Time: O(n) — Each node is visited exactly once  
+    Space: O(n) — Queue may store up to n/2 nodes at the last level in the worst case  
+    
+```
+
+-
+
+
+> **Binary Tree Zigzag Level Order Traversal**
+
+```
+Algorithm Z (Zigzag Level Order Traversal of Binary Tree)
+Input:
+    - Root: pointer to the root of a binary tree
+Output:
+    - A list of lists of integers representing zigzag level order traversal
+
+Z1. [Handle empty tree]
+    If Root is nil, return an empty list
+
+Z2. [Initialize structures]
+    Let Result ← empty list
+    Let Queue ← empty queue
+    Enqueue Root into Queue
+    Let LeftToRight ← true   // traversal direction flag
+
+Z3. [Level-order traversal with direction toggle]
+    While Queue is not empty:
+        Let LevelSize ← length of Queue
+        Let Level ← empty list of size LevelSize
+
+        For i from 0 to LevelSize - 1:
+            Dequeue Node from Queue
+
+            If LeftToRight:
+                Set Level[i] ← Node.Val
+            Else:
+                Set Level[LevelSize - 1 - i] ← Node.Val
+
+            If Node.Left ≠ nil: Enqueue Node.Left
+            If Node.Right ≠ nil: Enqueue Node.Right
+
+        Append Level to Result
+        Set LeftToRight ← not LeftToRight
+
+Z4. Return Result
+
+Complexity:
+    Time: O(n), where n is the number of nodes in the tree
+        - Each node is visited once and placed in a level
+    Space: O(n) for the queue and result list
+
+```
+
+
+-
+
+
+> 
