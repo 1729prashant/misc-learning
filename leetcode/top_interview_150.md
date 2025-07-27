@@ -796,4 +796,115 @@ Complexity:
 -
 
 
-> 
+> **Minimum Absolute Difference in BST**
+
+```
+Algorithm D (Minimum Absolute Difference in BST)
+Input:
+    - Root: pointer to the root of a Binary Search Tree
+Output:
+    - Integer representing the minimum absolute difference between values of any two nodes
+
+D1. [Initialize state]
+    Set prev ← nil
+    Set minDiff ← ∞
+
+D2. [In-order traversal]
+    Call InOrder(Root)
+
+D3. [Return result]
+    Return minDiff
+
+
+Helper Algorithm InOrder(Node)
+Input:
+    - Node: a tree node in the BST
+Uses shared variables:
+    - prev: pointer to previously visited node
+    - minDiff: global minimum difference
+
+I1. [Base case]
+    If Node is nil, return
+
+I2. [Left subtree]
+    Call InOrder(Node.Left)
+
+I3. [Visit current node]
+    If prev ≠ nil:
+        diff ← |Node.Val - prev.Val|
+        minDiff ← min(minDiff, diff)
+    Set prev ← Node
+
+I4. [Right subtree]
+    Call InOrder(Node.Right)
+
+Complexity:
+    Time: O(n) — each node visited once in in-order traversal
+    Space: O(h) — recursion stack depth (O(log n) for balanced BST, O(n) worst case)
+
+```
+
+
+-
+
+
+> **Kth Smallest Element in a BST**
+
+```
+Algorithm E (Kth Smallest Element in BST)
+Input:
+    - Root: pointer to the root of a Binary Search Tree
+    - k: integer representing the 1-based index of the smallest element to find
+Output:
+    - The kth smallest value in the BST
+
+E1. [Initialize state]
+    Set count ← 0
+    Set result ← nil
+
+E2. [In-order traversal to find kth smallest]
+    Call InOrder(Root)
+
+E3. [Return result]
+    Return result
+
+
+Helper Algorithm InOrder(Node)
+Input:
+    - Node: a tree node in the BST
+Uses shared variables:
+    - count: tracks how many nodes have been visited
+    - result: stores the kth smallest value
+
+I1. [Base case]
+    If Node is nil or result is already set, return
+
+I2. [Left subtree]
+    Call InOrder(Node.Left)
+
+I3. [Visit current node]
+    count ← count + 1
+    If count = k:
+        result ← Node.Val
+        Return
+
+I4. [Right subtree]
+    Call InOrder(Node.Right)
+
+Complexity:
+    Time: O(h + k) — up to k nodes may be visited along a path of height h (O(log n) in balanced, O(n) in worst case)
+    Space: O(h) — recursion stack (O(log n) in balanced BST)
+
+Follow-up Optimization:
+    - Augment the BST nodes with a `size` field: the number of nodes in the subtree rooted at each node.
+    - This allows finding the kth smallest in O(log n) time:
+        - At each node, compare k with size of left subtree:
+            - If k ≤ size(left), go left
+            - If k = size(left) + 1, return current node
+            - Else go right with adjusted k: k - size(left) - 1
+    - This requires updating the size field on every insert/delete (O(log n) maintenance cost).
+
+```
+
+
+-
