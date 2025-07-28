@@ -908,3 +908,173 @@ Follow-up Optimization:
 
 
 -
+
+
+> **Validate Binary Search Tree**
+
+```
+Algorithm V (Validate if a binary tree is a BST)
+Input:
+    - Root: pointer to the root of a binary tree
+Output:
+    - Boolean indicating whether the tree is a valid BST
+
+V1. [Start validation with full range]
+    Return V-Helper(Root, -∞, +∞)
+
+Helper Algorithm V-Helper(Node, Min, Max)
+Input:
+    - Node: current tree node
+    - Min: minimum allowed value (exclusive)
+    - Max: maximum allowed value (exclusive)
+Output:
+    - Boolean indicating whether subtree rooted at Node is valid
+
+H1. [Base case: empty node]
+    If Node = nil, return true
+
+H2. [Check validity of current node]
+    If Node.Val ≤ Min OR Node.Val ≥ Max, return false
+
+H3. [Recurse on left and right subtree]
+    Return V-Helper(Node.Left, Min, Node.Val) AND
+           V-Helper(Node.Right, Node.Val, Max)
+
+Complexity:
+    Time: O(n), where n is the number of nodes (each node is visited once)
+    Space: O(h), where h is the height of the tree (recursion stack)
+
+```
+
+
+-
+
+
+> **Linked List Cycle**
+
+```
+Algorithm D (Detect cycle in a singly linked list)
+Input:
+    - Head: pointer to the head of the linked list
+Output:
+    - Boolean indicating whether the list contains a cycle
+
+D1. [Initialize two pointers]
+    Set slow ← Head
+    Set fast ← Head
+
+D2. [Traverse list with two speeds]
+    While fast ≠ nil AND fast.Next ≠ nil:
+        slow ← slow.Next
+        fast ← fast.Next.Next
+
+        If slow = fast:
+            Return true    // cycle detected
+
+D3. [No cycle found]
+    Return false
+
+Complexity:
+    Time: O(n), where n is the number of nodes in the list
+    Space: O(1), uses only two pointers
+
+Explanation:
+    This is Floyd’s Tortoise and Hare algorithm.
+    - `slow` moves one step at a time.
+    - `fast` moves two steps at a time.
+    - If there's a cycle, they will eventually meet inside the loop.
+    - If there's no cycle, `fast` will reach the end of the list (nil).
+
+```
+
+
+-
+
+
+>  **Add Two Numbers**
+
+```
+Algorithm A (Add two reversed linked lists representing integers)
+Input:
+    - l1: ListNode pointer to the head of the first linked list (least significant digit first)
+    - l2: ListNode pointer to the head of the second linked list (least significant digit first)
+Output:
+    - A ListNode pointer to the head of a new linked list representing the sum
+
+A1. [Initialize dummy head and carry]
+    Let dummy ← new ListNode(0)
+    Let curr ← dummy
+    Let carry ← 0
+
+A2. [Traverse both lists and compute digit sums]
+    While l1 ≠ nil ∨ l2 ≠ nil ∨ carry ≠ 0, do:
+        Let val1 ← if l1 ≠ nil then l1.Val else 0
+        Let val2 ← if l2 ≠ nil then l2.Val else 0
+
+        Let sum ← val1 + val2 + carry
+        Let carry ← sum div 10
+        Let digit ← sum mod 10
+
+        curr.Next ← new ListNode(digit)
+        curr ← curr.Next
+
+        If l1 ≠ nil, then l1 ← l1.Next  
+        If l2 ≠ nil, then l2 ← l2.Next
+
+A3. [Return result skipping dummy head]
+    Return dummy.Next
+
+Complexity:
+    Time: O(max(m, n)), where m and n are the lengths of the input lists  
+    Space: O(max(m, n)), to store the output list (one node per digit)
+
+```
+
+
+-
+
+
+> **Merge Two Sorted Lists**
+
+```
+Algorithm M (Merge two sorted linked lists)
+Input:
+    - list1: ListNode pointer to the head of the first sorted linked list
+    - list2: ListNode pointer to the head of the second sorted linked list
+Output:
+    - A ListNode pointer to the head of the merged sorted linked list
+
+M1. [Initialize dummy node and tail pointer]
+    Let dummy ← new ListNode(0)
+    Let tail ← dummy
+
+M2. [Traverse both lists and pick the smaller node each time]
+    While list1 ≠ nil ∧ list2 ≠ nil, do:
+        If list1.Val ≤ list2.Val, then:
+            tail.Next ← list1
+            list1 ← list1.Next
+        Else:
+            tail.Next ← list2
+            list2 ← list2.Next
+        tail ← tail.Next
+
+M3. [Append remaining nodes]
+    If list1 ≠ nil, then:
+        tail.Next ← list1
+    Else if list2 ≠ nil, then:
+        tail.Next ← list2
+
+M4. [Return the merged list skipping dummy head]
+    Return dummy.Next
+
+Complexity:
+    Time: O(m + n), where m and n are the lengths of the two input lists  
+    Space: O(1), since merging is done in-place using existing nodes
+
+```
+
+
+-
+
+
+
