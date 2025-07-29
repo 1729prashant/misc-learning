@@ -1077,4 +1077,214 @@ Complexity:
 -
 
 
+> **Copy List with Random Pointer**
+```
+Algorithm D (Deep copy a linked list with next and random pointers)
+Input:
+    - Head: a pointer to the head of a singly linked list where each node has:
+        - Val: an integer
+        - Next: pointer to the next node
+        - Random: pointer to any node or null
+
+Output:
+    - A new head pointer to the deep-copied linked list with identical structure
+
+D1. [Interleave copied nodes into the original list]
+    Set Curr ← Head
+    While Curr ≠ null:
+        Let NewNode ← new Node(Curr.Val)
+        Set NewNode.Next ← Curr.Next
+        Set Curr.Next ← NewNode
+        Set Curr ← NewNode.Next
+
+D2. [Assign random pointers for the copied nodes]
+    Set Curr ← Head
+    While Curr ≠ null:
+        If Curr.Random ≠ null:
+            Set Curr.Next.Random ← Curr.Random.Next
+        Set Curr ← Curr.Next.Next
+
+D3. [Separate the copied list from the original list]
+    Set Curr ← Head
+    Set PseudoHead ← new Node(0)
+    Set CopyCurr ← PseudoHead
+    While Curr ≠ null:
+        Set NextOriginal ← Curr.Next.Next
+
+        Set Copy ← Curr.Next
+        Set CopyCurr.Next ← Copy
+        Set CopyCurr ← Copy
+
+        Set Curr.Next ← NextOriginal
+        Set Curr ← NextOriginal
+
+D4. [Return the head of the copied list]
+    Return PseudoHead.Next
+
+Complexity:
+    Time: O(n)
+        - Each node is visited a constant number of times
+    Space: O(1)
+        - No extra data structures used (copy is done in-place)
+```
+
+
+-
+
+
+> **Reverse Linked List II**
+
+```
+Algorithm R (Reverse sublist from position left to right in a singly linked list)
+Input:
+    - head: the head of a singly linked list
+    - left: integer position to start reversing (1-based)
+    - right: integer position to stop reversing (inclusive, right ≥ left)
+Output:
+    - The head of the modified list with sublist [left, right] reversed
+
+R1. [Handle edge cases]
+    If head is nil or left = right:
+        Return head
+
+R2. [Initialize dummy node]
+    Create dummy node with dummy.Next ← head
+    Set prev ← dummy
+
+R3. [Move prev to node before reversal starts]
+    For i from 1 to left - 1:
+        Set prev ← prev.Next
+
+R4. [Start reversal]
+    Let start ← prev.Next
+    Let then ← start.Next
+
+R5. [Iteratively reverse the sublist]
+    For i from 0 to (right - left - 1):
+        Set start.Next ← then.Next
+        Set then.Next ← prev.Next
+        Set prev.Next ← then
+        Set then ← start.Next
+
+R6. [Return the new head]
+    Return dummy.Next
+
+Complexity:
+    Time: O(n), where n is the number of nodes in the list.
+        We traverse the list at most twice: once to reach `left`, and once to reverse up to `right`.
+    Space: O(1), in-place reversal without extra memory allocation.
+
+```
+
+
+-
+
+
+
+> **Reverse Nodes in k-Group**
+
+```
+Algorithm K (Reverse nodes of the list in groups of size k)
+Input:
+    - head: the head of a singly linked list
+    - k: integer size of groups to reverse
+Output:
+    - The head of the modified list with every k-sized group reversed
+
+K1. [Handle edge cases]
+    If head is nil or k = 1:
+        Return head
+
+K2. [Initialize dummy and pointers]
+    Create dummy node with dummy.Next ← head
+    Set prevGroupEnd ← dummy
+
+K3. [Loop over the list in groups of k]
+    While True:
+        Set kth ← KHelper1(prevGroupEnd, k)
+        If kth is nil:
+            Break
+        Set groupStart ← prevGroupEnd.Next
+        Set nextGroupStart ← kth.Next
+
+K4. [Reverse current group]
+        Set prev ← nextGroupStart
+        Set curr ← groupStart
+        While curr ≠ nextGroupStart:
+            Set temp ← curr.Next
+            Set curr.Next ← prev
+            Set prev ← curr
+            Set curr ← temp
+
+K5. [Reconnect reversed group]
+        Set prevGroupEnd.Next ← kth
+        Set prevGroupEnd ← groupStart
+
+K6. [Return new head]
+    Return dummy.Next
+
+Helper Algorithm KHelper1 (Find the k-th node from current)
+Input:
+    - curr: current node
+    - k: number of steps to move forward
+Output:
+    - Pointer to the k-th node, or nil if fewer than k nodes remain
+
+KHelper1.1:
+    While curr ≠ nil and k > 0:
+        Set curr ← curr.Next
+        Set k ← k - 1
+    Return curr
+
+Complexity:
+    Time: O(n), where n is the number of nodes in the list.
+        Each node is visited a constant number of times (once in group traversal, once in reversal).
+    Space: O(1), in-place reversal without extra memory allocation.
+
+```
+
+
+-
+
+
+> **Remove Nth Node From End of List**
+
+
+```
+Algorithm RNE (Remove N-th node from end in singly linked list)
+Input:
+    - head: the head of a singly linked list
+    - n: an integer indicating which node from the end to remove (1-based)
+Output:
+    - The head of the modified list with the n-th node from the end removed
+
+RNE.1: [Initialize dummy node and two pointers]
+    Create dummy node with dummy.Next ← head
+    Set first ← dummy
+    Set second ← dummy
+
+RNE.2: [Advance first pointer by n + 1 steps]
+    For i from 0 to n:
+        Set first ← first.Next
+
+RNE.3: [Move both pointers until first reaches end]
+    While first ≠ nil:
+        Set first ← first.Next
+        Set second ← second.Next
+
+RNE.4: [Remove target node]
+    Set second.Next ← second.Next.Next
+
+RNE.5: [Return updated list]
+    Return dummy.Next
+
+Complexity:
+    Time: O(n), where n is the length of the list — single traversal.
+    Space: O(1), only constant extra pointers used.
+
+```
+
+
+-
+
 
