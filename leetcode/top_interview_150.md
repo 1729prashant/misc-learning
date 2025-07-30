@@ -1288,3 +1288,217 @@ Complexity:
 -
 
 
+
+> **Remove Duplicates from Sorted List II**
+
+```
+Algorithm D (Delete all duplicates in a sorted singly linked list, keeping only distinct numbers)
+Input:
+    - head: the head of a sorted singly linked list
+Output:
+    - The head of the modified list with only unique elements retained
+
+D1. [Handle edge cases]
+    If head is nil or head.Next is nil:
+        Return head
+
+D2. [Initialize dummy node and pointers]
+    Create dummy node with dummy.Next ← head
+    Set prev ← dummy
+    Set curr ← head
+
+D3. [Traverse the list]
+    While curr is not nil:
+        If curr.Next is not nil and curr.Val = curr.Next.Val:
+            Let duplicateVal ← curr.Val
+            While curr is not nil and curr.Val = duplicateVal:
+                Set curr ← curr.Next
+            Set prev.Next ← curr
+        Else:
+            Set prev ← curr
+            Set curr ← curr.Next
+
+D4. [Return the new head]
+    Return dummy.Next
+
+Complexity:
+    Time: O(n), where n is the number of nodes in the list.
+        We perform a single pass through the list.
+    Space: O(1), all operations are done in-place using pointers.
+
+```
+
+
+-
+
+
+
+
+> **Rotate List**
+
+```
+Algorithm R (Rotate a singly linked list to the right by k places)
+Input:
+    - head: the head of a singly linked list
+    - k: number of positions to rotate the list to the right
+Output:
+    - The head of the rotated linked list
+
+R1. [Handle edge cases]
+    If head is nil or head.Next is nil or k = 0:
+        Return head
+
+R2. [Compute the length of the list and connect tail to head]
+    Set length ← 1
+    Set tail ← head
+    While tail.Next ≠ nil:
+        Set tail ← tail.Next
+        Increment length
+    Set tail.Next ← head  // Make the list circular
+
+R3. [Compute new tail position after rotation]
+    Set k ← k mod length
+    Set stepsToNewTail ← length - k
+
+R4. [Find the new tail and new head]
+    Set newTail ← head
+    For i from 1 to stepsToNewTail - 1:
+        Set newTail ← newTail.Next
+    Set newHead ← newTail.Next
+
+R5. [Break the circular link]
+    Set newTail.Next ← nil
+
+R6. [Return the new head]
+    Return newHead
+
+Complexity:
+    Time: O(n), where n is the number of nodes in the list.
+        We traverse the list twice: once to find the length, once to find the new tail.
+    Space: O(1), all operations are done in-place using pointers.
+
+```
+
+
+-
+
+
+
+
+> **Partition List**
+
+```
+Algorithm P (Partition a linked list around a value x preserving relative order)
+Input:
+    - head: the head of a singly linked list
+    - x: integer value to partition around
+Output:
+    - The head of the modified list where nodes < x come before nodes ≥ x
+
+P1. [Handle edge cases]
+    If head is nil or head.Next is nil:
+        Return head
+
+P2. [Initialize two dummy lists]
+    Create dummyLess and dummyGreater as new nodes
+    Set less ← dummyLess
+    Set greater ← dummyGreater
+
+P3. [Traverse and partition the original list]
+    Set curr ← head
+    While curr ≠ nil:
+        If curr.Val < x:
+            Set less.Next ← curr
+            Set less ← less.Next
+        Else:
+            Set greater.Next ← curr
+            Set greater ← greater.Next
+        Set curr ← curr.Next
+
+P4. [Connect partitions and terminate the list]
+    Set greater.Next ← nil
+    Set less.Next ← dummyGreater.Next
+
+P5. [Return new head]
+    Return dummyLess.Next
+
+Complexity:
+    Time: O(n), where n is the number of nodes in the list.
+        We traverse the list once.
+    Space: O(1), extra space is used only for constant number of pointers.
+
+```
+
+
+-
+
+
+
+
+> **LRU Cache**
+
+```
+Algorithm L (Design a Least Recently Used Cache with O(1) operations)
+Input:
+    - capacity: maximum number of key-value pairs the cache can hold
+Operations:
+    - get(key): return value if key exists, else return -1
+    - put(key, value): insert/update key with value and evict LRU if over capacity
+
+Data Structures:
+    - A hashmap `cache` mapping key → node for O(1) access
+    - A doubly linked list with dummy head and tail to maintain usage order:
+        Most recently used at head.Next, least recently used at tail.Prev
+
+L1. [Define node structure]
+    Each node stores: key, value, prev, next
+
+L2. [Initialize the cache]
+    Create:
+        - hashmap `cache` ← empty
+        - dummyHead and dummyTail nodes
+        - Connect dummyHead.Next ← dummyTail and dummyTail.Prev ← dummyHead
+        - Store `capacity` as given
+
+L3. [Define helper: removeNode(node)]
+    node.Prev.Next ← node.Next
+    node.Next.Prev ← node.Prev
+
+L4. [Define helper: insertToFront(node)]
+    node.Next ← dummyHead.Next
+    node.Prev ← dummyHead
+    dummyHead.Next.Prev ← node
+    dummyHead.Next ← node
+
+L5. [Define get(key)]
+    If key ∉ cache:
+        Return -1
+    Else:
+        node ← cache[key]
+        Call removeNode(node)
+        Call insertToFront(node)
+        Return node.Value
+
+L6. [Define put(key, value)]
+    If key ∈ cache:
+        node ← cache[key]
+        node.Value ← value
+        Call removeNode(node)
+        Call insertToFront(node)
+    Else:
+        If len(cache) = capacity:
+            lru ← dummyTail.Prev
+            Call removeNode(lru)
+            Delete cache[lru.Key]
+        Create node with key and value
+        Call insertToFront(node)
+        Set cache[key] ← node
+
+Complexity:
+    Time: O(1) for both get and put due to hashmap and doubly linked list.
+    Space: O(capacity), storing up to capacity key-node pairs.
+
+```
+
+
+-
