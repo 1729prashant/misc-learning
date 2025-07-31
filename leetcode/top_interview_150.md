@@ -1502,3 +1502,161 @@ Complexity:
 
 
 -
+
+
+
+
+> **Merge Sorted Array**
+
+```
+Algorithm M (Merge two sorted arrays nums1 and nums2 into nums1 in-place)
+Input:
+    - nums1: integer array of size m + n, with first m elements valid, rest zeros
+    - m: number of valid elements in nums1
+    - nums2: integer array of size n
+    - n: number of elements in nums2
+Output:
+    - nums1 modified in-place to hold all m + n elements in non-decreasing order
+
+M1. [Initialize pointers]
+    Set i ← m - 1      // Last valid element in nums1
+    Set j ← n - 1      // Last element in nums2
+    Set k ← m + n - 1  // End of nums1 array
+
+M2. [Merge from the back]
+    While i ≥ 0 and j ≥ 0:
+        If nums1[i] > nums2[j]:
+            Set nums1[k] ← nums1[i]
+            Decrement i
+        Else:
+            Set nums1[k] ← nums2[j]
+            Decrement j
+        Decrement k
+
+M3. [Copy remaining nums2 elements if any]
+    While j ≥ 0:
+        Set nums1[k] ← nums2[j]
+        Decrement j
+        Decrement k
+
+M4. [No need to copy remaining nums1 elements]
+    Since nums1 elements are already in place
+
+Complexity:
+    Time: O(m + n), we traverse both arrays once from the end.
+    Space: O(1), done in-place without extra memory.
+
+```
+
+
+-
+
+
+
+> **Remove Element**
+
+```
+Algorithm R (Remove all occurrences of a value from an array in-place)
+Input:
+    - nums: integer array
+    - val: integer, value to remove
+Output:
+    - k: number of elements in nums not equal to val
+    - nums modified in-place with first k elements not equal to val
+
+R1. [Initialize write pointer]
+    Set k ← 0  // Index to write the next valid element
+
+R2. [Traverse the array]
+    For i from 0 to length(nums) - 1:
+        If nums[i] ≠ val:
+            Set nums[k] ← nums[i]
+            Increment k
+
+R3. [Ignore elements beyond k]
+    The elements after index k are irrelevant and can be ignored
+
+Complexity:
+    Time: O(n), where n is the length of nums — each element is visited once.
+    Space: O(1), performed in-place without additional memory.
+
+```
+
+
+-
+
+
+
+> **Remove Duplicates from Sorted Array**
+
+```
+Algorithm D (Remove duplicates from sorted array in-place)
+Input:
+    - nums: integer array sorted in non-decreasing order
+Output:
+    - k: number of unique elements in nums
+    - nums modified in-place so first k elements are unique, in original order
+
+D1. [Handle empty array]
+    If length(nums) = 0:
+        Return 0
+
+D2. [Initialize write pointer]
+    Set k ← 1  // Index for placing next unique element
+
+D3. [Traverse array and copy unique elements]
+    For i from 1 to length(nums) - 1:
+        If nums[i] ≠ nums[i - 1]:
+            Set nums[k] ← nums[i]
+            Increment k
+
+D4. [Remaining elements are irrelevant]
+    Only first k elements are relevant in nums
+
+Complexity:
+    Time: O(n), where n is the length of nums — each element is visited once.
+    Space: O(1), performed in-place without additional memory.
+
+```
+
+
+-
+
+
+
+> **Remove Duplicates from Sorted Array II**
+
+```
+Algorithm D2 (Remove duplicates from sorted array, allow at most 2 occurrences)
+Input:
+    - nums: integer array sorted in non-decreasing order
+Output:
+    - k: number of elements after removing extra duplicates, max 2 per unique value
+    - nums modified in-place so first k elements are valid
+
+D2.1: [Handle short arrays]
+    If length(nums) ≤ 2:
+        Return length(nums)
+
+D2.2: [Initialize write pointer]
+    Set k ← 2  // First two elements are always valid
+
+D2.3: [Traverse from the 3rd element]
+    For i from 2 to length(nums) - 1:
+        If nums[i] ≠ nums[k - 2]:
+            Set nums[k] ← nums[i]
+            Increment k
+
+D2.4: [Return new length]
+    Return k
+
+Complexity:
+    Time: O(n), single pass over nums
+    Space: O(1), in-place update
+
+```
+
+
+-
+
+
