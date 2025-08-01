@@ -1660,3 +1660,218 @@ Complexity:
 -
 
 
+> **Majority Element**
+
+```
+Algorithm M (Find majority element using Boyer-Moore Voting)
+Input:
+    - nums: integer array of size n
+Output:
+    - Majority element (appears more than ⌊n / 2⌋ times)
+
+M.1: [Initialize candidate and count]
+    Set candidate ← nums[0]
+    Set count ← 1
+
+M.2: [Iterate through array]
+    For i from 1 to length(nums) - 1:
+        If count == 0:
+            candidate ← nums[i]
+            count ← 1
+        Else if nums[i] == candidate:
+            count ← count + 1
+        Else:
+            count ← count - 1
+
+M.3: [Return candidate]
+    Return candidate
+
+Complexity:
+    Time: O(n)
+    Space: O(1)
+
+```
+
+
+-
+
+
+> **Rotate Array**
+
+```
+Algorithm R (Rotate Array Right by k steps using reverse)
+Input:
+    - nums: integer array of size n
+    - k: number of steps to rotate (non-negative)
+Output:
+    - nums modified in-place with elements rotated right by k steps
+
+R.1: [Normalize k]
+    Set k ← k mod n
+
+R.2: [Reverse entire array]
+    Reverse(nums, 0, n - 1)
+
+R.3: [Reverse first k elements]
+    Reverse(nums, 0, k - 1)
+
+R.4: [Reverse remaining elements]
+    Reverse(nums, k, n - 1)
+
+Helper Algorithm Reverse(A, left, right)
+    While left < right:
+        Swap A[left] and A[right]
+        left ← left + 1
+        right ← right - 1
+
+Complexity:
+    Time: O(n)
+    Space: O(1)
+
+```
+
+
+-
+
+
+> **Best Time to Buy and Sell Stock**
+
+```
+Algorithm M (Maximize Single Buy-Sell Stock Profit)
+Input:
+    - prices: array of integers representing stock prices on each day
+Output:
+    - Maximum profit from a single buy-sell transaction (integer)
+
+M.1: [Initialize]
+    minPrice ← ∞
+    maxProfit ← 0
+
+M.2: [Iterate through price array]
+    For each price in prices:
+        If price < minPrice:
+            minPrice ← price
+        Else if price - minPrice > maxProfit:
+            maxProfit ← price - minPrice
+
+M.3: [Return result]
+    Return maxProfit
+
+Complexity:
+    Time: O(n)
+    Space: O(1)
+
+```
+
+
+-
+
+
+> **Best Time to Buy and Sell Stock II**
+
+```
+Algorithm MP (Maximize profit from multiple stock trades)
+Input:
+    - prices: array of integers where prices[i] is the stock price on day i
+Output:
+    - Maximum total profit achievable through multiple transactions
+
+MP1. [Handle edge case]
+    If length of prices ≤ 1:
+        Return 0
+
+MP2. [Initialize profit counter]
+    Set profit ← 0
+
+MP3. [Iterate through price array and accumulate upward differences]
+    For i from 1 to length(prices) - 1:
+        If prices[i] > prices[i - 1]:
+            Set profit ← profit + (prices[i] - prices[i - 1])
+
+MP4. [Return final profit]
+    Return profit
+
+Complexity:
+    Time: O(n), where n is the number of days — one pass through the prices.
+    Space: O(1), only a single integer is used for accumulation.
+
+```
+
+
+-
+
+
+> **Jump Game**
+
+```
+Algorithm J (Check if end of array is reachable via jumps)
+Input:
+    - nums: array of integers where nums[i] is max jump length at index i
+Output:
+    - true if last index is reachable, false otherwise
+
+J1. [Handle trivial case]
+    If length of nums ≤ 1:
+        Return true
+
+J2. [Initialize farthest reachable index]
+    Set farthest ← 0
+
+J3. [Iterate through array and update farthest reachable position]
+    For i from 0 to length(nums) - 1:
+        If i > farthest:
+            Return false
+        Set farthest ← max(farthest, i + nums[i])
+        If farthest ≥ length(nums) - 1:
+            Return true
+
+J4. [Final check]
+    Return false
+
+Complexity:
+    Time: O(n), where n is the length of nums — single pass through the array.
+    Space: O(1), only one integer is used for tracking progress.
+
+```
+
+
+-
+
+
+> **Jump Game II**
+
+```
+Algorithm M (Compute minimum jumps to reach end of array)
+Input:
+    - nums: array of integers where nums[i] is max jump length at index i
+Output:
+    - Minimum number of jumps to reach last index
+
+M1. [Initialize jump counters and window]
+    Set jumps ← 0
+    Set currentEnd ← 0
+    Set farthest ← 0
+
+M2. [Iterate through array to find jump boundaries]
+    For i from 0 to length(nums) - 2:
+        Set farthest ← max(farthest, i + nums[i])
+        If i == currentEnd:
+            Set jumps ← jumps + 1
+            Set currentEnd ← farthest
+
+M3. [Return total jumps needed]
+    Return jumps
+
+Complexity:
+    Time: O(n), where n is the length of nums — we scan the array once.
+    Space: O(1), constant space is used for tracking jumps and bounds.
+
+
+```
+
+
+-
+
+
+
+
