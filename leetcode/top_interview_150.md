@@ -1874,4 +1874,377 @@ Complexity:
 
 
 
+> **H-Index**
 
+```
+Algorithm H (Compute h-index from citation counts)
+
+Input:
+    - citations: an array of integers of length n, where citations[i] is the number of citations for the ith paper.
+
+Output:
+    - The h-index of the researcher.
+
+H1. [Sort the citations in descending order]  
+    Sort citations in non-increasing order and store in sortedCitations.
+
+H2. [Initialize h-index counter]  
+    Set h ← 0
+
+H3. [Scan sorted list and determine h-index]  
+    For i from 0 to n − 1:
+        If sortedCitations[i] ≥ i + 1:
+            Set h ← i + 1
+        Else:
+            Break the loop
+
+H4. [Return h-index]  
+    Return h
+
+Complexity:  
+    Time: O(n log n) due to sorting  
+    Space: O(n) if a new array is made during sorting; O(1) if sorting in-place
+
+```
+
+
+-
+
+
+
+
+
+
+> **H-Index**
+
+```
+Algorithm H' (Compute h-index with counting)
+
+Input:
+    - citations: an array of n non-negative integers representing citation counts
+
+Output:
+    - h-index value (integer)
+
+H'.1: [Initialize count buckets]
+    Create count array of size n + 1 and initialize all to 0
+
+H'.2: [Bucket citation counts]
+    For each citation c in citations:
+        If c ≥ n:
+            Increment count[n]
+        Else:
+            Increment count[c]
+
+H'.3: [Walk from high to low and accumulate]
+    Set total ← 0
+    For i from n down to 0:
+        total ← total + count[i]
+        If total ≥ i:
+            Return i
+
+H'.4: [Default return]
+    Return 0  // This should never be reached given problem constraints
+
+Complexity:
+    Time: O(n)
+    Space: O(n)
+
+```
+
+
+-
+
+
+
+> **Insert Delete GetRandom O(1)**
+
+```
+Algorithm R (RandomizedSet with O(1) insert, remove, and getRandom)
+Input:
+    A dynamic stream of operations on a set of integers: Insert(val), Remove(val), GetRandom()
+
+Output:
+    Result of each operation: true/false for Insert and Remove, integer for GetRandom
+
+Data Structures:
+    nums: dynamic array of integers
+    idxMap: hashmap mapping int → index in nums
+
+R.1: Initialize the RandomizedSet
+    Set nums ← empty list
+    Set idxMap ← empty map
+
+R.2: Insert(val)
+    If val ∈ idxMap:
+        Return false
+    Append val to nums
+    Let i ← length(nums) − 1
+    Set idxMap[val] ← i
+    Return true
+
+R.3: Remove(val)
+    If val ∉ idxMap:
+        Return false
+    Let i ← idxMap[val]
+    Let last ← nums[length(nums) − 1]
+    Replace nums[i] ← last
+    Set idxMap[last] ← i
+    Remove last element from nums
+    Delete idxMap[val]
+    Return true
+
+R.4: GetRandom()
+    Let r ← random integer in [0, length(nums) − 1]
+    Return nums[r]
+
+Time Complexity:
+    Insert: O(1) average
+    Remove: O(1) average
+    GetRandom: O(1)
+
+Space Complexity:
+    O(n) for both nums and idxMap, where n = number of elements in set
+
+
+```
+
+
+-
+
+
+
+> **Product of Array Except Self**
+
+```
+Algorithm P (Product of Array Except Self, without division, O(n) time)
+Input:
+    nums: an array of integers of length n
+
+Output:
+    answer: an array where answer[i] = product of all nums[j] for j ≠ i
+
+P.1: Initialize output and prefix product array
+    Let n ← length of nums
+    Let answer ← array of size n initialized to 1
+
+P.2: Compute prefix products for each index
+    Let prefix ← 1
+    For i ← 0 to n−1 do:
+        Set answer[i] ← prefix
+        Set prefix ← prefix × nums[i]
+
+P.3: Compute suffix products and multiply with prefix products
+    Let suffix ← 1
+    For i ← n−1 downto 0 do:
+        Set answer[i] ← answer[i] × suffix
+        Set suffix ← suffix × nums[i]
+
+P.4: Return the answer array
+    Return answer
+
+Time Complexity: O(n)
+Space Complexity: O(1) extra space (excluding output array)
+
+```
+
+
+-
+
+
+
+> **Gas Station**
+
+```
+Algorithm G (Gas Station Circuit Feasibility)
+Input:
+    gas: array of integers where gas[i] is amount of gas at station i
+    cost: array of integers where cost[i] is gas needed to go from i to (i+1)%n
+
+Output:
+    index of the starting station if the circuit can be completed, otherwise -1
+
+G.1: Initialize total and current tank gas
+    Let n ← length of gas
+    Let total ← 0     // tracks net gas over entire circuit
+    Let tank ← 0      // tracks gas in tank on current path
+    Let start ← 0     // candidate starting index
+
+G.2: Traverse each station from 0 to n−1
+    For i ← 0 to n−1 do:
+        Let gain ← gas[i] − cost[i]
+        Set tank ← tank + gain
+        Set total ← total + gain
+        If tank < 0 then:
+            Set start ← i + 1
+            Set tank ← 0
+
+G.3: Check if total gas is non-negative
+    If total < 0 then:
+        Return -1
+    Else:
+        Return start
+
+Time Complexity: O(n)
+Space Complexity: O(1)
+
+```
+
+
+-
+
+
+
+> **Candy**
+
+```
+Algorithm C (Candy Distribution with Rating Constraints)
+Input:
+    ratings: array of integers of length n, where ratings[i] is the rating of the i-th child
+
+Output:
+    Minimum total number of candies needed to satisfy all conditions
+
+C.1: Initialize base candy distribution
+    Let n ← length of ratings
+    Let candies[0...n−1] ← array initialized with 1 for all positions
+
+C.2: Left-to-right pass to ensure increasing ratings get more candies
+    For i ← 1 to n−1 do:
+        If ratings[i] > ratings[i−1] then:
+            Set candies[i] ← candies[i−1] + 1
+
+C.3: Right-to-left pass to ensure decreasing ratings still get more candies
+    For i ← n−2 down to 0 do:
+        If ratings[i] > ratings[i+1] then:
+            Set candies[i] ← max(candies[i], candies[i+1] + 1)
+
+C.4: Sum and return total candies
+    Return sum of all elements in candies
+
+Time Complexity: O(n)  
+Space Complexity: O(n)
+
+```
+
+
+-
+
+
+
+> **Trapping Rain Water**
+
+```
+Algorithm T (Trapping Rain Water with Two Pointers)
+Input:
+    height: array of non-negative integers of length n representing elevation heights
+
+Output:
+    Total water trapped between the bars after raining
+
+T.1: Initialize pointers and state
+    Let n ← length of height
+    If n < 3 then return 0
+    Let left ← 0, right ← n−1
+    Let leftMax ← 0, rightMax ← 0
+    Let water ← 0
+
+T.2: Move pointers inward while computing trapped water
+    While left < right do:
+        If height[left] < height[right] then:
+            If height[left] ≥ leftMax then:
+                Set leftMax ← height[left]
+            Else:
+                Set water ← water + (leftMax − height[left])
+            Increment left ← left + 1
+        Else:
+            If height[right] ≥ rightMax then:
+                Set rightMax ← height[right]
+            Else:
+                Set water ← water + (rightMax − height[right])
+            Decrement right ← right − 1
+
+T.3: Return accumulated water
+    Return water
+
+Time Complexity: O(n)  
+Space Complexity: O(1)
+
+```
+
+
+-
+
+
+
+> **Roman to Integer**
+
+```
+Algorithm R (Roman to Integer Conversion)
+Input:
+    s: A Roman numeral string of length n
+
+Output:
+    The corresponding integer value
+
+R.1: Define symbol-to-value map
+    Let value be a map from rune to integer:
+        'I' → 1, 'V' → 5, 'X' → 10, 'L' → 50,
+        'C' → 100, 'D' → 500, 'M' → 1000
+
+R.2: Initialize total and iterate
+    Let total ← 0
+    Let n ← length of s
+    For i ← 0 to n−1 do:
+        If i < n−1 and value[s[i]] < value[s[i+1]] then:
+            total ← total − value[s[i]]  // subtraction case
+        Else:
+            total ← total + value[s[i]]  // normal case
+
+R.3: Return total
+    Return total
+
+Time Complexity: O(n)  
+Space Complexity: O(1)
+
+```
+
+
+-
+
+
+
+> **Integer to Roman**
+
+```
+Algorithm T (Integer to Roman Numeral Conversion)
+Input:
+    num: A positive integer in range [1, 3999]
+
+Output:
+    A string representing the Roman numeral of the input integer
+
+T.1: Prepare value-symbol pairs
+    Let vals ← [1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1]
+    Let syms ← ["M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"]
+
+T.2: Initialize result string
+    Let res ← ""
+
+T.3: Construct Roman numeral greedily
+    For i ← 0 to 12 do:
+        While num ≥ vals[i] do:
+            res ← res + syms[i]
+            num ← num − vals[i]
+
+T.4: Return result
+    Return res
+
+Time Complexity: O(1)  
+    (since maximum 13 iterations and Roman numerals are bounded for num ∈ [1, 3999])  
+Space Complexity: O(1)
+
+```
+
+
+-
