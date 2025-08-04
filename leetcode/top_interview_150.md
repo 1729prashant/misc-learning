@@ -2248,3 +2248,296 @@ Space Complexity: O(1)
 
 
 -
+
+
+> **Length of Last Word**
+
+```
+Algorithm L (Length of Last Word)
+Input:
+    s: A string consisting of letters and space characters
+
+Output:
+    An integer representing the length of the last word in the string
+
+L.1: Initialize index to end of string
+    Let i ← len(s) − 1
+
+L.2: Skip trailing spaces
+    While i ≥ 0 and s[i] = ' ' do:
+        i ← i − 1
+
+L.3: Count characters of the last word
+    Let length ← 0
+    While i ≥ 0 and s[i] ≠ ' ' do:
+        length ← length + 1
+        i ← i − 1
+
+L.4: Return the length
+    Return length
+
+Time Complexity: O(n) where n is the length of the string  
+Space Complexity: O(1)
+
+```
+
+
+-
+
+> **Longest Common Prefix**
+
+```
+Algorithm P (Longest Common Prefix)
+Input:
+    strs: An array of strings of length n
+
+Output:
+    A string representing the longest common prefix shared among all strings in strs
+
+P.1: Handle empty input
+    If n = 0 then:
+        Return ""
+
+P.2: Initialize prefix
+    Let prefix ← strs[0]
+
+P.3: Iterate over remaining strings
+    For i ← 1 to n−1 do:
+        While strs[i] does not start with prefix do:
+            Remove last character from prefix
+            If prefix = "" then:
+                Return ""
+
+P.4: Return prefix
+    Return prefix
+
+Time Complexity: O(S) where S is the sum of all characters in all strings (in worst case all characters are compared)
+Space Complexity: O(1) extra space (modifies prefix in-place)
+
+
+
+Algorithm P (Longest Common Prefix Without Built-in Prefix Check)
+Input:
+    strs: An array of strings of length n
+
+Output:
+    A string representing the longest common prefix shared among all strings in strs
+
+P.1: Handle empty input
+    If n = 0 then:
+        Return ""
+
+P.2: Initialize prefix
+    Let prefix ← strs[0]
+
+P.3: Iterate over remaining strings
+    For i ← 1 to n−1 do:
+        While not IsPrefix(strs[i], prefix) do:
+            Remove last character from prefix
+            If prefix = "" then:
+                Return ""
+
+P.4: Return prefix
+    Return prefix
+
+Helper Algorithm IsPrefix(s, p)
+Input:
+    s: a string
+    p: a potential prefix
+
+Output:
+    true if p is a prefix of s; false otherwise
+
+IsPrefix.1: If len(p) > len(s), return false  
+IsPrefix.2: For j ← 0 to len(p)−1 do:
+    If s[j] ≠ p[j], return false
+IsPrefix.3: Return true
+
+Time Complexity: O(S) where S is total characters compared across all strings  
+Space Complexity: O(1) auxiliary space
+
+```
+
+
+-
+
+> **Reverse Words in a String**
+
+```
+Algorithm W (Reverse the order of words in a string)
+Input:
+    - s: a string possibly containing multiple spaces and words
+Output:
+    - A string with words in reversed order, separated by a single space
+
+W1. [Trim and split]
+    Remove leading and trailing spaces from s
+    Initialize an empty list words ← []
+    Set i ← 0
+    While i < len(s):
+        If s[i] = ' ':
+            Increment i
+            Continue
+        Set j ← i
+        While j < len(s) and s[j] ≠ ' ':
+            Increment j
+        Append s[i:j] to words
+        Set i ← j
+
+W2. [Reverse the words]
+    Reverse the list words in-place
+
+W3. [Join and return]
+    Return the result of joining the words list with a single space
+
+Complexity:
+    Time: O(n), where n is the length of the input string.
+        - One pass to split words (skip extra spaces)
+        - One pass to reverse
+        - One pass to join
+    Space: O(n), to store the words in a list and the resulting string.
+
+```
+
+
+-
+
+> **Zigzag Conversion**
+
+```
+Algorithm Z (Zigzag convert string into given number of rows)
+
+Input:
+    - s: string to convert
+    - numRows: number of rows in zigzag pattern
+
+Output:
+    - A string that reads the zigzag pattern line by line
+
+Z.1: [Edge case]
+    If numRows = 1 or len(s) ≤ numRows:
+        Return s
+
+Z.2: [Initialize row buffers]
+    Create a list rows with numRows empty strings
+    Set currentRow ← 0
+    Set goingDown ← false
+
+Z.3: [Distribute characters]
+    For each character c in s:
+        Append c to rows[currentRow]
+        If currentRow = 0 or currentRow = numRows - 1:
+            Flip goingDown
+        If goingDown:
+            currentRow ← currentRow + 1
+        Else:
+            currentRow ← currentRow - 1
+
+Z.4: [Concatenate rows]
+    Join all rows into a single string and return
+
+Time Complexity: O(n), where n is len(s)
+Space Complexity: O(n), to hold the final result and intermediate rows
+
+```
+
+
+-
+
+> **Find the Index of the First Occurrence in a String**
+
+```
+Algorithm F (Find the index of the first occurrence of needle in haystack)
+
+Input:
+    - haystack: string to search within
+    - needle: string to search for
+
+Output:
+    - Index of first occurrence of needle in haystack, or -1 if not found
+
+F1. [Handle edge case]
+    If len(needle) = 0:
+        Return 0
+
+F2. [Iterate through haystack]
+    For i ← 0 to len(haystack) - len(needle):
+        If haystack[i : i + len(needle)] = needle:
+            Return i
+
+F3. [Not found]
+    Return -1
+
+Time Complexity: O(n * m), where n = len(haystack), m = len(needle)
+    - Worst-case comparison of m characters at n - m + 1 positions
+Space Complexity: O(1)
+
+```
+
+
+-
+
+> **Text Justification**
+
+```
+Algorithm J (Justify text with even spaces, fitting each line into maxWidth)
+
+Input:
+    - words: list of strings (non-space words)
+    - maxWidth: integer specifying the width of each line
+
+Output:
+    - A list of strings, each fully justified to maxWidth
+
+J1. [Initialize]
+    result ← empty list
+    i ← 0
+
+J2. [Build lines greedily]
+    While i < len(words):
+        - lineLen ← len(words[i])
+        - j ← i + 1
+        While j < len(words) and lineLen + 1 + len(words[j]) ≤ maxWidth:
+            lineLen ← lineLen + 1 + len(words[j])
+            j ← j + 1
+
+        - lineWords ← words[i:j]
+        - isLast ← j = len(words)
+
+J3. [Format current line]
+    If isLast OR len(lineWords) = 1:
+        - line ← join(lineWords with single space)
+        - Add spaces at end to make line length = maxWidth
+    Else:
+        - totalSpaces ← maxWidth − totalCharsIn(lineWords)
+        - slots ← len(lineWords) − 1
+        - baseSpace ← totalSpaces ÷ slots
+        - extra ← totalSpaces mod slots
+
+        - For each word in lineWords:
+            Add baseSpace spaces (plus one extra if leftmost slot < extra)
+
+J4. [Add to result]
+    Append line to result
+    Set i ← j and repeat from J2
+
+J5. [Return result]
+    Return result
+
+Complexity:
+    Time: O(n), where n is total number of characters in all words
+    Space: O(n), for the output list of lines
+
+```
+
+
+-
+
+> ****
+
+```
+
+```
+
+
+-
