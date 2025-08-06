@@ -2533,6 +2533,238 @@ Complexity:
 
 -
 
+
+> **Palindrome Number**
+
+```
+Algorithm P (Check if an integer is a palindrome)
+Input:
+    - x: an integer
+Output:
+    - true if x is a palindrome; false otherwise
+
+P1. [Handle edge cases]
+    If x < 0 or (x ≠ 0 and x mod 10 = 0):
+        Return false
+    // Negative numbers and numbers ending in 0 (but not 0 itself) can't be palindromes
+
+P2. [Initialize variables]
+    Set reverted ← 0
+
+P3. [Reverse half of the digits]
+    While x > reverted:
+        Set reverted ← reverted × 10 + x mod 10
+        Set x ← x ÷ 10
+
+P4. [Check for palindrome]
+    If x = reverted or x = reverted ÷ 10:
+        Return true
+    Else:
+        Return false
+
+Complexity:
+    Time: O(log₁₀(n)), where n is the input number x. We reverse at most half the digits.
+    Space: O(1), using constant space.
+
+```
+
+
+-
+
+
+> **Plus One**
+
+```
+Algorithm I (Increment large integer represented as an array)
+Input:
+    - digits: array of integers where each element is a digit (most significant first)
+Output:
+    - new array representing the integer + 1
+
+I1. [Traverse digits from right to left]
+    For i ← len(digits) - 1 downto 0:
+        If digits[i] < 9:
+            Increment digits[i] by 1
+            Return digits
+        Else:
+            Set digits[i] ← 0
+    // If loop completes, all digits were 9
+
+I2. [All digits were 9, handle overflow]
+    Prepend 1 to digits
+    Return [1] + digits
+
+Complexity:
+    Time: O(n), where n is the length of digits
+    Space: O(n), worst case when carry propagates through all digits
+
+```
+
+
+-
+
+
+> **Factorial Trailing Zeroes**
+
+```
+Algorithm T (Count trailing zeroes in factorial)
+Input: Integer n (where 0 ≤ n ≤ 10⁴)
+Output: Number of trailing zeroes in n!
+
+T.1: Initialize counter
+    Let count ← 0
+
+T.2: Count multiples of 5, 25, 125, ...
+    While n ≥ 5 do
+        n ← floor(n / 5)
+        count ← count + n
+
+T.3: Return result
+    Return count
+
+Time Complexity: O(log₅(n))
+Space Complexity: O(1)
+
+```
+
+
+-
+
+
+> **Sqrt(x)**
+
+```
+Algorithm S (Integer square root using binary search)
+Input: Integer x (x ≥ 0)
+Output: ⌊√x⌋ (square root of x rounded down)
+
+S.1: Handle edge case
+    If x < 2, return x
+
+S.2: Initialize binary search bounds
+    Let left ← 1
+    Let right ← x / 2
+
+S.3: Perform binary search
+    While left ≤ right do
+        Let mid ← (left + right) / 2
+        Let midSquared ← mid × mid
+
+        If midSquared = x
+            Return mid
+
+        If midSquared < x
+            Let left ← mid + 1
+            Let answer ← mid
+        Else
+            Let right ← mid - 1
+
+S.4: Return final answer
+    Return answer
+
+Time Complexity: O(log x)  
+Space Complexity: O(1)
+
+```
+
+
+-
+
+
+> **Pow(x, n)**
+
+```
+Algorithm P (Power: Compute xⁿ efficiently)
+Input: float x, integer n
+Output: x raised to power n (i.e., xⁿ)
+
+P.1: Handle base case
+    If n = 0, return 1
+
+P.2: Handle negative exponent
+    If n < 0
+        Set x ← 1 / x
+        Set n ← -n
+
+P.3: Initialize result
+    Let result ← 1.0
+
+P.4: Iteratively square x and halve n
+    While n > 0 do
+        If n is odd
+            Set result ← result × x
+        Set x ← x × x
+        Set n ← n / 2
+
+P.5: Return result
+    Return result
+
+Time Complexity: O(log |n|)  
+Space Complexity: O(1)
+
+```
+
+
+-
+
+
+> **Max Points on a Line**
+
+```
+Algorithm L (LineMax: Max points on a straight line)
+Input: A list of points on a 2D plane, `points` where each point = [x, y]
+Output: Maximum number of points that lie on the same straight line
+
+L.1: Initialize global max
+    Let n ← length of points
+    If n ≤ 2, return n
+    Let maxPoints ← 0
+
+L.2: For each point as anchor
+    For i from 0 to n - 1 do
+        Let slopes ← empty hash map from string → int
+        Let duplicates ← 1  // count of points identical to points[i]
+        Let localMax ← 0
+
+        For j from i+1 to n - 1 do
+            Let dx ← points[j][0] - points[i][0]
+            Let dy ← points[j][1] - points[i][1]
+
+            If dx == 0 and dy == 0 then
+                duplicates ← duplicates + 1
+                Continue
+
+            Let g ← GCD(dy, dx)
+            dy ← dy / g
+            dx ← dx / g
+
+            If dx < 0 then
+                dy ← -dy
+                dx ← -dx  // Normalize to avoid equivalent slopes with different signs
+
+            Let slopeKey ← string representation of (dy, dx)
+            slopes[slopeKey] ← slopes.get(slopeKey, 0) + 1
+            localMax ← max(localMax, slopes[slopeKey])
+
+        maxPoints ← max(maxPoints, localMax + duplicates)
+
+L.3: Return result
+    Return maxPoints
+
+Helper: GCD(a, b)
+    While b ≠ 0
+        a, b ← b, a mod b
+    Return abs(a)
+
+Time Complexity: O(n²)  
+Space Complexity: O(n)
+
+```
+
+
+-
+
+
 > ****
 
 ```
