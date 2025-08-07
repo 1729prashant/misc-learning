@@ -2765,6 +2765,226 @@ Space Complexity: O(n)
 -
 
 
+> **Valid Palindrome**
+
+```
+Algorithm P (Check if a phrase is a valid palindrome after normalization)
+Input:
+    - s: a string containing letters, digits, spaces, and symbols
+Output:
+    - true if the cleaned string is a palindrome, false otherwise
+
+P1. [Initialize pointers]
+    Set left ← 0, right ← len(s) - 1
+
+P2. [Loop until pointers cross]
+    While left < right:
+        P2.1: [Skip non-alphanumeric on left]
+            While left < right and s[left] is not alphanumeric:
+                Increment left
+
+        P2.2: [Skip non-alphanumeric on right]
+            While left < right and s[right] is not alphanumeric:
+                Decrement right
+
+        P2.3: [Compare characters]
+            If lowercase(s[left]) ≠ lowercase(s[right]):
+                Return false
+
+        P2.4: [Move pointers]
+            Increment left, decrement right
+
+P3. [If loop completes]
+    Return true
+
+Complexity:
+    Time: O(n), where n is the length of the input string.
+        Each character is visited at most once.
+    Space: O(1), using only constant space for pointers and comparisons.
+
+```
+
+
+-
+
+
+> **Is Subsequence**
+
+```
+Algorithm Q (Check if string s is a subsequence of string t)
+Input:
+    - s: a string of lowercase English letters
+    - t: a string of lowercase English letters
+Output:
+    - true if s is a subsequence of t, false otherwise
+
+Q1. [Initialize pointers]
+    Set i ← 0, j ← 0
+
+Q2. [Traverse both strings]
+    While i < len(s) and j < len(t):
+        Q2.1: [Match character]
+            If s[i] = t[j]:
+                Increment i
+        Q2.2: [Advance in t regardless]
+            Increment j
+
+Q3. [Check if all of s was matched]
+    If i = len(s):
+        Return true
+    Else:
+        Return false
+
+Complexity:
+    Time: O(n), where n = len(t)
+        Each character of t is visited at most once.
+    Space: O(1), uses constant space.
+
+```
+
+
+-
+
+
+> **Two Sum II - Input Array Is Sorted**
+
+```
+Algorithm T (Find two numbers in a sorted array that sum to a target)
+Input:
+    - numbers: a 1-indexed array of integers sorted in non-decreasing order
+    - target: an integer representing the target sum
+Output:
+    - An array [index1, index2] such that numbers[index1] + numbers[index2] = target
+
+T1. [Initialize two pointers]
+    Set left ← 0, right ← len(numbers) - 1
+
+T2. [Scan for the target sum]
+    While left < right:
+        Let sum ← numbers[left] + numbers[right]
+
+        T2.1: [Check for match]
+            If sum = target:
+                Return [left + 1, right + 1]
+
+        T2.2: [Adjust pointers]
+            If sum < target:
+                Increment left
+            Else:
+                Decrement right
+
+T3. [Guaranteed solution]
+    Since the problem guarantees exactly one solution, this point is never reached.
+
+Complexity:
+    Time: O(n), where n = len(numbers)
+        Each element is visited at most once by either pointer.
+    Space: O(1), uses only constant extra space.
+
+```
+
+
+-
+
+
+> **Container With Most Water**
+
+```
+Algorithm C (Find the maximum area of water that can be contained between vertical lines)
+Input:
+    - height: an array of integers where height[i] represents the height of a vertical line at position i
+Output:
+    - The maximum amount of water a container can store
+
+C1. [Initialize two pointers and max area]
+    Set left ← 0, right ← len(height) - 1
+    Set maxArea ← 0
+
+C2. [Scan with two-pointer approach]
+    While left < right:
+        C2.1: [Compute area]
+            Let h ← min(height[left], height[right])
+            Let w ← right - left
+            Let area ← h × w
+
+        C2.2: [Update max area]
+            Set maxArea ← max(maxArea, area)
+
+        C2.3: [Move the pointer at shorter line]
+            If height[left] < height[right]:
+                Increment left
+            Else:
+                Decrement right
+
+C3. [Return the result]
+    Return maxArea
+
+Complexity:
+    Time: O(n), where n is the length of the height array
+        Each index is visited at most once.
+    Space: O(1), uses constant extra space.
+
+```
+
+
+-
+
+
+> **3Sum**
+
+```
+Algorithm S (Find all unique triplets in an array that sum to zero)
+Input:
+    - nums: an array of integers
+Output:
+    - A list of lists, where each inner list is a unique triplet [a, b, c] such that a + b + c = 0
+
+S1. [Sort the array]
+    Sort nums in non-decreasing order
+
+S2. [Initialize result container]
+    Let result ← empty list
+
+S3. [Iterate through nums with a fixed pointer i]
+    For i from 0 to len(nums) - 3:
+        S3.1: [Skip duplicates for i]
+            If i > 0 and nums[i] = nums[i - 1]:
+                Continue
+
+        S3.2: [Initialize two pointers]
+            Set left ← i + 1, right ← len(nums) - 1
+
+        S3.3: [Two-pointer scan]
+            While left < right:
+                Let sum ← nums[i] + nums[left] + nums[right]
+
+                S3.3.1: [Found a triplet]
+                    If sum = 0:
+                        Append [nums[i], nums[left], nums[right]] to result
+                        Increment left while nums[left] = nums[left - 1] to skip duplicates
+                        Decrement right while nums[right] = nums[right + 1] to skip duplicates
+                        Increment left, decrement right
+
+                S3.3.2: [Adjust pointers]
+                    Else if sum < 0:
+                        Increment left
+                    Else:
+                        Decrement right
+
+S4. [Return result]
+    Return result
+
+Complexity:
+    Time: O(n²), where n is the length of nums
+        Sorting takes O(n log n), and each i uses a two-pointer scan in O(n) time
+    Space: O(log n) for sorting if done in-place, O(k) for result with k triplets
+
+```
+
+
+-
+
+
 > ****
 
 ```
