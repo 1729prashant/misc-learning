@@ -2985,6 +2985,213 @@ Complexity:
 -
 
 
+> **Minimum Size Subarray Sum**
+
+```
+Algorithm M (Find minimal length subarray with sum ≥ target in an array of positive integers)
+
+Input:
+    - target: positive integer target sum
+    - nums: array of positive integers
+
+Output:
+    - Minimal length of a contiguous subarray whose sum ≥ target, or 0 if no such subarray exists
+
+M1. [Initialize variables]
+    Set n ← length of nums
+    Set left ← 0, sum ← 0, minLen ← ∞
+
+M2. [Expand right pointer]
+    For right from 0 to n - 1:
+        sum ← sum + nums[right]
+
+M3. [Shrink left pointer while condition met]
+    While sum ≥ target:
+        minLen ← min(minLen, right - left + 1)
+        sum ← sum - nums[left]
+        left ← left + 1
+
+M4. [Check if a valid subarray was found]
+    If minLen = ∞:
+        Return 0
+
+M5. [Return result]
+    Return minLen
+
+Complexity:
+    Time: O(n), where n is the length of nums. Each element is visited at most twice (once by right, once by left).
+    Space: O(1), constant extra space.
+
+```
+
+
+-
+
+
+> **Longest Substring Without Repeating Characters**
+
+```
+Algorithm L (Find length of the longest substring without duplicate characters)
+
+Input:
+    - s: a string
+
+Output:
+    - Length of the longest substring of s without repeating characters
+
+L1. [Initialize variables]
+    Create an empty map charIndex to store the last seen index of characters
+    Set left ← 0, maxLen ← 0
+
+L2. [Expand right pointer]
+    For right from 0 to length(s) - 1:
+        Let c ← s[right]
+        If c exists in charIndex and charIndex[c] ≥ left:
+            Set left ← charIndex[c] + 1
+        Set charIndex[c] ← right
+        maxLen ← max(maxLen, right - left + 1)
+
+L3. [Return result]
+    Return maxLen
+
+Complexity:
+    Time: O(n), where n is the length of s. Each character is visited at most twice (once by right, once by left).
+    Space: O(min(n, a)), where a is the alphabet size (number of possible characters).
+
+```
+
+
+-
+
+
+> **Substring with Concatenation of All Words**
+
+```
+Algorithm C (Find starting indices of substrings that are concatenations of all words in any order)
+
+Input:
+    - s: a string
+    - words: an array of strings, all of the same length
+
+Output:
+    - An array of starting indices of substrings in s that are concatenations of all the words in any order
+
+C1. [Handle edge cases]
+    If s is empty, words is empty, or words[0] is empty:
+        Return empty array
+
+C2. [Precompute parameters]
+    Set wordLen ← length(words[0])
+    Set wordCount ← length(words)
+    Set totalLen ← wordLen × wordCount
+    Create a map wordFreq to count occurrences of each word in words
+
+C3. [Iterate over possible starting offsets]
+    For offset from 0 to wordLen - 1:
+        Set left ← offset, right ← offset, matched ← 0
+        Create empty map seen
+
+        While right + wordLen ≤ length(s):
+            Let word ← s[right : right + wordLen]
+            right ← right + wordLen
+
+            If word exists in wordFreq:
+                Increment seen[word] by 1
+                matched ← matched + 1
+
+                While seen[word] > wordFreq[word]:
+                    Let leftWord ← s[left : left + wordLen]
+                    Decrement seen[leftWord] by 1
+                    left ← left + wordLen
+                    matched ← matched - 1
+
+                If matched = wordCount:
+                    Append left to result
+                    Let leftWord ← s[left : left + wordLen]
+                    Decrement seen[leftWord] by 1
+                    left ← left + wordLen
+                    matched ← matched - 1
+            Else:
+                Clear seen, matched ← 0
+                left ← right
+
+C4. [Return result]
+    Return result array
+
+Complexity:
+    Time: O(n × wordLen), where n is the length of s. The outer loop runs wordLen times, and inner window sliding is O(n) total per offset.
+    Space: O(k), where k is the number of distinct words in words.
+
+```
+
+
+-
+
+
+> **Minimum Window Substring**
+
+```
+Algorithm W (Find the minimum window substring of s containing all characters of t)
+
+Input:
+    - s: a string of length m
+    - t: a string of length n
+
+Output:
+    - The smallest substring of s containing all characters of t (including duplicates), or "" if no such substring exists
+
+W1. [Handle edge cases]
+    If m < n or t is empty:
+        Return ""
+
+W2. [Build target frequency map]
+    Create map targetFreq to store frequency of each character in t
+    For each character c in t:
+        targetFreq[c] ← targetFreq[c] + 1
+
+W3. [Initialize window variables]
+    Create empty map windowFreq
+    Set required ← number of distinct keys in targetFreq
+    Set formed ← 0
+    Set left ← 0
+    Set minLen ← ∞, minStart ← 0
+
+W4. [Expand right pointer]
+    For right from 0 to m - 1:
+        c ← s[right]
+        Increment windowFreq[c] by 1
+
+        If c exists in targetFreq and windowFreq[c] = targetFreq[c]:
+            formed ← formed + 1
+
+W5. [Contract from left while valid]
+    While left ≤ right and formed = required:
+        If (right - left + 1) < minLen:
+            minLen ← right - left + 1
+            minStart ← left
+
+        d ← s[left]
+        Decrement windowFreq[d] by 1
+        If d exists in targetFreq and windowFreq[d] < targetFreq[d]:
+            formed ← formed - 1
+        left ← left + 1
+
+W6. [Return result]
+    If minLen = ∞:
+        Return ""
+    Else:
+        Return s[minStart : minStart + minLen]
+
+Complexity:
+    Time: O(m + n), where m = len(s), n = len(t). Each character is visited at most twice (once by right, once by left).
+    Space: O(k), where k is the number of distinct characters in s and t combined.
+
+```
+
+
+-
+
+
 > ****
 
 ```
@@ -2993,3 +3200,14 @@ Complexity:
 
 
 -
+
+
+> ****
+
+```
+
+```
+
+
+-
+
