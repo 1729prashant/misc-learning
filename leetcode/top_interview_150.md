@@ -3316,6 +3316,210 @@ Therefore the validator would finish the scan and return true.
 -
 
 
+> **Spiral Matrix**
+
+```
+Algorithm S (Return all elements of an m × n matrix in spiral order)
+
+Input:
+    - matrix: a 2D array of integers with dimensions m × n
+
+Output:
+    - result: a 1D array containing all elements in spiral order
+
+S1. [Handle edge case]
+    If m = 0:
+        Return empty result
+
+S2. [Initialize boundaries]
+    top ← 0
+    bottom ← m - 1
+    left ← 0
+    right ← n - 1
+    result ← empty list
+
+S3. [Traverse while boundaries are valid]
+    While top ≤ bottom and left ≤ right:
+
+        S3.1. [Traverse from left to right along top row]
+            For col from left to right:
+                Append matrix[top][col] to result
+            Set top ← top + 1
+
+        S3.2. [Traverse from top to bottom along right column]
+            For row from top to bottom:
+                Append matrix[row][right] to result
+            Set right ← right - 1
+
+        S3.3. [Traverse from right to left along bottom row if in bounds]
+            If top ≤ bottom:
+                For col from right down to left:
+                    Append matrix[bottom][col] to result
+                Set bottom ← bottom - 1
+
+        S3.4. [Traverse from bottom to top along left column if in bounds]
+            If left ≤ right:
+                For row from bottom down to top:
+                    Append matrix[row][left] to result
+                Set left ← left + 1
+
+S4. [Return result]
+    Return result
+
+Complexity:
+    Time: O(m × n), where m is number of rows and n is number of columns.
+        Each element is visited exactly once.
+    Space: O(1), excluding the output array.
+
+```
+
+
+-
+
+
+> **Rotate Image**
+
+```
+Algorithm M (Rotate an n × n matrix 90 degrees clockwise in-place)
+
+Input:
+    - matrix: an n × n matrix of elements
+
+Output:
+    - The same matrix rotated 90 degrees clockwise
+
+M1. [Transpose the matrix]
+    For each row index i from 0 to n - 1:
+        For each column index j from i + 1 to n - 1:
+            Exchange the values at positions (i, j) and (j, i) in matrix.
+
+M2. [Reverse each row]
+    For each row index i from 0 to n - 1:
+        Reverse the elements of row i without allocating new memory.
+
+M3. [Termination]
+    Return the modified matrix.
+
+Complexity:
+    Time: O(n²), because each element is visited a constant number of times.
+    Space: O(1), since the rotation is performed in-place without extra storage.
+
+```
+
+
+-
+
+
+
+> **Set Matrix Zeroes**
+
+```
+Algorithm Z (Set entire row and column to zero if any element is zero, in-place)
+
+Input:
+    - matrix: an m × n integer matrix
+
+Output:
+    - The same matrix with all rows and columns containing a zero set entirely to zero
+
+Z1. [Check first row and column zero status]
+    Let firstRowZero ← false
+    Let firstColZero ← false
+    For each column index j from 0 to n - 1:
+        If matrix[0][j] = 0:
+            Set firstRowZero ← true
+    For each row index i from 0 to m - 1:
+        If matrix[i][0] = 0:
+            Set firstColZero ← true
+
+Z2. [Mark rows and columns to be zeroed]
+    For each row index i from 1 to m - 1:
+        For each column index j from 1 to n - 1:
+            If matrix[i][j] = 0:
+                Set matrix[i][0] ← 0
+                Set matrix[0][j] ← 0
+
+Z3. [Zero marked rows]
+    For each row index i from 1 to m - 1:
+        If matrix[i][0] = 0:
+            For each column index j from 1 to n - 1:
+                Set matrix[i][j] ← 0
+
+Z4. [Zero marked columns]
+    For each column index j from 1 to n - 1:
+        If matrix[0][j] = 0:
+            For each row index i from 1 to m - 1:
+                Set matrix[i][j] ← 0
+
+Z5. [Zero first row if needed]
+    If firstRowZero = true:
+        For each column index j from 0 to n - 1:
+            Set matrix[0][j] ← 0
+
+Z6. [Zero first column if needed]
+    If firstColZero = true:
+        For each row index i from 0 to m - 1:
+            Set matrix[i][0] ← 0
+
+Z7. [Termination]
+    Return the modified matrix
+
+Complexity:
+    Time: O(m × n), since every element is visited at most twice.
+    Space: O(1), as marking is done within the existing matrix without extra storage.
+
+```
+
+
+-
+
+
+
+> **Game of Life**
+
+```
+Algorithm G (Compute the next state of Conway’s Game of Life in-place)
+
+Input:
+    - board: m × n integer matrix (0 = dead cell, 1 = live cell)
+
+Output:
+    - The board modified in-place to its next state
+
+G1. [Define neighbor directions]  
+    Create a list directions containing the 8 possible neighbor coordinate offsets:
+        (-1,-1), (-1,0), (-1,1), (0,-1), (0,1), (1,-1), (1,0), (1,1)
+
+G2. [Iterate over the board to compute next state markers]  
+    For each cell (i, j) in board:
+        G2.1 [Count live neighbors]  
+             Initialize liveNeighbors ← 0  
+             For each direction (dx, dy) in directions:  
+                 Let r ← i + dx, c ← j + dy  
+                 If r and c are within bounds and abs(board[r][c]) == 1:  
+                     Increment liveNeighbors  
+        G2.2 [Mark changes in-place]  
+             If board[i][j] == 1 and (liveNeighbors < 2 or liveNeighbors > 3):  
+                 Set board[i][j] ← -1    // was live, will become dead  
+             If board[i][j] == 0 and liveNeighbors == 3:  
+                 Set board[i][j] ← 2     // was dead, will become live
+
+G3. [Finalize state updates]  
+    For each cell (i, j) in board:
+        If board[i][j] > 0: set board[i][j] ← 1  
+        Else: set board[i][j] ← 0
+
+Complexity:
+    Time: O(m × n), since each cell and its 8 neighbors are processed once.
+    Space: O(1) extra, using the board itself to store transitional states.
+
+```
+
+
+-
+
+
+
 > ****
 
 ```
@@ -3324,4 +3528,16 @@ Therefore the validator would finish the scan and return true.
 
 
 -
+
+
+
+> ****
+
+```
+
+```
+
+
+-
+
 
