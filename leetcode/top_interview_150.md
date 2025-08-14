@@ -3520,14 +3520,187 @@ Complexity:
 
 
 
-> ****
+> **Ransom Note**
 
 ```
+Algorithm C (Check if ransom note can be constructed from magazine)
+Input:
+    - ransomNote: string of lowercase English letters
+    - magazine: string of lowercase English letters
+Output:
+    - true if ransomNote can be constructed from magazine; false otherwise
+
+C1. [Initialize letter counts]
+    Create an array counts[26], initialized to 0
+    // counts[i] stores the available count of the (i-th) lowercase letter
+
+C2. [Count magazine letters]
+    For each character ch in magazine:
+        Let index ← (code of ch) - (code of 'a')    // maps 'a'..'z' to 0..25
+        Increment counts[index] by 1
+
+C3. [Check ransom note letters]
+    For each character ch in ransomNote:
+        Let index ← (code of ch) - (code of 'a')
+        Decrement counts[index] by 1
+        If counts[index] < 0:
+            Return false    // magazine has fewer of this letter than needed
+
+C4. [All letters available]
+    Return true
+
+Complexity:
+    Time: O(m + n), where m = length of magazine, n = length of ransomNote.
+          We scan both strings once.
+    Space: O(1), fixed 26-element array regardless of input size.
 
 ```
 
 
 -
+
+
+
+> **Isomorphic Strings**
+
+```
+Algorithm I (Check if two strings are isomorphic)
+Input:
+    - s: string of length n (ASCII characters)
+    - t: string of length n (ASCII characters)
+Output:
+    - true if s and t are isomorphic; false otherwise
+
+I1. [Initialize mappings]
+    Create an empty map mapST to store mapping from characters in s to characters in t
+    Create an empty map mapTS to store mapping from characters in t to characters in s
+
+I2. [Iterate over both strings]
+    For i from 0 to n - 1:
+        Let chS ← s[i]
+        Let chT ← t[i]
+
+        I2.1. [Check s → t mapping]
+            If chS exists in mapST:
+                If mapST[chS] ≠ chT:
+                    Return false
+            Else:
+                Set mapST[chS] ← chT
+
+        I2.2. [Check t → s mapping]
+            If chT exists in mapTS:
+                If mapTS[chT] ≠ chS:
+                    Return false
+            Else:
+                Set mapTS[chT] ← chS
+
+I3. [All checks passed]
+    Return true
+
+Complexity:
+    Time: O(n), where n = length of s (same as t), since each character is processed once.
+    Space: O(1) if ASCII fixed-size array is used for mapping; O(k) where k is the number of distinct characters otherwise.
+
+```
+
+
+-
+
+
+
+
+
+> **Word Pattern**
+
+```
+Algorithm W (Check if a string follows a given pattern with bijection between pattern letters and words)
+
+Input:
+- pattern: string containing only lowercase letters
+- s: string containing words separated by single spaces
+
+Output:
+- true if there exists a bijection between characters in pattern and words in s
+- false otherwise
+
+W1. [Split input string]  
+    Split s by spaces into list words.  
+    If length(words) ≠ length(pattern), return false.
+
+W2. [Initialize mappings]  
+    Create empty map charToWord (key: character from pattern, value: corresponding word).  
+    Create empty map wordToChar (key: word from s, value: corresponding character from pattern).
+
+W3. [Iterate and validate mapping]  
+    For i from 0 to length(pattern) - 1:  
+        Let c ← pattern[i], w ← words[i]  
+        If c exists in charToWord:  
+            If charToWord[c] ≠ w, return false  
+        Else:  
+            If w exists in wordToChar, return false  
+            Set charToWord[c] ← w  
+            Set wordToChar[w] ← c
+
+W4. [Return result]  
+    Return true
+
+Complexity:  
+- Time: O(n), where n is the number of words (same as length of pattern). Each lookup and insert in maps is O(1) on average.  
+- Space: O(k), where k ≤ n is the number of unique pattern characters and words stored in maps.
+
+```
+
+
+-
+
+
+
+
+
+
+> **Valid Anagram**
+
+```
+Algorithm A' (Check if one string is an anagram of another - arbitrary characters)
+
+Input:
+- s: string containing any characters (letters, digits, symbols, spaces, Unicode)
+- t: string containing any characters
+
+Output:
+- true if t is an anagram of s
+- false otherwise
+
+A'.1 [Check lengths]  
+     If length(s) ≠ length(t), return false.
+
+A'.2 [Initialize frequency map]  
+     Create an empty map freq.
+
+A'.3 [Count characters in s]  
+     For each character ch in s:  
+         freq[ch] ← freq[ch] + 1
+
+A'.4 [Subtract characters in t]  
+     For each character ch in t:  
+         If ch not in freq, return false  
+         freq[ch] ← freq[ch] - 1  
+         If freq[ch] < 0, return false
+
+A'.5 [Return result]  
+     Return true (all counts balanced).
+
+Complexity:  
+- Time: O(n), where n is the length of s (and t).  
+- Space: O(k), where k is the number of distinct characters.
+
+```
+
+
+-
+
+
+
 
 
 
