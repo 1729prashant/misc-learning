@@ -3704,6 +3704,257 @@ Complexity:
 
 
 
+> **Group Anagrams**
+
+```
+Algorithm G (Group anagrams from a list of strings)
+
+Input:
+    - strs: array of strings
+
+Output:
+    - A list of groups, where each group contains strings that are anagrams of each other
+
+G1. [Initialize data structure]
+    Create an empty hash map groups, mapping from a "canonical form" to a list of strings.
+
+G2. [Iterate over each string]
+    For each string word in strs:
+        G2.1. [Compute canonical form]
+              Convert word into a character array chars.
+              Sort chars in ascending order.
+              Convert sorted chars back into a string key.
+        G2.2. [Add to group]
+              Append word to groups[key].
+
+G3. [Collect results]
+    Return the list of values from groups as the grouped anagrams.
+
+Complexity:
+    Let n be the number of strings and k be the maximum length of a string.
+    Time: O(n·k·log k), sorting each string takes O(k·log k).
+    Space: O(n·k), to store the hash map and the sorted keys.
+
+```
+
+
+-
+
+
+
+
+
+
+> **Two Sum**
+
+```
+Algorithm T (Find two indices whose values sum to a target)
+
+Input:
+    - nums: an array of integers
+    - target: an integer
+
+Output:
+    - A pair [i, j] such that nums[i] + nums[j] = target and i ≠ j
+
+T1. [Initialize map]
+    Create an empty map M to store (value → index) pairs.
+
+T2. [Iterate over nums]
+    For i from 0 to length(nums) - 1:
+        Let complement ← target - nums[i]
+
+T3. [Check if complement exists]
+        If complement is in M:
+            Return [M[complement], i]
+
+T4. [Store current value in map]
+        Set M[nums[i]] ← i
+
+T5. [No solution found]
+    (Given constraints guarantee exactly one solution, so this step is never reached.)
+
+Complexity:
+    Time: O(n), where n is the number of elements in nums. Each lookup and insert in M takes O(1) on average.
+    Space: O(n), for storing at most n elements in the map.
+
+```
+
+
+-
+
+
+
+
+
+
+> **Happy Number**
+
+```
+Algorithm H (Check if a number is happy)
+
+Input:
+    - n: a positive integer
+
+Output:
+    - true if n is a happy number, false otherwise
+
+H1. [Initialize set]
+    Create an empty set S to store numbers already seen.
+
+H2. [Iterate]
+    While n is not 1 and n is not in S:
+        Insert n into S.
+        Set n ← SumOfSquares(n).
+
+H3. [Check result]
+    If n = 1:
+        Return true.
+    Else:
+        Return false.
+
+---
+
+Algorithm SumOfSquares (Compute sum of squares of digits)
+
+Input:
+    - num: a positive integer
+
+Output:
+    - sum: integer sum of the squares of digits of num
+
+SS1. [Initialize sum]
+    sum ← 0.
+
+SS2. [Process digits]
+    While num > 0:
+        digit ← num mod 10
+        sum ← sum + digit × digit
+        num ← num ÷ 10
+
+SS3. [Return result]
+    Return sum.
+
+---
+
+Complexity:
+    Time: O(k) per iteration, where k is the number of digits in n; the number of iterations is bounded because values repeat or reach 1, so overall O(1) with a small constant.
+    Space: O(m), where m is the number of unique values before repetition (bounded by possible sums of squares of digits).
+
+```
+
+
+-
+
+
+
+
+
+
+> **Contains Duplicate II**
+
+```
+Algorithm C (Check for nearby duplicate elements)
+
+Input:
+    - nums: array of integers
+    - k: integer distance threshold
+
+Output:
+    - true if there exist distinct indices i and j such that nums[i] = nums[j] and |i - j| ≤ k
+    - false otherwise
+
+C1. [Initialize map]
+    Create an empty map M to store element → last seen index.
+
+C2. [Iterate over array]
+    For i from 0 to len(nums) - 1:
+        If nums[i] exists in M and (i - M[nums[i]]) ≤ k:
+            Return true
+        Set M[nums[i]] ← i
+
+C3. [Return false]
+    Return false.
+
+---
+
+Complexity:
+    Time: O(n), where n = length of nums (single pass).
+    Space: O(min(n, k)), since at most k elements are stored in the map.
+
+```
+
+
+-
+
+
+
+
+
+
+> **Longest Consecutive Sequence**
+
+```
+Algorithm L (Longest consecutive sequence in O(n) time)
+
+Input:
+    - nums: array of integers
+
+Output:
+    - length of the longest sequence of consecutive integers
+
+L1. [Handle empty input]
+    If nums is empty, return 0.
+
+L2. [Insert into set]
+    Create a hash set S containing all elements of nums.
+
+L3. [Initialize maximum length]
+    Set longest ← 0.
+
+L4. [Iterate through numbers]
+    For each num in S:
+        If (num - 1) is not in S:       // num is the start of a sequence
+            current ← num
+            length ← 1
+            While (current + 1) is in S:
+                current ← current + 1
+                length ← length + 1
+            longest ← max(longest, length)
+
+L5. [Return result]
+    Return longest.
+
+---
+
+Complexity:
+    Time: O(n), because each number is visited at most twice.
+    Space: O(n) for the hash set.
+
+```
+
+
+-
+
+
+
+
+
+
+> ****
+
+```
+
+```
+
+
+-
+
+
+
+
+
+
 > ****
 
 ```
