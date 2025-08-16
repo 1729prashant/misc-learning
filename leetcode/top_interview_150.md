@@ -3944,6 +3944,48 @@ Complexity:
 > ****
 
 ```
+Algorithm R (Summary Ranges)
+
+Input:
+    nums — a sorted array of unique integers.
+
+Output:
+    A list of strings representing ranges, where each string is either:
+        "a"     if the range contains a single number,
+        "a->b"  if the range covers consecutive integers from a to b.
+
+R1: Initialize result container
+    Let result ← empty list.
+    If nums is empty, return result.
+
+R2: Start first range
+    Let start ← nums[0].
+    Let end ← nums[0].
+
+R3: Traverse array
+    For i from 1 to length(nums) - 1 do:
+        If nums[i] = end + 1:
+            Update end ← nums[i].
+        Else:
+            If start = end:
+                Append string(start) to result.
+            Else:
+                Append string(start) + "->" + string(end) to result.
+            Reset start ← nums[i], end ← nums[i].
+
+R4: Finalize last range
+    After loop ends:
+        If start = end:
+            Append string(start) to result.
+        Else:
+            Append string(start) + "->" + string(end) to result.
+
+R5: Return result
+    Return result.
+
+Complexity:
+    Time:  O(n), where n = length(nums).
+    Space: O(1) extra (excluding result storage).
 
 ```
 
