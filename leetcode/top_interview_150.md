@@ -3997,6 +3997,150 @@ Complexity:
 
 
 
+> **Merge Intervals**
+
+```
+Algorithm M (Merge Intervals)
+
+Input:
+    intervals — an array of intervals [start, end].
+
+Output:
+    A merged array of non-overlapping intervals covering all input intervals.
+
+M1: Handle empty input
+    If intervals is empty, return empty list.
+
+M2: Sort intervals
+    Sort intervals by start coordinate in ascending order.
+
+M3: Initialize result
+    Let result ← empty list.
+    Let current ← intervals[0].
+
+M4: Traverse and merge
+    For each interval in intervals[1:]:
+        If interval.start ≤ current.end:
+            // overlap found
+            current.end ← max(current.end, interval.end)
+        Else:
+            Append current to result.
+            current ← interval.
+
+M5: Append last interval
+    Append current to result.
+
+M6: Return result
+    Return result.
+
+Complexity:
+    Time:  O(n log n), due to sorting n intervals.
+    Space: O(n) for the result (O(1) extra beyond output).
+
+```
+
+
+-
+
+
+
+
+
+
+> **Insert Interval**
+
+```
+Algorithm I (Insert Interval)
+
+Input:
+    intervals — sorted array of non-overlapping intervals [start, end].
+    newInterval — an interval [start, end].
+
+Output:
+    An array of intervals after inserting newInterval, still sorted and non-overlapping.
+
+I1: Initialize result
+    Let result ← empty list.
+
+I2: Traverse intervals before overlap
+    While intervals is not empty AND intervals[0].end < newInterval.start:
+        Append intervals[0] to result.
+        Remove intervals[0] from intervals.
+
+I3: Merge overlaps with newInterval
+    While intervals is not empty AND intervals[0].start ≤ newInterval.end:
+        newInterval.start ← min(newInterval.start, intervals[0].start)
+        newInterval.end   ← max(newInterval.end,   intervals[0].end)
+        Remove intervals[0] from intervals.
+
+I4: Append merged newInterval
+    Append newInterval to result.
+
+I5: Append remaining intervals
+    Append all remaining intervals to result.
+
+I6: Return result
+    Return result.
+
+Complexity:
+    Time:  O(n), each interval processed once.
+    Space: O(n), for the result.
+
+```
+
+
+-
+
+
+
+
+
+
+> **Minimum Number of Arrows to Burst Balloons**
+
+```
+Algorithm B (Minimum Number of Arrows to Burst Balloons)
+
+Input:
+    points — a list of intervals [x_start, x_end] representing balloon diameters.
+
+Output:
+    An integer representing the minimum number of arrows required to burst all balloons.
+
+B.1: Handle empty input
+    If points is empty, return 0.
+
+B.2: Sort intervals
+    Sort points by their x_end values in ascending order.
+
+B.3: Initialize variables
+    arrows ← 1
+    arrowPos ← points[0].x_end   // place first arrow at the end of the first interval
+
+B.4: Traverse intervals
+    For each interval [start, end] in points starting from index 1:
+        If start > arrowPos:
+            arrows ← arrows + 1
+            arrowPos ← end
+
+B.5: Return result
+    Return arrows.
+
+Time Complexity:
+    O(n log n) due to sorting, where n = number of intervals.
+Space Complexity:
+    O(1) extra space (ignoring sort cost).
+
+```
+
+
+-
+
+
+
+
+
+
 > ****
 
 ```
