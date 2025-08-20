@@ -4141,6 +4141,248 @@ Space Complexity:
 
 
 
+> **Number of Islands**
+
+```
+Algorithm I (Count number of islands in a 2D grid using DFS exploration)
+
+Input:
+    - grid: m × n matrix of characters ('1' for land, '0' for water)
+
+Output:
+    - Integer count representing the number of islands
+
+I1. [Initialize island counter]
+    Set count ← 0
+
+I2. [Iterate over grid]
+    For each row i from 0 to m - 1:
+        For each column j from 0 to n - 1:
+            If grid[i][j] = '1':
+                Increment count ← count + 1
+                Call SinkIsland(i, j, grid)
+
+I3. [Return result]
+    Return count
+
+
+Algorithm SinkIsland (Mark entire island starting at (i, j) as visited)
+
+Input:
+    - i, j: coordinates of the current land cell
+    - grid: m × n matrix
+
+Output:
+    - None (grid is modified in-place)
+
+S1. [Check boundaries]
+    If i < 0 or j < 0 or i ≥ m or j ≥ n:
+        Return
+
+S2. [Check if water or already visited]
+    If grid[i][j] ≠ '1':
+        Return
+
+S3. [Mark current cell as visited]
+    Set grid[i][j] ← '0'
+
+S4. [Explore neighbors]
+    Call SinkIsland(i+1, j, grid)
+    Call SinkIsland(i-1, j, grid)
+    Call SinkIsland(i, j+1, grid)
+    Call SinkIsland(i, j-1, grid)
+
+
+Complexity:
+    Time: O(m × n), where m is rows and n is columns.
+        Each cell is visited at most once.
+    Space: O(m × n) in worst case due to recursive call stack (all land).
+
+```
+
+
+-
+
+
+
+
+
+
+
+> **Surrounded Regions**
+
+```
+Algorithm C (Capture surrounded regions in a 2D board of 'X' and 'O')
+
+Input:
+    - board: m × n matrix of characters, where each cell is either 'X' or 'O'
+
+Output:
+    - The board modified in-place such that all 'O' regions fully surrounded by 'X' are converted to 'X'
+
+C1. [Handle edge case]
+    If board is empty:
+        Return
+
+C2. [Mark boundary-connected 'O']
+    For each cell (i, j) on the boundary of board:
+        If board[i][j] = 'O':
+            Run DFS-Mark(i, j) to mark all connected 'O's as temporary marker (say 'T')
+
+C3. [Convert surrounded 'O's]
+    For each cell (i, j) in the board:
+        If board[i][j] = 'O':
+            Set board[i][j] ← 'X'   // These are surrounded and must be captured
+
+C4. [Restore safe 'O's]
+    For each cell (i, j) in the board:
+        If board[i][j] = 'T':
+            Set board[i][j] ← 'O'   // Restore boundary-connected regions
+
+
+Helper Algorithm DFS-Mark(i, j) (Mark all 'O's connected to (i, j))
+Input:
+    - i, j: coordinates of a cell
+Effect:
+    - Marks connected 'O' cells as 'T'
+
+M1. [Mark cell]
+    Set board[i][j] ← 'T'
+
+M2. [Recurse on neighbors]
+    For each neighbor (ni, nj) of (i, j) in {up, down, left, right}:
+        If (ni, nj) is within bounds and board[ni][nj] = 'O':
+            Call DFS-Mark(ni, nj)
+
+
+Complexity:
+    Time: O(m × n), since each cell is visited at most once during marking and conversion.
+    Space: O(m × n) in worst case recursion depth (if all cells are 'O'), though iterative stack or BFS can reduce risk.
+
+```
+
+
+-
+
+
+
+
+
+
+
+> **Clone Graph**
+
+```
+Algorithm C (Clone an undirected connected graph using DFS)
+
+Input:
+    - node: reference to a node in a connected undirected graph
+        Each node contains:
+            - val: integer identifier
+            - neighbors: list of adjacent nodes
+
+Output:
+    - A deep copy (clone) of the graph, starting from the given node reference
+
+C1. [Handle empty input]  
+    If node = nil:  
+        Return nil  
+
+C2. [Initialize data structures]  
+    Create a hash map `visited` to store mapping (original node → cloned node).  
+
+C3. [Define recursive DFS clone procedure]  
+    Procedure DFS(current):  
+        If current ∈ visited:  
+            Return visited[current]  
+
+        Create clone ← new Node(current.Val, empty neighbors list).  
+        Store visited[current] ← clone.  
+
+        For each neighbor in current.Neighbors:  
+            Append DFS(neighbor) to clone.Neighbors.  
+
+        Return clone  
+
+C4. [Start DFS cloning]  
+    Return DFS(node)  
+
+
+Complexity:  
+    Time: O(V + E), where V is the number of nodes and E is the number of edges.  
+        Each node and edge is visited once during the DFS.  
+    Space: O(V), for recursion stack (worst case in deep graph) and the hash map storing clones.  
+
+```
+
+
+-
+
+
+
+
+
+
+
+> **Evaluate Division**
+
+```
+Algorithm E (Evaluate Division using graph traversal)
+
+Input:
+- equations: list of pairs [Ai, Bi] representing equations
+- values: list of floats such that Ai / Bi = values[i]
+- queries: list of pairs [Cj, Dj] to evaluate
+
+Output:
+- List of floats representing answers for each query; -1.0 if not computable
+
+E1. [Build graph]  
+    Create adjacency list graph G mapping string → list of (neighbor, weight).  
+    For each equation (Ai, Bi) with value v:  
+        Add edge Ai → Bi with weight v  
+        Add edge Bi → Ai with weight 1/v  
+
+E2. [Initialize result list]  
+    Create empty list results  
+
+E3. [Process each query]  
+    For each query (C, D):  
+        If C or D not in G: Append -1.0 to results and continue  
+        If C = D: Append 1.0 to results and continue  
+
+E4. [Graph traversal to compute ratio]  
+    Perform DFS from C to D:  
+        Maintain visited set  
+        DFS(node, target, accum):  
+            If node = target: return accum  
+            For each (neighbor, weight) of node:  
+                If neighbor not visited:  
+                    result ← DFS(neighbor, target, accum × weight)  
+                    If result ≠ -1.0: return result  
+            Return -1.0  
+
+E5. [Store query result]  
+    Run DFS(C, D, 1.0) and append result to results  
+
+E6. [Return results]  
+    Return results list
+
+Complexity:  
+- Time: O(Q × (V + E)), where Q = number of queries, V = number of variables, E = number of equations. Each query may explore the entire graph in worst case.  
+- Space: O(V + E) for the graph, O(V) recursion stack for DFS.  
+
+```
+
+
+-
+
+
+
+
+
+
+
 > ****
 
 ```
