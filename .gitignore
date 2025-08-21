@@ -6,3 +6,4 @@ go_learn/**/*.o
 go_learn/**/*.a
 go_learn/**/*.so
 go_learn/**/*.dll
+.DS_Store
