@@ -4383,6 +4383,224 @@ Complexity:
 
 
 
+> **Course Schedule**
+
+```
+Algorithm C (Check if all courses can be finished using prerequisites)  
+Input:  
+- numCourses: integer, total number of courses labeled 0 to numCourses-1  
+- prerequisites: list of pairs [a, b], meaning course b must be taken before course a  
+
+Output:  
+- true if all courses can be finished, false otherwise  
+
+C1. [Initialize graph structures]  
+    Create adjacency list graph of size numCourses, initially empty  
+    Create inDegree array of size numCourses, initialized to 0  
+
+C2. [Build graph]  
+    For each pair [a, b] in prerequisites:  
+        Append a to graph[b]  
+        Increment inDegree[a] by 1  
+
+C3. [Initialize queue with zero in-degree courses]  
+    Create empty queue  
+    For each course i in [0..numCourses-1]:  
+        If inDegree[i] = 0: enqueue(i)  
+
+C4. [Process courses using BFS topological sort]  
+    Initialize count ← 0  
+    While queue not empty:  
+        Dequeue course curr  
+        Increment count by 1  
+        For each neighbor next in graph[curr]:  
+            Decrement inDegree[next] by 1  
+            If inDegree[next] = 0: enqueue(next)  
+
+C5. [Check feasibility]  
+    If count = numCourses: return true  
+    Else: return false  
+
+Complexity:  
+- Time: O(V + E), where V = numCourses and E = number of prerequisites. Each edge and vertex is processed once.  
+- Space: O(V + E) for adjacency list and inDegree array.  
+
+```
+
+
+-
+
+
+
+
+
+
+> **Course Schedule II**
+
+```
+Algorithm O (Find a valid order to finish all courses using topological sort)
+
+Input:
+- numCourses: integer, number of courses labeled 0 … numCourses-1
+- prerequisites: list of pairs [a, b], meaning b → a (must take b before a)
+
+Output:
+- A list of courses in a valid order, or [] if impossible
+
+O1. [Initialize structures]
+    Create adjacency list graph for numCourses.
+    Create indegree array indeg[0..numCourses-1] initialized to 0.
+    For each (a, b) in prerequisites:
+        Append a to graph[b].
+        Increment indeg[a].
+
+O2. [Find starting courses]
+    Create queue Q.
+    For i from 0 to numCourses-1:
+        If indeg[i] = 0, enqueue(Q, i).
+
+O3. [Process queue]
+    Initialize result list order ← [].
+    While Q not empty:
+        Dequeue u from Q.
+        Append u to order.
+        For each v in graph[u]:
+            Decrement indeg[v].
+            If indeg[v] = 0, enqueue(Q, v).
+
+O4. [Check completion]
+    If length(order) = numCourses:
+        Return order
+    Else:
+        Return []   // cycle exists
+
+Complexity:
+- Time: O(V + E), where V = numCourses, E = number of prerequisites.
+- Space: O(V + E) for graph, indegree, and queue.
+
+```
+
+
+-
+
+
+
+
+
+
+
+> **Snakes and Ladders**
+
+```
+Algorithm S (Minimum dice rolls to reach the end in Snakes and Ladders)
+
+Input:
+- board: n × n matrix with values -1 (empty) or destination square number (snake/ladder)
+Output:
+- Minimum number of dice rolls to reach square n², or -1 if unreachable
+
+S1. [Flatten board mapping]
+    Let n ← length of board
+    Create array moves[1..n²] initialized to -1
+    Set idx ← 1
+    For row from n-1 down to 0:
+        If (n-1 - row) is even:
+            For col from 0 to n-1:
+                If board[row][col] ≠ -1: moves[idx] ← board[row][col]
+                idx ← idx + 1
+        Else:
+            For col from n-1 down to 0:
+                If board[row][col] ≠ -1: moves[idx] ← board[row][col]
+                idx ← idx + 1
+
+S2. [Initialize BFS]
+    Create queue Q and enqueue (1, 0)   // (square, rolls)
+    Create visited set with 1
+
+S3. [BFS traversal]
+    While Q not empty:
+        Dequeue (curr, rolls)
+        If curr = n²: return rolls
+        For step from 1 to 6:
+            next ← curr + step
+            If next > n²: break
+            If moves[next] ≠ -1: next ← moves[next]
+            If next not in visited:
+                Add next to visited
+                Enqueue (next, rolls + 1)
+
+S4. [No path]
+    Return -1
+
+Complexity:
+- Time: O(n²), since we process at most n² board cells and each has up to 6 edges.
+- Space: O(n²), for moves array and visited set.
+
+```
+
+
+-
+
+
+
+
+
+
+
+> **Minimum Genetic Mutation**
+
+```
+Algorithm M (Minimum genetic mutations using BFS)  
+Input:  
+- startGene: string of length 8 representing the starting gene  
+- endGene: string of length 8 representing the target gene  
+- bank: list of strings of length 8 representing valid mutations  
+
+Output:  
+- Minimum number of mutations from startGene to endGene, or -1 if impossible  
+
+M1. [Convert bank to set]  
+    Let valid ← set(bank).  
+    If endGene ∉ valid: return -1.  
+
+M2. [Initialize BFS]  
+    Create queue Q and enqueue (startGene, 0).  
+    Create visited set V and add startGene.  
+
+M3. [Process queue]  
+    While Q is not empty:  
+        (gene, steps) ← dequeue(Q).  
+
+        If gene = endGene: return steps.  
+
+        For each position i in 0..7:  
+            For each char in ['A','C','G','T']:  
+                If char ≠ gene[i]:  
+                    newGene ← gene with gene[i] replaced by char.  
+
+                    If newGene ∈ valid and newGene ∉ V:  
+                        Add newGene to V.  
+                        Enqueue (newGene, steps + 1).  
+
+M4. [If end not reached]  
+    Return -1.  
+
+Complexity:  
+- Time: O(N * L * Σ), where N = |bank|, L = 8 (gene length), Σ = 4 (alphabet size).  
+  In practice O(N * 32).  
+- Space: O(N) for visited set and queue.  
+
+```
+
+
+-
+
+
+
+
+
+
+
 > ****
 
 ```
@@ -4391,5 +4609,6 @@ Complexity:
 
 
 -
+
 
 
