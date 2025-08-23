@@ -4599,6 +4599,59 @@ Complexity:
 
 
 
+> ****
+
+```
+Algorithm L (Shortest Word Transformation Sequence using BFS)
+
+Input:
+- beginWord: starting word (string)
+- endWord: target word (string)
+- wordList: list of valid dictionary words (array of strings)
+
+Output:
+- Minimum number of words in the transformation sequence from beginWord to endWord,
+  or 0 if no such sequence exists.
+
+L1. [Preprocess word list]  
+    Convert wordList into a set wordSet for O(1) membership lookup.  
+    If endWord ∉ wordSet: Return 0.
+
+L2. [Initialize BFS]  
+    Create a queue Q and enqueue the pair (beginWord, 1), where 1 is the current path length.  
+    Create a visited set and insert beginWord.
+
+L3. [BFS traversal]  
+    While Q is not empty:  
+        Dequeue (word, steps).  
+        If word = endWord: Return steps.  
+
+L4. [Generate neighbors]  
+    For each position i from 0 to len(word) - 1:  
+        For each character c from 'a' to 'z':  
+            If c ≠ word[i]:  
+                newWord ← word with word[i] replaced by c.  
+                If newWord ∈ wordSet and newWord ∉ visited:  
+                    Enqueue (newWord, steps + 1).  
+                    Insert newWord into visited.
+
+L5. [No path found]  
+    If BFS completes without finding endWord: Return 0.
+
+Complexity:  
+- Time: O(L × 26 × N), where L = word length, N = number of words in wordList.  
+  For each word dequeued, we generate up to 26L possible neighbors and check set membership.  
+- Space: O(N), for storing the dictionary set, visited set, and queue.
+
+```
+
+
+-
+
+
+
+
+
 
 
 > ****
