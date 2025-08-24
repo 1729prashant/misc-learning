@@ -4654,6 +4654,135 @@ Complexity:
 
 
 
+> **Implement Trie (Prefix Tree)**
+
+```
+Algorithm T (Trie with insert, search, and prefix check)
+
+Input:
+- Operations: insert(word), search(word), startsWith(prefix)
+- Words/prefixes consist of lowercase English letters
+
+Output:
+- Trie structure supporting word insertion, full word search, and prefix existence check
+
+T1. [Define Trie node structure]
+    Each node contains:
+    - children: map[byte]*TrieNode (mapping character → next node)
+    - isEnd: boolean flag (true if node marks the end of a word)
+
+T2. [Constructor]
+    Create a new Trie with a root node (empty, not an end of word).
+
+T3. [Insert(word)]
+    Set current ← root
+    For each character c in word:
+        If current.children[c] does not exist:
+            Create new TrieNode and assign to current.children[c]
+        Move current ← current.children[c]
+    After loop, set current.isEnd ← true
+
+T4. [Search(word)]
+    Set current ← root
+    For each character c in word:
+        If current.children[c] does not exist:
+            Return false
+        Move current ← current.children[c]
+    Return current.isEnd
+
+T5. [StartsWith(prefix)]
+    Set current ← root
+    For each character c in prefix:
+        If current.children[c] does not exist:
+            Return false
+        Move current ← current.children[c]
+    Return true
+
+T6. [Delete(word)]
+    Goal: remove word without breaking other words that share its prefix.
+
+    T6.1: Define recursive helper DeleteHelper(node, word, depth) → bool
+        Input: current TrieNode, word, and current depth
+        Output: bool (true if this node should be deleted by parent)
+
+        T6.1.1: [Base case: end of word]
+            If depth == len(word):
+                If node.isEnd == false:
+                    Return false   // word does not exist
+                Set node.isEnd = false
+                If node has no children:
+                    Return true    // safe to delete this node
+                Return false       // cannot delete because children exist
+
+        T6.1.2: [Recursive case]
+            c ← word[depth]
+            If node.children[c] does not exist:
+                Return false   // word does not exist
+            childShouldDelete ← DeleteHelper(node.children[c], word, depth+1)
+            If childShouldDelete:
+                delete(node.children, c)
+                If node has no children and node.isEnd == false:
+                    Return true
+            Return false
+
+    T6.2: Call DeleteHelper(root, word, 0)
+
+Complexity:
+- Insert: O(L)
+- Search: O(L)
+- StartsWith: O(L)
+- Delete: O(L)
+  where L is the length of the word/prefix
+- Space: O(N * Σ) for N words and alphabet size Σ
+
+
+examples
+
+1. 
+add the below to a new trie
+"international"
+"internet"
+"interval"
+"into"
+
+so the trie becomes
+root
+ └─ i
+    └─ n
+       └─ t
+          └─ e
+             └─ r
+                └─ n
+                   └─ a
+                      └─ t
+                         └─ i
+                            └─ o
+                               └─ n
+                                  └─ a
+                                     └─ l   [end of "international"]
+                └─ e
+                   └─ t   [end of "internet"]
+                └─ v
+                   └─ a
+                      └─ l   [end of "interval"]
+          └─ o
+             └─   [end of "into"]
+
+
+2. 
+insert("apple") → creates /a/p/p/l/e path and marks e as end. 
+search("apple") → checks if /a/p/p/l/e exists and is marked. 
+startsWith("app") → checks if /a/p/p path exists, regardless of whether it ends a word.
+delete("apple") → unmarks /a/p/p/l/e as end, and prunes nodes upward if they’re no longer needed.
+
+```
+
+
+-
+
+
+
+
 > ****
 
 ```
