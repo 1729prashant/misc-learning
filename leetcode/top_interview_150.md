@@ -4783,6 +4783,74 @@ delete("apple") → unmarks /a/p/p/l/e as end, and prunes nodes upward if they�
 
 
 
+> **Design Add and Search Words Data Structure**
+
+```
+Algorithm W (Word Dictionary with Wildcard Search)
+Input: 
+    - Operations: addWord(word), search(word)
+    - word may contain lowercase letters and '.' where '.' matches any letter
+Output:
+    - Boolean result for search queries
+
+W.1: Constructor
+    Create a root node:
+        - children ← empty dictionary (key = character, value = node)
+        - isEnd ← false
+
+W.2: AddWord(word)
+    node ← root
+    For each character ch in word:
+        If ch not in node.children:
+            node.children[ch] ← new node with empty children and isEnd = false
+        node ← node.children[ch]
+    node.isEnd ← true
+
+W.3: Search(word)
+    Return DFS(word, idx = 0, root)
+
+Algorithm DFS (Recursive Search with Wildcard)
+Input:
+    - word: string
+    - idx: current index in word
+    - node: current Trie node
+Output:
+    - Boolean indicating whether word can be matched
+
+DFS.1: If idx == length(word):
+           Return node.isEnd
+
+DFS.2: ch ← word[idx]
+
+DFS.3: If ch == '.':
+           For each child in node.children:
+               If DFS(word, idx + 1, child) = true:
+                   Return true
+           Return false
+
+DFS.4: Else:
+           If ch not in node.children:
+               Return false
+           Else:
+               Return DFS(word, idx + 1, node.children[ch])
+
+Complexity:
+    - AddWord: O(L), where L = length of word
+    - Search (worst case with '.' at every position): O(26^L) 
+      but usually prunes quickly in practice
+    - Space: O(N * L) for N words of average length L
+
+
+```
+
+
+-
+
+
+
+
+
+
 > ****
 
 ```
