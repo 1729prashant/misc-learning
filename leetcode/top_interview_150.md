@@ -4851,6 +4851,82 @@ Complexity:
 
 
 
+> **Word Search II**
+
+```
+Algorithm W (Find all words in board using Trie + DFS)
+
+Input:
+- board: m × n grid of characters
+- words: list of strings
+Output:
+- list of words from `words` that can be formed on the board
+
+W1. [Build Trie]
+    Initialize root Trie node with empty children and word field = ""
+    For each word in words:
+        node ← root
+        For each character ch in word:
+            If node.children[ch] does not exist:
+                create new Trie node
+            node ← node.children[ch]
+        At end of word: store word in node.word (marks terminal)
+
+W2. [DFS Search Initialization]
+    Initialize result set = ∅
+    For i = 0 to m-1:
+        For j = 0 to n-1:
+            Call DFS(i, j, root)
+
+Algorithm DFS (Explore board from cell (i, j) with current Trie node)
+Input:
+- i, j: current coordinates
+- node: current Trie node
+Output:
+- Marks found words in result set
+
+DFS1. [Bounds and pruning]
+    If (i, j) is out of bounds or board[i][j] = '#' (visited marker) or board[i][j] not in node.children:
+        Return
+
+DFS2. [Advance in Trie]
+    ch ← board[i][j]
+    nextNode ← node.children[ch]
+
+DFS3. [Word found]
+    If nextNode.word ≠ "":
+        Add nextNode.word to result set
+        Set nextNode.word = ""   // prevent duplicate results
+
+DFS4. [Mark visited]
+    Set board[i][j] = '#'
+
+DFS5. [Explore neighbors]
+    For each direction (up, down, left, right):
+        DFS(new_i, new_j, nextNode)
+
+DFS6. [Unmark visited]
+    Restore board[i][j] = ch
+
+W3. [Return result]
+    Convert result set to list and return
+
+Complexity:
+- Building Trie: O(ΣL), where ΣL is total length of all words
+- DFS traversal: O(m × n × 4^L), but with Trie pruning, worst-case bounded by O(m × n × maxWordLength)
+- Space: O(ΣL) for Trie + O(L) recursion stack
+
+```
+
+
+-
+
+
+
+
+
+
+
 > ****
 
 ```
