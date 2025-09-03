@@ -4927,6 +4927,64 @@ Complexity:
 
 
 
+> **Letter Combinations of a Phone Number**
+
+```
+Algorithm L (Generate all possible letter combinations from digits using backtracking)
+
+Input:
+- digits: string of digits from '2' to '9'
+Output:
+- list of all possible letter combinations
+
+L1. [Handle edge case]
+    If digits is empty: return empty list
+
+L2. [Mapping initialization]
+    Define digitToLetters map:
+        '2' → "abc", '3' → "def", '4' → "ghi", '5' → "jkl",
+        '6' → "mno", '7' → "pqrs", '8' → "tuv", '9' → "wxyz"
+
+L3. [Initialize result]
+    result ← empty list
+
+L4. [Recursive backtracking]
+    Call Backtrack(idx=0, path="")
+
+Algorithm Backtrack (Recursive construction of combinations)
+Input:
+- idx: current index in digits
+- path: partial combination built so far
+Output:
+- Append valid combinations to result
+
+B1. [Base case]
+    If idx == len(digits):
+        Append path to result
+        Return
+
+B2. [Expand current digit]
+    currentDigit ← digits[idx]
+    For each letter in digitToLetters[currentDigit]:
+        Call Backtrack(idx+1, path+letter)
+
+L5. [Return result]
+    Return result
+
+Complexity:
+- Time: O(4^n), where n = length of digits (each digit maps to up to 4 letters, and we explore all combinations).
+- Space: O(n) recursion depth + O(4^n) output storage.
+
+```
+
+
+-
+
+
+
+
+
+
 > ****
 
 ```
