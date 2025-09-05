@@ -4983,6 +4983,102 @@ Complexity:
 
 
 
+> **Combinations**
+
+```
+Algorithm C (Generate all k-combinations from numbers 1..n using backtracking)
+
+Input:
+- n: integer, upper bound of the range [1..n]
+- k: integer, size of each combination
+Output:
+- list of all possible k-combinations
+
+C1. [Initialize result]
+    result ← empty list
+
+C2. [Recursive backtracking]
+    Call Backtrack(start=1, path=[])
+
+Algorithm Backtrack (Recursive construction of combinations)
+Input:
+- start: current number to consider in the range [1..n]
+- path: partial combination built so far
+Output:
+- Append valid combinations to result
+
+B1. [Base case: full combination]
+    If length(path) == k:
+        Append copy of path to result
+        Return
+
+B2. [Recursive expansion]
+    For num from start to n:
+        Append num to path
+        Call Backtrack(num+1, path)
+        Remove last element from path   // backtrack
+
+C3. [Return result]
+    Return result
+
+Complexity:
+- Time: O(C(n,k) * k), since there are C(n,k) combinations and each requires O(k) to build/append.
+- Space: O(k) recursion depth (excluding output).
+
+```
+
+
+-
+
+
+> **Permutations**
+
+```
+Algorithm P (Generate all permutations of distinct integers using backtracking)
+
+Input:
+- nums: list of distinct integers
+Output:
+- list of all possible permutations
+
+P1. [Initialize result]
+    result ← empty list
+
+P2. [Recursive backtracking]
+    Call Backtrack(path=[], used[0..len(nums)-1] initialized to false)
+
+Algorithm Backtrack (Recursive construction of permutations)
+Input:
+- path: current partial permutation
+- used: boolean array marking which elements are already in path
+Output:
+- Append valid permutations to result
+
+B1. [Base case: full permutation]
+    If length(path) == length(nums):
+        Append copy of path to result
+        Return
+
+B2. [Recursive expansion]
+    For i from 0 to len(nums)-1:
+        If used[i] == false:
+            Mark used[i] = true
+            Append nums[i] to path
+            Call Backtrack(path, used)
+            Remove last element from path   // backtrack
+            Mark used[i] = false
+
+P3. [Return result]
+    Return result
+
+Complexity:
+- Time: O(n × n!), because there are n! permutations and copying each path of size n costs O(n).
+- Space: O(n) recursion depth + O(n) used array (excluding output).
+
+```
+
+
+-
 
 
 > ****
