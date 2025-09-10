@@ -5081,6 +5081,110 @@ Complexity:
 -
 
 
+
+> **Combination Sum**
+
+```
+Algorithm C (Backtracking with sorting + pruning for Combination Sum)
+Input:
+    - candidates: array of distinct positive integers
+    - target: integer, the required sum
+Output:
+    - A list of unique combinations (each combination is a list of integers) that sum to target
+
+C1. [Sort candidates for pruning]
+    Sort candidates in non-decreasing order.
+
+C2. [Prepare result container]
+    Let result ← empty list
+
+C3. [Define backtracking function]
+    Define Backtrack(start, comb, remain):
+        // Invariant: every value in comb is >= candidates[start-1] (comb is non-decreasing)
+        If remain = 0:
+            Append a copy of comb to result
+            Return
+        For i from start to len(candidates) - 1:
+            If candidates[i] > remain:
+                Break    // no later candidate can fit because array is sorted
+            Append candidates[i] to comb
+            Call Backtrack(i, comb, remain - candidates[i])   // allow reuse of candidates[i]
+            Remove last element from comb (backtrack)
+
+C4. [Kick off recursion]
+    Call Backtrack(0, [], target)
+
+C5. [Return]
+    Return result
+
+Complexity:
+    Time: Exponential in the worst case. A useful upper-bound is O(N^(T/min)), where
+        N = number of candidates, T = target, min = smallest candidate.
+        Sorting adds O(N log N). Pruning (candidates[i] > remain) reduces the explored space when candidates are positive.
+    Space: O(T/min) recursion depth (call stack) plus O(k * L) for the output,
+        where k = number of solutions and L = average length of a solution.
+
+
+
+```
+
+
+-
+
+
+
+
+
+> **N-Queens II**
+
+```
+Algorithm N (Backtracking with pruning for N-Queens count)
+Input:
+    - n: size of the chessboard (n x n)
+Output:
+    - The number of distinct ways to place n queens so that none attack each other
+
+N1. [Initialize bookkeeping sets]
+    Create three sets (or boolean arrays) to track conflicts:
+        - cols: columns under attack
+        - diag1: "\" diagonals under attack, indexed by (row - col)
+        - diag2: "/" diagonals under attack, indexed by (row + col)
+    Let count ← 0
+
+N2. [Define backtracking function]
+    Define Backtrack(row):
+        If row = n:
+            Increment count by 1
+            Return
+        For col from 0 to n - 1:
+            If col ∈ cols or (row - col) ∈ diag1 or (row + col) ∈ diag2:
+                Continue
+            Insert col into cols
+            Insert (row - col) into diag1
+            Insert (row + col) into diag2
+            Call Backtrack(row + 1)
+            Remove col from cols
+            Remove (row - col) from diag1
+            Remove (row + col) from diag2
+
+N3. [Kick off recursion]
+    Call Backtrack(0)
+
+N4. [Return result]
+    Return count
+
+Complexity:
+    Time: O(n!), since in the worst case each row tries many positions, but pruning cuts this significantly.
+        The actual search tree size is far smaller than n! for typical n.
+    Space: O(n) for recursion depth and bookkeeping arrays.
+
+```
+
+
+-
+
+
+
 > ****
 
 ```
