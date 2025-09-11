@@ -180,6 +180,7 @@ Design Systems 101 | <https://www.nngroup.com/articles/design-systems-101/>
 7 Principles of Icon Design | <https://uxdesign.cc/7-principles-of-icon-design-e7187539e4a2?gi=7fac793515a7>
 Usability Evaluation | <https://www.interaction-design.org/literature/book/the-encyclopedia-of-human-computer-interaction-2nd-ed/usability-evaluation>
 Interaction Design Evaluation Methods | <https://gayan1999malinda.medium.com/interaction-design-evaluation-methods-df8132cedbf9>
+UI Code Examples - uiverse.io| <https://uiverse.io/>
 
 
 ## Deception, Counter Deception, Critical Thinking
@@ -246,8 +247,20 @@ Below links are from above DEFCON talk, added for redundancy only
 * [Project Xanadu](https://www.xanadu.net/)
 
 
-## More
+## Critical Thinking
+[*(From 48 Questions for Critical Thinking)*](https://www.linkedin.com/posts/infographic-insights_48-questions-for-critical-thinking-credit-activity-7199378592881934338-FCD2/)
+
+|||
+|----------|----------|
+| **Who** *<br>1. Who is affected by this issue ?<br>2. Who faces the biggest consequences ?<br>3. Who holds the power in this situation ?<br>4. Who might see this differently ?<br>5. Who are the key stakeholders involved ?<br>6. Who benefits from this outcome ?<br>7. Who else should be consulted ?<br>8. Who can provide more information ?* | **What** *<br>1. What is the issue at hand ?<br>2. What are the main arguments ?<br>3. What is the evidence ?<br>4. What assumptions are being made ?<br>5. What are the potential consequences ?<br>6. What alternatives exist ?<br>7. What are the risks of each alternative ?<br>8. What steps can be taken next ?* |
+| **Where** *<br>1. Where did this first become an issue ?<br>2. Where is the problem most evident ?<br>3. Where can we find supporting data ?<br>4. Where have solutions worked before ?<br>5. Where are resources most needed ?<br>6. Where are potential obstacles located ?<br>7. Where can we implement solutions first ?<br>8. Where should we monitor the outcomes ?* | **When** *<br>1. When did the issue first emerge ?<br>2. When do the effects typically appear ?<br>3. When was the data last collected ?<br>4. When is the best time to act ?<br>5. When have solutions been attempted ?<br>6. When is the deadline for action ?<br>7. When should we expect to see results ?<br>8. When will we review progress ?* |
+| **Why** *<br>1. Why is this issue significant ?<br>2. Why did it arise in the first place ?<br>3. Why are certain solutions preferred ?<br>4. Why might opinions differ ?<br>5. Why has this not been addressed sooner ?<br>6. Why are some more affected than others ?<br>7. Why is immediate action necessary ?<br>8. Why should we revisit in the future ?* | **How** *<br>1. How did this issue start ?<br>2. How does this impact different groups ?<br>3. How can we gather more data ?<br>4. How have others tackled similar issues ?<br>5. How will we implement the solution ?<br>6. How will we measure success ?<br>7. How should we communicate changes ?<br>8. How often should we reassess ?* |
+
+
+
+
+
+## Uncategorised
 * [Roadmap references - roadmap.sh](https://roadmap.sh/)
-* [UI Code Examples - uiverse.io](https://uiverse.io/)
 * [Typing practise - entertained.app](https://entertrained.app/books)
 
