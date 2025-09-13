@@ -5185,6 +5185,110 @@ Complexity:
 
 
 
+> **Generate Parentheses**
+
+```
+Algorithm G (Backtracking with constraints for generating well-formed parentheses)
+Input:
+    - n: number of pairs of parentheses
+Output:
+    - A list of all valid strings of length 2n containing n '(' and n ')'
+
+G1. [Initialize result container]
+    Let result ← empty list
+
+G2. [Define backtracking function]
+    Define Backtrack(curr, open, close):
+        // curr: current string being built
+        // open: number of '(' used so far
+        // close: number of ')' used so far
+        If length(curr) = 2n:
+            Append curr to result
+            Return
+        If open < n:
+            Call Backtrack(curr + "(", open + 1, close)
+        If close < open:
+            Call Backtrack(curr + ")", open, close + 1)
+
+G3. [Kick off recursion]
+    Call Backtrack("", 0, 0)
+
+G4. [Return result]
+    Return result
+
+Complexity:
+    Time: O(4^n / √n), which is the nth Catalan number (number of valid parentheses strings).
+    Space: O(2n) for recursion depth and building strings, plus O(Cn * 2n) to store results, 
+           where Cn is the nth Catalan number.
+
+```
+
+
+-
+
+
+
+
+
+> **Word Search**
+
+```
+Algorithm W (Word Search in a 2D Grid)
+Input:
+    - board: an m × n grid of characters
+    - word: a string of length L
+Output:
+    - true if the word can be constructed in the grid, false otherwise
+
+W1. [Initialize]
+    Let rows ← number of rows in board
+    Let cols ← number of columns in board
+
+W2. [DFS helper definition]
+    Define DFS(r, c, idx):
+        If idx = L:
+            Return true  // all characters matched
+        If r < 0 or r ≥ rows or c < 0 or c ≥ cols:
+            Return false  // out of bounds
+        If board[r][c] ≠ word[idx]:
+            Return false  // mismatch
+        If board[r][c] = visited marker:
+            Return false  // already used in path
+
+        Save temp ← board[r][c]
+        Mark board[r][c] ← visited marker
+
+        For each direction (up, down, left, right):
+            If DFS(r + dr, c + dc, idx + 1) = true:
+                Restore board[r][c] ← temp
+                Return true
+
+        Restore board[r][c] ← temp
+        Return false
+
+W3. [Try all starting positions]
+    For r from 0 to rows - 1:
+        For c from 0 to cols - 1:
+            If DFS(r, c, 0) = true:
+                Return true
+
+W4. [No match found]
+    Return false
+
+Complexity:
+    Time: O(m × n × 4^L), where m × n is board size and L is word length.
+          In the worst case, every cell could be a starting point and each DFS explores up to 4 choices per character.
+    Space: O(L) recursion depth for DFS (excluding board storage).
+
+```
+
+
+-
+
+
+
+
+
 > ****
 
 ```
