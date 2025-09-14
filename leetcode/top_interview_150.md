@@ -5289,6 +5289,217 @@ Complexity:
 
 
 
+> **Convert Sorted Array to Binary Search Tree**
+
+```
+Algorithm C (Convert sorted array to height-balanced BST)
+Input:
+    - nums: integer array sorted in ascending order
+Output:
+    - Root of the height-balanced binary search tree constructed from nums
+
+C1. [Handle base case]
+    If nums is empty:
+        Return nil
+
+C2. [Find the middle element]
+    Let mid ← length(nums) / 2
+
+C3. [Create root node]
+    Create root node with value nums[mid]
+
+C4. [Recursively build left subtree]
+    Set root.Left ← result of calling Algorithm C on nums[0 : mid]
+
+C5. [Recursively build right subtree]
+    Set root.Right ← result of calling Algorithm C on nums[mid+1 : end]
+
+C6. [Return root]
+    Return root
+
+Complexity:
+    Time: O(n), since each element is visited once to create a node.
+    Space: O(log n) recursion stack height for a balanced tree (worst case O(n) for skewed recursion).
+
+```
+
+
+-
+
+
+
+
+
+
+
+> **Sort List**
+
+```
+Algorithm S (Sort a linked list using merge sort)
+Input:
+    - head: the head of a singly linked list
+Output:
+    - The head of the linked list sorted in ascending order
+
+S1. [Handle base case]
+    If head is nil or head.Next is nil:
+        Return head
+
+S2. [Split the list]
+    Use slow and fast pointers to find the middle of the list
+    Let mid ← node at slow
+    Break the list into two halves: left ← head to mid, right ← mid.Next to end
+    Set mid.Next ← nil
+
+S3. [Sort both halves recursively]
+    leftSorted ← Algorithm S(left)
+    rightSorted ← Algorithm S(right)
+
+S4. [Merge the sorted halves]
+    Return Merge(leftSorted, rightSorted)
+
+Helper Algorithm M (Merge two sorted linked lists)
+Input:
+    - l1: head of first sorted linked list
+    - l2: head of second sorted linked list
+Output:
+    - Head of merged sorted list
+
+M1. [Initialize dummy]
+    Create dummy node
+    Set tail ← dummy
+
+M2. [Merge step]
+    While l1 ≠ nil and l2 ≠ nil:
+        If l1.Val ≤ l2.Val:
+            tail.Next ← l1, l1 ← l1.Next
+        Else:
+            tail.Next ← l2, l2 ← l2.Next
+        Move tail ← tail.Next
+
+M3. [Attach remaining nodes]
+    If l1 ≠ nil: tail.Next ← l1
+    If l2 ≠ nil: tail.Next ← l2
+
+M4. [Return merged list]
+    Return dummy.Next
+
+Complexity:
+    Time: O(n log n), where n is the number of nodes. Each split divides the list, and merging takes O(n).
+    Space: O(log n) recursion stack (not counting output list).
+
+```
+
+
+-
+
+
+
+
+
+
+
+> **Construct Quad Tree**
+
+```
+Algorithm Q (Construct Quad-Tree from a binary grid)
+Input: 
+    grid: n × n matrix of 0/1 values.
+Output: 
+    Root node of the Quad-Tree.
+
+Q.1: Base case — check if the current subgrid is uniform.
+    - If all values in the subgrid are the same (all 0’s or all 1’s):
+        - Create a leaf node:
+            node.isLeaf = true
+            node.val = (true if all 1’s, false if all 0’s)
+        - Return node.
+
+Q.2: Recursive case — divide the grid.
+    - Otherwise, create an internal node:
+        node.isLeaf = false
+        node.val = (arbitrary: true or false, doesn’t matter)
+    - Split the grid into 4 equal quadrants:
+        top-left, top-right, bottom-left, bottom-right.
+    - Recursively build Quad-Tree for each subgrid.
+        node.topLeft = Q(subgrid top-left)
+        node.topRight = Q(subgrid top-right)
+        node.bottomLeft = Q(subgrid bottom-left)
+        node.bottomRight = Q(subgrid bottom-right)
+
+Q.3: Return the constructed node.
+    - Root represents the entire grid.
+
+Time Complexity:
+    O(n² log n) worst case  
+    - Each recursive step scans a region (O(size²)) and splits into 4.  
+    - The recurrence is T(n²) = 4T((n/2)²) + O(n²).  
+    - Simplifies to O(n² log n).  
+Space Complexity:
+    O(log n) recursion depth + O(n²) for tree nodes.
+
+```
+
+
+-
+
+
+
+
+
+
+
+> **Merge k Sorted Lists**
+
+```
+Algorithm M (Merge k sorted linked lists using a min-heap)
+Input:
+    - lists: array of k linked-list heads (each list sorted in ascending order)
+Output:
+    - Head of a single linked list containing all nodes from input lists in ascending order
+
+M1. [Handle edge cases]
+    If lists is empty:
+        Return nil
+
+M2. [Initialize min-heap of current heads]
+    Create an empty min-heap (orders nodes by node.Val)
+    For each list head node in lists:
+        If head ≠ nil:
+            Push head into heap
+
+M3. [Prepare output list]
+    Create dummy node with dummy.Next ← nil
+    Set tail ← dummy
+
+M4. [Repeat until heap empty]
+    While heap is not empty:
+        node ← Pop smallest node from heap
+        tail.Next ← node
+        tail ← node
+        If node.Next ≠ nil:
+            Push node.Next into heap
+
+M5. [Return merged list head]
+    Return dummy.Next
+
+Complexity:
+    Time: O(N log k), where N = total number of nodes across all lists.
+        Each node is pushed and popped from the heap at most once.
+        Heap operations cost O(log k) where k is number of lists (heap size ≤ k).
+    Space: O(k) extra for the heap (plus O(1) for dummy/tail).
+
+```
+
+
+-
+
+
+
+
+
+
+
 > ****
 
 ```
