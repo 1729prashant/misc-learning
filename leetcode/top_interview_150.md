@@ -5500,6 +5500,89 @@ Complexity:
 
 
 
+> **Maximum Subarray**
+
+```
+Algorithm K (Kadane’s algorithm for maximum subarray sum)
+Input:
+    - nums: array of integers (length n ≥ 1)
+Output:
+    - Maximum subarray sum (integer)
+
+K1. [Initialize]
+    Set currentMax ← nums[0]
+    Set globalMax ← nums[0]
+
+K2. [Iterate through array]
+    For i from 1 to n - 1:
+        Set currentMax ← max(nums[i], currentMax + nums[i])
+        If currentMax > globalMax:
+            Set globalMax ← currentMax
+
+K3. [Return result]
+    Return globalMax
+
+Complexity:
+    Time: O(n), as each element is processed once.
+    Space: O(1), only a few variables are maintained.
+
+```
+
+
+-
+
+
+
+
+
+
+
+> **Maximum Sum Circular Subarray**
+
+```
+Algorithm C (Maximum subarray sum in circular array)
+Input:
+    - nums: circular array of integers (length n ≥ 1)
+Output:
+    - Maximum subarray sum (integer)
+
+C1. [Initialize]
+    Let totalSum ← sum of all elements in nums
+    Let currentMax ← nums[0], globalMax ← nums[0]
+    Let currentMin ← nums[0], globalMin ← nums[0]
+
+C2. [Iterate through array]
+    For i from 1 to n - 1:
+        Set currentMax ← max(nums[i], currentMax + nums[i])
+        If currentMax > globalMax:
+            Set globalMax ← currentMax
+
+        Set currentMin ← min(nums[i], currentMin + nums[i])
+        If currentMin < globalMin:
+            Set globalMin ← currentMin
+
+C3. [Check all-negative case]
+    If globalMax < 0:
+        Return globalMax
+
+C4. [Compute circular maximum]
+    Return max(globalMax, totalSum - globalMin)
+
+Complexity:
+    Time: O(n), as the array is traversed once.
+    Space: O(1), only a few variables are kept.
+
+```
+
+
+-
+
+
+
+
+
+
+
 > ****
 
 ```
