@@ -5583,6 +5583,60 @@ Complexity:
 
 
 
+> **Search a 2D Matrix**
+
+```
+Algorithm M (Search target in sorted 2D matrix)
+Input:
+    - matrix: m × n integer matrix
+    - target: integer
+Output:
+    - true if target exists in matrix, false otherwise
+
+M1. [Define dimensions]
+    Let m ← number of rows
+    Let n ← number of columns
+    If m = 0 or n = 0:
+        Return false
+
+M2. [Initialize search bounds]
+    Treat the matrix as a flattened sorted array of length L = m × n.
+    Set low ← 0
+    Set high ← L − 1
+
+M3. [Binary search over flattened index space]
+    While low ≤ high:
+        Set mid ← (low + high) // 2
+        Compute:
+            row ← mid // n
+            col ← mid % n
+        Let value ← matrix[row][col]
+        If value == target:
+            Return true
+        Else if value < target:
+            Set low ← mid + 1
+        Else:
+            Set high ← mid − 1
+
+M4. [Target not found]
+    Return false
+
+Complexity:
+    Time: O(log(m × n)) — single binary search over all elements.
+    Space: O(1) — no extra data structures.
+
+```
+
+
+-
+
+
+
+
+
+
+
+
 > ****
 
 ```
