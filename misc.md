@@ -264,3 +264,9 @@ Below links are from above DEFCON talk, added for redundancy only
 * [Roadmap references - roadmap.sh](https://roadmap.sh/)
 * [Typing practise - entertained.app](https://entertrained.app/books)
 
+## Python
+In virtual env, if locally installed pip not working then do
+```
+python -m ensurepip --upgrade
+python -m pip install --upgrade pip
+```
