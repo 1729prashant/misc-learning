@@ -270,3 +270,9 @@ In virtual env, if locally installed pip not working then do
 python -m ensurepip --upgrade
 python -m pip install --upgrade pip
 ```
+
+Add dependency in uv
+```
+uv add <package name>
+eg. uv add sentence-transformers
+```
