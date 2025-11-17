@@ -104,63 +104,6 @@ Eraser | <https://app.eraser.io/dashboard/all>
 Draw.io | <https://www.drawio.com>
 
 
-## iOS, Swift
-
-Description | Link
-------------- | -------------
-Collaborative List of Open-Source iOS Apps | <https://github.com/dkhamsing/open-source-ios-apps>
-21 Amazing Open Source iOS Apps Written in Swift | <https://medium.mybridge.co/21-amazing-open-source-ios-apps-written-in-swift-5e835afee98e>
-App Icon Generator | <https://www.appicon.co/#app-icon>
-Human Interface Guidelines, Apple | <https://developer.apple.com/design/human-interface-guidelines>
-Swift map(_:), Apple | <https://developer.apple.com/documentation/applearchive/archiveheader/4339557-map/>
-Swift Closures, Apple | <https://docs.swift.org/swift-book/documentation/the-swift-programming-language/closures/>
-SwiftUI Tutorials, Apple| <https://developer.apple.com/tutorials/SwiftUI#//apple_ref/doc/uid/TP40015214-CH6-SW1>
-Swift Thread, Apple | <https://developer.apple.com/documentation/foundation/thread>
-Mac Catalyst, Apple | <https://developer.apple.com/documentation/uikit/mac_catalyst>
-Swift ScrollView, Apple | <https://developer.apple.com/documentation/swiftui/scrollview>
-Swift List, Apple | <https://developer.apple.com/documentation/swiftui/list>
-Swift Navigation | <https://developer.apple.com/documentation/swiftui/navigation>
-Swift Gestures, Apple | <https://developer.apple.com/documentation/swiftui/gestures>
-Swift CaseIterable, Apple | <https://developer.apple.com/documentation/swift/caseiterable>
-Swift Type Casting | <https://docs.swift.org/swift-book/documentation/the-swift-programming-language/typecasting/>
-Swift Access Control | <https://docs.swift.org/swift-book/documentation/the-swift-programming-language/accesscontrol/>
-Swift Protocols | <https://docs.swift.org/swift-book/documentation/the-swift-programming-language/protocols>
-Swift Error Handling | <https://docs.swift.org/swift-book/documentation/the-swift-programming-language/errorhandling/>
-Swift Performance Tests, Apple | <https://developer.apple.com/documentation/xctest/performance_tests>
-Swift User Interface TEsts, Apple | <https://developer.apple.com/documentation/xctest/user_interface_tests>
-Swift XCTest, Apple | <https://developer.apple.com/documentation/xctest>
-Swift URL Loading System, Apple | <https://developer.apple.com/documentation/foundation/url_loading_system>
-Swift Handling an authentication challenge, Apple | <https://developer.apple.com/documentation/foundation/url_loading_system/handling_an_authentication_challenge>
-Swift Preventing Insecure Network Connections, Apple | <https://developer.apple.com/documentation/security/preventing-insecure-network-connections>
-Swift URLRequest, Apple | <https://developer.apple.com/documentation/foundation/urlrequest>
-Swift Fetching website data into memory, Apple | <https://developer.apple.com/documentation/foundation/url_loading_system/fetching_website_data_into_memory>
-Swift URLSession, Apple | <https://developer.apple.com/documentation/foundation/urlsession>
-Swift URLSessionTask, Apple | <https://developer.apple.com/documentation/foundation/urlsessiontask>
-Swift Core Data, Apple | <https://developer.apple.com/documentation/coredata>
-Swift SwiftData, Apple | <https://developer.apple.com/documentation/SwiftData>
-Swift Configuring Entities, Apple| <https://developer.apple.com/documentation/coredata/modeling_data/configuring_entities>
-Swift Configuring Attributes, Apple | <https://developer.apple.com/documentation/coredata/modeling_data/configuring_attributes>
-Swift Configuring Relationships, Apple | <https://developer.apple.com/documentation/coredata/modeling_data/configuring_relationships>
-Swift NSManagedObjectContext, Apple | <https://developer.apple.com/documentation/coredata/nsmanagedobjectcontext>
-Creating Predicates, Apple | <https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Predicates/Articles/pCreating.html>
-Using Predicates, Apple | <https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Predicates/Articles/pUsing.html>
-Swift NSComparisonPredicate, Apple | <https://developer.apple.com/documentation/foundation/nscomparisonpredicate>
-Swift SortDescriptor, Apple | <https://developer.apple.com/documentation/foundation/sortdescriptor>
-Submit your iOS apps to the App Store, Apple | <https://developer.apple.com/ios/submit/>
-App Review Guidelines, Apple | <https://developer.apple.com/app-store/review/guidelines/>
-App Store Connect Help, Apple | <https://developer.apple.com/help/app-store-connect/>
-TestFlight, Apple | <https://developer.apple.com/testflight/>
-Swift Forums | <https://forums.swift.org/top?period=weekly>
-Xcode Releases | <https://xcodereleases.com/>
-Terminal Cheatsheet for Mac (Basics) | <https://github.com/0nn0/terminal-mac-cheatsheet>
-Side Projects, reddit | <https://www.reddit.com/r/SideProject/>
-Flat UI Colors | <https://flatuicolors.com/>
-Google Fonts | <https://fonts.google.com/>
-CS193p - Developing Apps for iOS, Stanford | <https://cs193p.sites.stanford.edu/>
-Nil Coalescing | <https://nilcoalescing.com/>
-List of free and open-source iOS applications, Wikipedia | <https://en.wikipedia.org/wiki/List_of_free_and_open-source_iOS_applications>
-Alamofire is an HTTP networking library written in Swift. | <https://github.com/Alamofire/Alamofire>
-
 
 ## UX/UI
 
