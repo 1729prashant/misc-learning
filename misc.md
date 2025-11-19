@@ -219,3 +219,35 @@ Add dependency in uv
 uv add <package name>
 eg. uv add sentence-transformers
 ```
+
+
+Regex to convert date formats
+```
+import re
+from datetime import datetime
+
+def format_date(date_str: str) -> str:
+    """Converts various date formats into the DD-MON-YYYY format."""
+    date_str = date_str.strip()
+    
+    # 1. Format: Mon DD,YYYY
+    if re.match(r'^[A-Za-z]{3}\s+\d{1,2},\d{4}$', date_str):
+        date_obj = datetime.strptime(date_str.replace(',', ' '), '%b %d %Y')
+    
+    # 2. Format: DD MON YYYY
+    elif re.match(r'^\d{1,2}\s+[A-Z]{3}\s+\d{4}$', date_str):
+        date_obj = datetime.strptime(date_str, '%d %b %Y')
+        
+    # 3. Format: DDMMYY 
+    elif re.match(r'^\d{6}$', date_str):
+        date_obj = datetime.strptime(date_str, '%d%m%y')
+
+    # 4. Format: DD Mon YYYY (e.g., '24 Jun 2025')
+    elif re.match(r'^\d{1,2}\s+[A-Za-z]{3}\s+\d{4}$', date_str):
+        date_obj = datetime.strptime(date_str, '%d %b %Y')
+        
+    else:
+        return date_str 
+
+    return date_obj.strftime('%d-%b-%Y').upper()
+```
