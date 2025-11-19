@@ -178,3 +178,33 @@ Here’s a rundown of some of the most useful built-in functions in SQLite, cate
 | 18   | File Path and Name             | ✅ Yes             | -- Notes: Returns list of attached DBs and file paths<br>`PRAGMA database_list;`                                 |
 |      | Journal File Path              | ⚠️ Indirect        | -- Notes: Named by convention (e.g., `mydb.db-journal`, `-wal`, `-shm`)<br>Use filesystem inspection             |
 | 19   | Application ID / User Version  | ✅ Yes             | -- Notes: Used by apps to tag DBs or store schema version<br>`PRAGMA application_id;`, `PRAGMA user_version;`    |
+
+
+
+## SQLite Sort DD-MON-YYYY text columns
+
+To order by a date stored in DD-MON-YYYY format, convert it to a sortable format. How to order by a date in DD-MON-YYYY format:
+```
+SELECT
+  your_column_name,
+  STRFTIME('%Y-%m-%d', SUBSTR(your_column_name, 8, 4) || '-' ||
+                        CASE SUBSTR(your_column_name, 4, 3)
+                          WHEN 'JAN' THEN '01'
+                          WHEN 'FEB' THEN '02'
+                          WHEN 'MAR' THEN '03'
+                          WHEN 'APR' THEN '04'
+                          WHEN 'MAY' THEN '05'
+                          WHEN 'JUN' THEN '06'
+                          WHEN 'JUL' THEN '07'
+                          WHEN 'AUG' THEN '08'
+                          WHEN 'SEP' THEN '09'
+                          WHEN 'OCT' THEN '10'
+                          WHEN 'NOV' THEN '11'
+                          WHEN 'DEC' THEN '12'
+                        END || '-' ||
+                        SUBSTR(your_column_name, 1, 2)) AS sortable_date
+FROM
+  your_table_name
+ORDER BY
+  sortable_date;
+```
