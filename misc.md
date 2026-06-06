@@ -200,7 +200,36 @@ Below links are from above DEFCON talk, added for redundancy only
 | **Why** *<br>1. Why is this issue significant ?<br>2. Why did it arise in the first place ?<br>3. Why are certain solutions preferred ?<br>4. Why might opinions differ ?<br>5. Why has this not been addressed sooner ?<br>6. Why are some more affected than others ?<br>7. Why is immediate action necessary ?<br>8. Why should we revisit in the future ?* | **How** *<br>1. How did this issue start ?<br>2. How does this impact different groups ?<br>3. How can we gather more data ?<br>4. How have others tackled similar issues ?<br>5. How will we implement the solution ?<br>6. How will we measure success ?<br>7. How should we communicate changes ?<br>8. How often should we reassess ?* |
 
 
+## PDF Parsing Tools
+1. [Docling](https://github.com/DS4SD/docling) - IBM-backed document parsing framework that extracts structured content (headings, tables, figures, and layout) into LLM-friendly formats such as Markdown and JSON.
 
+2. [Unstructured](https://github.com/Unstructured-IO/unstructured) - General-purpose document ingestion framework that converts PDFs and other document formats into semantic elements for RAG pipelines.
+
+3. [MinerU](https://github.com/opendatalab/MinerU) - High-accuracy PDF parser designed for complex and academic documents with Markdown and structured JSON output.
+
+4. [Marker](https://github.com/VikParuchuri/marker) - Converts PDFs into high-quality Markdown while preserving tables, equations, and document structure.
+
+5. [PyMuPDF4LLM](https://github.com/pymupdf/PyMuPDF4LLM) - Lightweight PDF-to-Markdown extraction library optimized for LLM preprocessing workflows.
+
+6. [PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR) - OCR toolkit used to extract text from scanned PDFs and image-based documents.
+
+7. [Surya OCR](https://github.com/VikParuchuri/surya) - Modern OCR and document layout analysis system optimized for AI document processing pipelines.
+
+8. [GROBID](https://github.com/kermitt2/grobid) - Specialized parser for scientific papers that extracts metadata, sections, citations, and references.
+
+9. [ParseMyPDF](https://github.com/genieincodebottle/parsemypdf) - Benchmarking framework that compares outputs from multiple PDF parsers on the same documents.
+
+10. [PDFPlumber](https://github.com/jsvine/pdfplumber) - Python library focused on extracting text, tables, and positional information from PDFs.
+
+11. [Apache Tika](https://github.com/apache/tika) - Content extraction toolkit that parses PDFs and many other document formats into plain text and metadata.
+
+12. [pdfminer.six](https://github.com/pdfminer/pdfminer.six) - Low-level Python library for detailed PDF text extraction and layout analysis.
+
+13. [LlamaParse](https://github.com/run-llama/llama_parse) - LLM-oriented document parser that converts PDFs into structured formats suitable for retrieval systems.
+
+14. [Nougat](https://github.com/facebookresearch/nougat) - OCR model that converts scientific PDF pages directly into structured markup.
+
+15. [LayoutParser](https://github.com/Layout-Parser/layout-parser) - Deep-learning-based document layout analysis toolkit for identifying document regions and structure.
 
 
 ## Uncategorised
