@@ -1,0 +1,6 @@
+1. [Official IMD INSAT Satellite Imagery](https://mausam.imd.gov.in/imd_latest/contents/satellite.php)
+2. [IMD Home Page](https://mausam.imd.gov.in/index_en.php)
+3. [Windy](https://www.windy.com)
+4. [RainViewer](https://www.rainviewer.com/radars/india.html)
+5. [Meteoblue Satellite](https://www.meteoblue.com/en/country/weather/satellite/india_india_1269750)
+6. [Zoom Earth](https://zoom.earth)
