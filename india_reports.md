@@ -1,0 +1,10 @@
+https://tradingeconomics.com/india/manufacturing-pmi
+https://tradingeconomics.com/india/services-pmi
+https://eaindustry.nic.in
+https://ncaer.org/monthly-economic-review/
+https://www.nseindia.com/reports-indices-historical-index-data
+https://www.sebi.gov.in/reports-and-statistics/statistics.html
+https://www.amfiindia.com/research-information/amfi-monthly
+https://www.mospi.gov.in/publications-reports
+https://dea.gov.in/reports-monthly-economic-report
+https://www.rbi.org.in/
